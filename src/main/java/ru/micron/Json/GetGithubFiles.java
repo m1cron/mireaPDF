@@ -31,10 +31,6 @@ public class GetGithubFiles {
         code = new StringBuffer();
     }
 
-    // -->  нужен парсер строк
-    //      https://    github.com/      m1cron/java_rtu/tree/master/src/ru/micron/task1
-    // -->  https://api.github.com/repos/m1cron/java_rtu/contents/src/ru/micron/task1
-
     public void recursSearchGit(String url) {
         try {
             Gson gson = new Gson();  // ошибка если вставить .java
