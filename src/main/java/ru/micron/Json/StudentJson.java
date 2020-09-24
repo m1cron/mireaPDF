@@ -1,6 +1,7 @@
 package ru.micron.Json;
 
 import com.google.gson.Gson;
+import ru.micron.Utils.UtilsForIO;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,7 +25,7 @@ class StudentInfo {
     }
 }
 
-public class StudentJson {
+public class StudentJson extends UtilsForIO {
     public static void saveStudentJson(String studName, String tchName, String groupNum) {
         Gson gson = new Gson();
         try {
