@@ -12,7 +12,6 @@ public class Main {
         CreateHtml html = new CreateHtml();
         html.makeTitul("ИКБО-13-19", "Голубков Максим Владимирович", "Владимирович Владимирович Максим");
 
-
         MakePdf.makePdf("", "pdf.pdf", "titul.html");
         System.out.println("Work done!");
     }
