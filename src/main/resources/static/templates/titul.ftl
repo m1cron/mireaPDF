@@ -39,8 +39,8 @@
     <p style="margin-top: -10px;">ПО ДИСЦИПЛИНЕ «Программирование на языке Джава»</p>
 </div>
 <div class="left-content">
-    <p style=" margin-top: 100px;">Выполнил студент группы ${group} ${student_snp}</p>
-    <p style="margin-top: 40px;">Принял&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>${teacher_snp}</i></p>
+    <p style=" margin-top: 100px;">Выполнил студент группы ${group} ${student}</p>
+    <p style="margin-top: 40px;">Принял&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>${teacher}</i></p>
     <p style="margin-top: 40px;">Практические работы работа выполнены «___»_______${year}г</p>
 </div>
 <div class="center-content">
@@ -60,7 +60,7 @@
     <strong>Выводы по работе</strong>
     <p>${conclusion_content}</p>
     <strong>Используемая литература</strong>
-    <p>${literature_used_content}</p>
+    <p>${literature_content}</p>
     </div>
 </body>
 </html>
