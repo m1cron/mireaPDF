@@ -14,41 +14,40 @@ import ru.micron.Json.GetGithubFiles;
 import ru.micron.Json.GetJsonFromFile;
 
 public class CreateHtml {
+    Map<String, String> map;
 
-    //public void makeMap()
+    public CreateHtml() {
+        map = new HashMap<>();
+    }
 
-    public void makeTitul(String gitUrl, int pracNum, String group, String student, String teacher) {
+    public void makeMap(String gitUrl, int pracNum, String group, String student, String teacher){
+        map.put("year", "2020");
+        map.put("group", group);
+        map.put("student", student);
+        map.put("teacher", teacher);
+
+
+        GetJsonFromFile.parseJson(map, pracNum);
+
+        map.put("step_by_step", "test"); // ?
+
+        GetGithubFiles gh = new GetGithubFiles();
+        gh.recursSearchGit(gitUrl);
+        map.put("all_code", gh.getCode());
+    }
+
+    public void makeTitul() {
         try {
             System.out.println("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
             cfg.setDirectoryForTemplateLoading(new File("src/main/resources/static/templates/"));
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-
-            Map<String, String> map = new HashMap<>();
-
-            // вызвать метод филл стадент и передать туда хеш мапу (заполняем хешмапу)
-            map.put("year", "2020");
-            map.put("group", group);
-            map.put("student", student);
-            map.put("teacher", teacher);
-
-
-            GetJsonFromFile.parseJson(map, pracNum); // <---------
-
-            map.put("step_by_step", "test"); // ?
-
-
-            GetGithubFiles gh = new GetGithubFiles();
-            gh.recursSearchGit(gitUrl);
-            map.put("all_code", gh.getCode());
-
             Template template = cfg.getTemplate( "titul.ftl");
-            Writer file = new FileWriter(new File("titul.html"));
-            template.process(map, file);
-            file.flush();
-            file.close();
-            System.out.println("Done!");
+            Writer html = new FileWriter(new File("titul.html"));
+            template.process(map, html);
+            html.flush();
+            html.close();
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
