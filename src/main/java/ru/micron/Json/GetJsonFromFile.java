@@ -39,7 +39,7 @@ public class GetJsonFromFile extends UtilsForIO {
     public static void parseJson(Map<String, String> map, int pracNum) {
         try {
             Gson gson = new Gson();
-            Practice groups = gson.fromJson(readFile(fileJson, Charset.defaultCharset()), Practice.class);
+            Practice groups = gson.fromJson(readFileFromRes(fileJson, Charset.defaultCharset()), Practice.class);
             map.put("prac_number", Integer.toString(pracNum));
             map.put("target_content", groups.practice[pracNum].target);
             map.put("teor_content", groups.practice[pracNum].theory);
