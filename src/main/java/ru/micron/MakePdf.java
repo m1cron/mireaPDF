@@ -24,6 +24,7 @@ public class MakePdf {
         System.out.printf("Deleting HTML!\n");
         File forDelete = new File(dir + titulName);
         forDelete.delete();
+
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }

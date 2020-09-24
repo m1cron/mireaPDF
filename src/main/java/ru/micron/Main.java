@@ -10,7 +10,7 @@ public class Main {
         disableWarning();
 
         CreateHtml html = new CreateHtml();
-        html.makeTitul("2020", "ИКБО-13-19", "Голубков Максим Владимирович", "Владимирович Владимирович Максим");
+        html.makeTitul("ИКБО-13-19", "Голубков Максим Владимирович", "Владимирович Владимирович Максим");
 
 
         MakePdf.makePdf("", "pdf.pdf", "titul.html");
