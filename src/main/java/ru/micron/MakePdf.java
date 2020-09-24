@@ -23,7 +23,7 @@ public class MakePdf {
 
         System.out.print("Deleting HTML!\n");
         File forDelete = new File(dir + titulName);
-        forDelete.delete();
+        //forDelete.delete();
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }

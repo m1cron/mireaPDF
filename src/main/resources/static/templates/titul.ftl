@@ -56,7 +56,7 @@
     <strong>Ход работы</strong>
     <p>${step_by_step}</p>
     <strong>Код</strong>
-    <p><pre>${all_code}</pre></p>
+    <p>${all_code}</p>
     <strong>Выводы по работе</strong>
     <p>${conclusion_content}</p>
     <strong>Используемая литература</strong>

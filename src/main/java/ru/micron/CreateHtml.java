@@ -15,7 +15,9 @@ import ru.micron.Json.GetJsonFromFile;
 
 public class CreateHtml {
 
-    public void makeTitul(String group, String student, String teacher) {
+    //public void makeMap()
+
+    public void makeTitul(String gitUrl, String group, String student, String teacher) {
         try {
             System.out.println("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
@@ -31,14 +33,20 @@ public class CreateHtml {
             map.put("student", student);
             map.put("teacher", teacher);
 
-            GetJsonFromFile.parseJson(map, 2); // <---------
+
+            map.put("prac_number", "prac_number");
+            map.put("target_content", "target_content");
+            map.put("teor_content", "target_content");
+            map.put("conclusion_content", "conclusion_content");
+            map.put("literature_content", "literature_content");
+            //GetJsonFromFile.parseJson(map, 2); // <---------
 
             map.put("step_by_step", "test"); // ?
 
 
             GetGithubFiles gh = new GetGithubFiles();
-            gh.getLinks();
-            map.put("all_code", gh.fillCode());
+            gh.recursSearchGit(gitUrl);
+            map.put("all_code", gh.getCode());
 
             Template template = cfg.getTemplate( "titul.ftl");
             Writer file = new FileWriter(new File("titul.html"));
