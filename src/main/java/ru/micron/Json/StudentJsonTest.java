@@ -2,6 +2,6 @@ package ru.micron.Json;
 
 public class StudentJsonTest {
     public static void main(String[] args) {
-        StudentJson.saveStudentJson("Maxim", "fdasgfsdfgdsfg", "ikbo12");
+        StudentJson.saveStudentJson("Maxim Test Testovich", "Testing Test Testovich", "ИКБО-228");
     }
 }

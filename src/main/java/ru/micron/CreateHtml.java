@@ -12,6 +12,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ru.micron.Json.GetGithubFiles;
 import ru.micron.Json.GetJsonFromFile;
+import ru.micron.Json.StudentJson;
 
 public class CreateHtml {
     Map<String, String> map;
@@ -22,14 +23,10 @@ public class CreateHtml {
 
     public void makeMap(String gitUrl, int pracNum, String group, String student, String teacher){
         map.put("year", "2020");
-        map.put("group", group);
-        map.put("student", student);
-        map.put("teacher", teacher);
-
-
-        GetJsonFromFile.parseJson(map, pracNum);
-
         map.put("step_by_step", "test"); // ?
+
+        StudentJson.getStudentJson(map);
+        GetJsonFromFile.parseJson(map, pracNum);
 
         GetGithubFiles gh = new GetGithubFiles();
         gh.recursSearchGit(gitUrl);
