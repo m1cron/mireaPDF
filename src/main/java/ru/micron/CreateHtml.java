@@ -44,10 +44,12 @@ public class CreateHtml {
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             Template template = cfg.getTemplate( "titul.ftl");
-            Writer html = new FileWriter(new File("titul.html"));
+            File htmlFile = new File("titul.html");
+            Writer html = new FileWriter(htmlFile);
             template.process(map, html);
             html.flush();
             html.close();
+            htmlFile.deleteOnExit();
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }

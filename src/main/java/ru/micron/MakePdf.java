@@ -21,9 +21,6 @@ public class MakePdf {
         XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(dir + titulName));
         document.close();
 
-        System.out.print("Deleting HTML!\n");
-        File forDelete = new File(dir + titulName);
-        //forDelete.delete();
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }
