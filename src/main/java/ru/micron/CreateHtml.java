@@ -17,7 +17,7 @@ public class CreateHtml {
 
     //public void makeMap()
 
-    public void makeTitul(String gitUrl, String group, String student, String teacher) {
+    public void makeTitul(String gitUrl, int pracNum, String group, String student, String teacher) {
         try {
             System.out.println("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
@@ -25,7 +25,7 @@ public class CreateHtml {
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
-            Map<String, Object> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>();
 
             // вызвать метод филл стадент и передать туда хеш мапу (заполняем хешмапу)
             map.put("year", "2020");
@@ -34,12 +34,7 @@ public class CreateHtml {
             map.put("teacher", teacher);
 
 
-            map.put("prac_number", "prac_number");
-            map.put("target_content", "target_content");
-            map.put("teor_content", "target_content");
-            map.put("conclusion_content", "conclusion_content");
-            map.put("literature_content", "literature_content");
-            //GetJsonFromFile.parseJson(map, 2); // <---------
+            GetJsonFromFile.parseJson(map, pracNum); // <---------
 
             map.put("step_by_step", "test"); // ?
 

@@ -1,36 +1,57 @@
 package ru.micron.Json;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import com.google.common.io.Resources;
+import com.google.gson.Gson;
 
-import java.io.FileReader;
-import java.util.Iterator;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Map;
 
+class Practice {
+    public PracticeFields[] practice;
+
+    @Override
+    public String toString() {
+        return "Practice{" +
+                "practice=" + Arrays.toString(practice) +
+                '}';
+    }
+}
+
+class PracticeFields {
+    public String target, theory, conclusion, literature;
+
+    @Override
+    public String toString() {
+        return "JsonFile{" +
+                "target='" + target + '\'' +
+                ", theory='" + theory + '\'' +
+                ", conclusion='" + conclusion + '\'' +
+                ", literature='" + literature + '\'' +
+                '}';
+    }
+}
+
 public class GetJsonFromFile {
-    private static final String filePath = "theory.json";
+    private static final String fileJson = "theory.json";
 
-    public static void parseJson(Map<String, Object> map, int practiceNum) {
-        try (FileReader reader = new FileReader(ClassLoader.getSystemResource(filePath).getFile())) {
-            JSONParser jsonParser = new JSONParser();
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(reader);
+    public static String readFile(final String fileName, Charset charset) throws IOException {
+        return Resources.toString(Resources.getResource(fileName), charset);
+    }
 
-            JSONArray practice = (JSONArray) jsonObject.get("practice");
+    public static void parseJson(Map<String, String> map, int pracNum) {
+        try {
+            Gson gson = new Gson();
+            Practice groups = gson.fromJson(readFile(fileJson, Charset.defaultCharset()), Practice.class);
 
-            Iterator it = practice.iterator();
-            for (int i = 0; it.hasNext(); i++) {
-                if (i == practiceNum) {
-                    JSONObject innerObj = (JSONObject) it.next();
-                    map.put("prac_number", practiceNum);
-                    map.put("target_content", innerObj.get("target"));
-                    map.put("teor_content", innerObj.get("theory"));
-                    map.put("conclusion_content", innerObj.get("conclusion"));
-                    map.put("literature_content", innerObj.get("literature"));
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            map.put("prac_number", Integer.toString(pracNum));
+            map.put("target_content", groups.practice[pracNum].target);
+            map.put("teor_content", groups.practice[pracNum].theory);
+            map.put("conclusion_content", groups.practice[pracNum].conclusion);
+            map.put("literature_content", groups.practice[pracNum].literature);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
