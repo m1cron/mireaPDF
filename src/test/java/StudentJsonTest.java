@@ -1,4 +1,4 @@
-package ru.micron.Json;
+import ru.micron.Json.StudentJson;
 
 public class StudentJsonTest {
     public static void main(String[] args) {

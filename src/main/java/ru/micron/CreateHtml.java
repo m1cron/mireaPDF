@@ -15,13 +15,10 @@ import ru.micron.Json.GetJsonFromFile;
 import ru.micron.Json.StudentJson;
 
 public class CreateHtml {
-    Map<String, String> map;
+    private static Map<String, String> map;
 
-    public CreateHtml() {
+    public static void makeMap(String gitUrl, int pracNum) {
         map = new HashMap<>();
-    }
-
-    public void makeMap(String gitUrl, int pracNum, String group, String student, String teacher){
         map.put("year", "2020");
         map.put("step_by_step", "test"); // ?
 
@@ -33,7 +30,7 @@ public class CreateHtml {
         map.put("all_code", gh.getCode());
     }
 
-    public void makeTitul() {
+    public static void makeHtml() {
         try {
             System.out.println("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
