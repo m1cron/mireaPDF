@@ -5,7 +5,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 class Json {
     public String name, path, url, download_url, type;
@@ -34,15 +34,12 @@ public class GetGithubFiles {
     public void recursSearchGit(String url) {
         try {
             Gson gson = new Gson();  // ошибка если вставить .java
-            Json[] roots = gson.fromJson(IOUtils.toString(new URL(url), StandardCharsets.UTF_8), Json[].class);
-
+            Json[] roots = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), Json[].class);
             for (Json root : roots) {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
-                    //System.out.println(root.name + "\trecurs is dir \t" + root.url);
                 } else if (root.download_url != null) {
-                    code.append("<pre>").append("\n\n").append(root.path).append(".java").append("\n\n").append(IOUtils.toString(new URL(root.download_url), StandardCharsets.UTF_8)).append("</pre>");
-                    //System.out.println(root.name + "\ttry download\t\t\t" + root.download_url);
+                    code.append("\n\n<strong>").append(root.path).append(".java</strong>\n\n").append(IOUtils.toString(new URL(root.download_url), Charset.defaultCharset())).append("\n");
                 }
             }
         } catch (IOException e) {
