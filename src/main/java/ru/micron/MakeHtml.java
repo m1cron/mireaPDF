@@ -30,20 +30,20 @@ public class MakeHtml {
         map.put("all_code", gh.getCode());
     }
 
-    public static void makeHtml(String ftlFile) {
+    public static void makeHtml(String ftlFile, String htmlFile) {
         try {
             System.out.println("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
             cfg.setDirectoryForTemplateLoading(new File("src/main/resources/static/templates/"));
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-            Template template = cfg.getTemplate(ftlFile + ".ftl");
-            File htmlFile = new File(ftlFile + ".html");
-            Writer html = new FileWriter(htmlFile);
+            Template template = cfg.getTemplate(ftlFile);
+            File htmlOpen = new File(htmlFile);
+            Writer html = new FileWriter(htmlOpen);
             template.process(map, html);
             html.flush();
             html.close();
-            htmlFile.deleteOnExit();
+            //htmlOpen.deleteOnExit();
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
