@@ -11,11 +11,25 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:barcodes:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:font-asian:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:forms:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:hyph:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:io:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:kernel:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.64" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.64" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:layout:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:pdfa:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:sign:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:styled-xml-parser:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:svg:7.1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:html2pdf:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:r05" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
-    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.5.13.2" level="project" />
-    <orderEntry type="library" name="Maven: com.itextpdf.tool:xmlworker:5.5.13.2" level="project" />
     <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.30" level="project" />
   </component>
 </module>
