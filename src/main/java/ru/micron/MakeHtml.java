@@ -14,6 +14,11 @@ import ru.micron.Json.StudentJson;
 public class MakeHtml {
     private static Map<String, String> map;
 
+    public static String parseUrl(String url) {
+        return url.replace("github.com", "api.github.com/repos")
+                  .replace("/tree/master/", "/contents/");
+    }
+
     public static void makeMap(String gitUrl, int pracNum) {
         map = new HashMap<>();
         map.put("year", "2020");
