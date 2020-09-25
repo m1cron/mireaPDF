@@ -27,7 +27,7 @@ class StudentInfo {
 }
 
 public class StudentJson extends UtilsForIO {
-    private static String studentJsonName = "info.json";
+    private static final String studentJsonName = "info.json";
 
     public static void saveStudentJson(String studName, String tchName, String groupNum) {
         Gson gson = new Gson();

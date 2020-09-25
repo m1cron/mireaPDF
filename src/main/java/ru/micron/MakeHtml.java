@@ -1,9 +1,6 @@
 package ru.micron;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.util.*;
 
 import freemarker.template.Configuration;
@@ -30,11 +27,11 @@ public class MakeHtml {
         map.put("all_code", gh.getCode());
     }
 
-    public static void makeHtml(String ftlFile, String htmlFile) {
+    public static void makeHtml(String templatesDir, String ftlFile, String htmlFile) {
         try {
             System.out.println("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
-            cfg.setDirectoryForTemplateLoading(new File("src/main/resources/static/templates/"));
+            cfg.setDirectoryForTemplateLoading(new File(templatesDir));
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             Template template = cfg.getTemplate(ftlFile);
