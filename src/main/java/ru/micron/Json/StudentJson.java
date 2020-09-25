@@ -29,7 +29,7 @@ class StudentInfo {
 public class StudentJson extends UtilsForIO {
     private static final String studentJsonName = "info.json";
 
-    public static void saveStudentJson(String studName, String tchName, String groupNum) {
+    public static void saveStudentJson(String studName, String groupNum, String tchName) {
         Gson gson = new Gson();
         try {
             FileWriter file = new FileWriter(studentJsonName);

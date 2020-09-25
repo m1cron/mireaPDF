@@ -19,7 +19,7 @@ public class MakeHtml {
                   .replace("/tree/master/", "/contents/");
     }
 
-    public static void makeMap(String gitUrl, int pracNum) {
+    public static void makeMap(int pracNum, String gitUrl) {
         map = new HashMap<>();
         map.put("year", "2020");
         map.put("step_by_step", "test"); // ?
