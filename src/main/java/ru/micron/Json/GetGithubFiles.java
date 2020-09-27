@@ -26,14 +26,15 @@ class Json {
 
 public class GetGithubFiles {
     private final StringBuffer code;
+    private final Gson gson;
 
     public GetGithubFiles() {
         code = new StringBuffer();
+        gson = new Gson();
     }
 
-    public void recursSearchGit(String url) {
+    public void recursSearchGit(String url) { // ошибка если вставить .java
         try {
-            Gson gson = new Gson();  // ошибка если вставить .java
             Json[] roots = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), Json[].class);
             for (Json root : roots) {
                 if (root.type.equals("dir")) {
