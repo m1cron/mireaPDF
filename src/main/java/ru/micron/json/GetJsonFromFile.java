@@ -1,7 +1,7 @@
-package ru.micron.Json;
+package ru.micron.json;
 
 import com.google.gson.Gson;
-import ru.micron.Utils.UtilsForIO;
+import ru.micron.utils.UtilsForIO;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

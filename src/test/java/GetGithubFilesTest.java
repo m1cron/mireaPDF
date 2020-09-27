@@ -1,4 +1,4 @@
-import ru.micron.Json.GetGithubFiles;
+import ru.micron.json.GetGithubFiles;
 
 public class GetGithubFilesTest {
     public static void main(String[] args) {

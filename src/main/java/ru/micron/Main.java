@@ -1,6 +1,6 @@
 package ru.micron;
 
-import ru.micron.Json.StudentJson;
+import ru.micron.json.StudentJson;
 
 public class Main {
 

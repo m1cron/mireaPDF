@@ -7,9 +7,9 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import ru.micron.Json.GetGithubFiles;
-import ru.micron.Json.GetJsonFromFile;
-import ru.micron.Json.StudentJson;
+import ru.micron.json.GetGithubFiles;
+import ru.micron.json.GetJsonFromFile;
+import ru.micron.json.StudentJson;
 
 public class MakeHtml {
     private static Map<String, String> map;

@@ -1,4 +1,4 @@
-package ru.micron.Json;
+package ru.micron.json;
 
 import com.google.gson.Gson;
 import org.apache.commons.io.IOUtils;

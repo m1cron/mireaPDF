@@ -1,4 +1,4 @@
-package ru.micron.Utils;
+package ru.micron.utils;
 
 import com.google.common.io.Resources;
 
