@@ -39,7 +39,10 @@ public class GetGithubFiles {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
-                    code.append("\n\n<strong>").append(root.path).append(".java</strong>\n\n").append(IOUtils.toString(new URL(root.download_url), Charset.defaultCharset())).append("\n");
+                    code.append("\n\n<strong>")
+                            .append(root.path)
+                            .append("</strong>\n\n")
+                            .append(IOUtils.toString(new URL(root.download_url), Charset.defaultCharset()));
                 }
             }
         } catch (IOException e) {

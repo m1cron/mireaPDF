@@ -16,7 +16,8 @@ public class MakeHtml {
 
     public static String parseUrl(String url) {
         return url.replace("github.com", "api.github.com/repos")
-                  .replace("/tree/master/", "/contents/");
+                    .replace("/tree/master/", "/contents/")
+                    .replace("/blob/master/", "/contents/");
     }
 
     public static void makeMap(int pracNum, String gitUrl) {
@@ -34,7 +35,7 @@ public class MakeHtml {
 
     public static void makeHtml(String templatesDir, String ftlFile, String htmlFile) {
         try {
-            System.out.println("Creating HTML!");
+            System.out.print("Creating HTML!\n");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
             cfg.setDirectoryForTemplateLoading(new File(templatesDir));
             cfg.setDefaultEncoding("UTF-8");
@@ -45,7 +46,7 @@ public class MakeHtml {
             template.process(map, html);
             html.flush();
             html.close();
-            //htmlOpen.deleteOnExit();
+            htmlOpen.deleteOnExit();
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
