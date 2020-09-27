@@ -7,19 +7,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-class Json {
+class JsonFields {
     public String name, path, url, download_url, type;
-    public int size;
 
     @Override
     public String toString() {
-        return "root{" +
+        return "Json{" +
                 "name='" + name + '\'' +
                 ", path='" + path + '\'' +
                 ", url='" + url + '\'' +
                 ", download_url='" + download_url + '\'' +
                 ", type='" + type + '\'' +
-                ", size=" + size +
                 '}';
     }
 }
@@ -35,8 +33,8 @@ public class GetGithubFiles {
 
     public void recursSearchGit(String url) { // ошибка если вставить .java
         try {
-            Json[] roots = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), Json[].class);
-            for (Json root : roots) {
+            JsonFields[] roots = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), JsonFields[].class);
+            for (JsonFields root : roots) {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
@@ -47,12 +45,8 @@ public class GetGithubFiles {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
-    }
-
-    public void printCode(){
-        System.out.println(code.toString());
     }
 
     public String getCode() {
