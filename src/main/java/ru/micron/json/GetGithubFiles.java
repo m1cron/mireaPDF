@@ -1,6 +1,7 @@
 package ru.micron.json;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -31,21 +32,32 @@ public class GetGithubFiles {
         gson = new Gson();
     }
 
-    public void recursSearchGit(String url) { // ошибка если вставить .java
+    private void addInBuff(String path, String codeBuff) {
+        code.append("\n\n<strong>")
+                .append(path)
+                .append("</strong>\n\n")
+                .append(codeBuff);
+    }
+
+    public void recursSearchGit(String url) {
         try {
-            JsonFields[] roots = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), JsonFields[].class);
+            JsonFields[] roots = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), JsonFields[].class);               // <<---------
             for (JsonFields root : roots) {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
-                    code.append("\n\n<strong>")
-                            .append(root.path)
-                            .append("</strong>\n\n")
-                            .append(IOUtils.toString(new URL(root.download_url), Charset.defaultCharset()));
+                    addInBuff(root.path, IOUtils.toString(new URL(root.download_url), Charset.defaultCharset()));                           // <<---------
                 }
             }
+        } catch (JsonParseException e) {
+            try {
+                JsonFields root = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), JsonFields.class);
+                addInBuff(root.path, IOUtils.toString(new URL(root.download_url), Charset.defaultCharset()));                               // <<---------
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         } catch (IOException e) {
-            e.fillInStackTrace();
+            e.printStackTrace();
         }
     }
 
