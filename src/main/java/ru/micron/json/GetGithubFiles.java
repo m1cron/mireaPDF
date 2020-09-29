@@ -2,12 +2,7 @@ package ru.micron.json;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import org.apache.commons.io.IOUtils;
 import ru.micron.utils.UtilsForIO;
-
-import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.Charset;
 
 class JsonFields {
     public String name, path, url, download_url, type;
