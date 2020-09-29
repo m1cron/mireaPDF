@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import ru.micron.utils.UtilsForIO;
 
+import java.net.Proxy;
+
 class JsonFields {
     public String name, path, url, download_url, type;
 
@@ -22,10 +24,12 @@ class JsonFields {
 public class GetGithubFiles extends UtilsForIO {
     private final StringBuffer code;
     private final Gson gson;
+    private Proxy proxy;
 
-    public GetGithubFiles() {
+    public GetGithubFiles(String ip, int port, boolean socksOrno) {
         code = new StringBuffer();
         gson = new Gson();
+        proxy = setProxy(ip, port, socksOrno);
     }
 
     private void addInBuff(String path, String codeBuff) {
@@ -36,19 +40,19 @@ public class GetGithubFiles extends UtilsForIO {
     }
 
     public void recursSearchGit(String url) {
-        String json = UtilsForIO.readStringFromURL(url);
+        String json = UtilsForIO.readStringFromURL(url, proxy);
         try {
             JsonFields[] roots = gson.fromJson(json, JsonFields[].class);
             for (JsonFields root : roots) {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
-                    addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url));
+                    addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, proxy));
                 }
             }
         } catch (JsonParseException e) {
             JsonFields root = gson.fromJson(json, JsonFields.class);
-            addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url));
+            addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, proxy));
         }
     }
 
