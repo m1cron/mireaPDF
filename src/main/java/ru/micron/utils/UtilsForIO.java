@@ -3,9 +3,11 @@ package ru.micron.utils;
 import com.google.common.io.Resources;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Scanner;
 
 abstract public class UtilsForIO {
     public static String readFileFromRes(final String fileName, Charset charset) throws IOException {
@@ -20,5 +22,16 @@ abstract public class UtilsForIO {
     public static String readFile(String fileDir) throws IOException {
         Path fileName = Path.of(fileDir);
         return Files.readString(fileName);
+    }
+
+    public static String readStringFromURL(String requestURL) {
+        try (Scanner scanner = new Scanner(new URL(requestURL).openStream(),
+                                            Charset.defaultCharset())
+                                    .useDelimiter("\\A")) {
+            return scanner.hasNext() ? scanner.next() : "";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "null";
+        }
     }
 }

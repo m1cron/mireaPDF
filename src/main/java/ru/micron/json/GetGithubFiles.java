@@ -3,6 +3,7 @@ package ru.micron.json;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import org.apache.commons.io.IOUtils;
+import ru.micron.utils.UtilsForIO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,7 +24,7 @@ class JsonFields {
     }
 }
 
-public class GetGithubFiles {
+public class GetGithubFiles extends UtilsForIO {
     private final StringBuffer code;
     private final Gson gson;
 
@@ -40,24 +41,19 @@ public class GetGithubFiles {
     }
 
     public void recursSearchGit(String url) {
+        String json = UtilsForIO.readStringFromURL(url);
         try {
-            JsonFields[] roots = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), JsonFields[].class);               // <<---------
+            JsonFields[] roots = gson.fromJson(json, JsonFields[].class);
             for (JsonFields root : roots) {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
-                    addInBuff(root.path, IOUtils.toString(new URL(root.download_url), Charset.defaultCharset()));                           // <<---------
+                    addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url));
                 }
             }
         } catch (JsonParseException e) {
-            try {
-                JsonFields root = gson.fromJson(IOUtils.toString(new URL(url), Charset.defaultCharset()), JsonFields.class);
-                addInBuff(root.path, IOUtils.toString(new URL(root.download_url), Charset.defaultCharset()));                               // <<---------
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            JsonFields root = gson.fromJson(json, JsonFields.class);
+            addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url));
         }
     }
 
