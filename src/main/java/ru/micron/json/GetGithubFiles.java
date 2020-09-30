@@ -47,6 +47,7 @@ public class GetGithubFiles extends UtilsForIO {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
+                    System.out.println("download " + root.path);
                     addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, proxy));
                 }
             }

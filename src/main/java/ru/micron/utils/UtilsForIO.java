@@ -46,4 +46,13 @@ abstract public class UtilsForIO {
             return "null";
         }
     }
+    public static String readStringFromURL(String url) {
+        try {
+            Scanner scanner = new Scanner(new URL(url).openStream(), Charset.defaultCharset()).useDelimiter("\\A");
+            return scanner.hasNext() ? scanner.next() : "";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "null";
+        }
+    }
 }
