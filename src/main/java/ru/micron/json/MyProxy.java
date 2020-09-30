@@ -9,10 +9,10 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 
 public class MyProxy extends UtilsForIO {
+    private final Gson gson;
     private String ip;
     private int port;
     private int proxyMode;
-    private Gson gson;
     private Proxy proxy;
 
     public MyProxy(Gson gson) {
@@ -20,7 +20,7 @@ public class MyProxy extends UtilsForIO {
     }
 
     private void TakeProxyInfo() {
-        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=125";
+        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=80";                  // << ---- proxy max ping switch
         JsonArray proxy = gson.fromJson(UtilsForIO.readStringFromURL(proxyApi), JsonArray.class);
         JsonObject proxyObj = (JsonObject) proxy.get(0);
 

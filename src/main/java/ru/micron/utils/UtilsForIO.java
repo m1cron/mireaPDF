@@ -5,6 +5,7 @@ import ru.micron.json.MyProxy;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -27,16 +28,12 @@ abstract public class UtilsForIO {
         return Files.readString(fileName);
     }
 
-    public static String readStringFromURL(String url, MyProxy myProxyproxy) {
+        public static String readStringFromURL(String url, MyProxy myProxyproxy, Proxy recursProxy) {
         InputStream urlCon = null;
         try {
             urlCon = new URL(url).openConnection(myProxyproxy.getProxy()).getInputStream();
         } catch (IOException e) {
-            try {
-                urlCon = new URL(url).openConnection(myProxyproxy.getNewProxy()).getInputStream();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            return readStringFromURL(url, myProxyproxy, myProxyproxy.getNewProxy());
         }
         assert urlCon != null;
         Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A");

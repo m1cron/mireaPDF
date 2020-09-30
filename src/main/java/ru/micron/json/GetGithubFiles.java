@@ -39,7 +39,7 @@ public class GetGithubFiles extends UtilsForIO {
     }
 
     public void recursSearchGit(String url) {
-        String json = UtilsForIO.readStringFromURL(url, myProxy);
+        String json = UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy());
         try {
             JsonFields[] roots = gson.fromJson(json, JsonFields[].class);
             for (JsonFields root : roots) {
@@ -47,12 +47,12 @@ public class GetGithubFiles extends UtilsForIO {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
                     System.out.println("download " + root.path);
-                    addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, myProxy));
+                    addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()));
                 }
             }
         } catch (JsonParseException e) {
             JsonFields root = gson.fromJson(json, JsonFields.class);
-            addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, myProxy));
+            addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()));
         }
     }
 
