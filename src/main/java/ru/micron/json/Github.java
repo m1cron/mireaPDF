@@ -19,16 +19,22 @@ class JsonFields {
     }
 }
 
-public class GetGithubFiles extends UtilsForIO {
+public class Github extends UtilsForIO {
     private final StringBuffer code;
     private final Gson gson;
     private final MyProxy myProxy;
 
-    public GetGithubFiles() {
+    public Github() {
         code = new StringBuffer();
         gson = new Gson();
         myProxy = new MyProxy(gson);
         myProxy.getNewProxy();
+    }
+
+    public static String parseUrl(String url) {
+        return url.replace("github.com", "api.github.com/repos")
+                .replace("/tree/master/", "/contents/")
+                .replace("/blob/master/", "/contents/");
     }
 
     private void addInBuff(String path, String codeBuff) {
@@ -56,7 +62,8 @@ public class GetGithubFiles extends UtilsForIO {
         }
     }
 
-    public String getCode() {
+    public String getCode(String gitUrl) {
+        recursSearchGit(parseUrl(gitUrl));
         return code.toString();
     }
 }

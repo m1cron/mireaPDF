@@ -29,7 +29,7 @@ public class Main {
             if (args[0].compareTo("-make") != 0)
                 printHelp();
             else {
-                MakeHtml.makeMap(Integer.parseInt(args[1]), MakeHtml.parseUrl(args[2]));
+                MakeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
                 MakeHtml.makeHtml("./", "titul.ftl", "./index.html");
                 MakePdf.makePdf("index.html", "pdf.pdf");
                 System.out.print("Work done!");

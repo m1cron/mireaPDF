@@ -2,7 +2,10 @@ package ru.micron;
 
 import com.itextpdf.html2pdf.HtmlConverter;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 public class MakePdf {
     public static void makePdf(String titulName, String pdfName) {
