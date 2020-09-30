@@ -29,7 +29,8 @@ public class GetGithubFiles extends UtilsForIO {
     public GetGithubFiles(String ip, int port, boolean socksOrno) {
         code = new StringBuffer();
         gson = new Gson();
-        proxy = setProxy(ip, port, socksOrno);
+
+        //proxy = setProxy();
     }
 
     private void addInBuff(String path, String codeBuff) {
