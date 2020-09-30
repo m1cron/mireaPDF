@@ -30,3 +30,10 @@ $ java -jar mireaPDF*.jar -make "Work number" "Url to the Github folder"
 - [ ] Сделать полный рефактринг кода v2
 - [ ] Сделать интерфейс (JavaFX)
 - [ ] Сделать полный рефактринг кода v3
+
+
+#### `Best free API's for get proxy lists:`
+##### ```https://www.proxyscan.io/api```
+##### ```https://www.proxy-list.download/api/v1```
+##### ```https://proxyscrape.com/api-documentation```
+##### ```https://ipstack.com/product```
