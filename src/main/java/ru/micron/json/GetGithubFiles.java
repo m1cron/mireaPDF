@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import ru.micron.utils.UtilsForIO;
 
-import java.net.Proxy;
-
 class JsonFields {
     public String name, path, url, download_url, type;
 
@@ -29,7 +27,7 @@ public class GetGithubFiles extends UtilsForIO {
     public GetGithubFiles() {
         code = new StringBuffer();
         gson = new Gson();
-        myProxy = new MyProxy();
+        myProxy = new MyProxy(gson);
         myProxy.getNewProxy();
     }
 

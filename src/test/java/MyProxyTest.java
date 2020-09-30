@@ -1,11 +1,10 @@
+import com.google.gson.Gson;
 import ru.micron.json.MyProxy;
 import ru.micron.utils.UtilsForIO;
 
-import java.net.Proxy;
-
 public class MyProxyTest {
     public static void main(String[] args) {
-        MyProxy myProxy = new MyProxy();
+        MyProxy myProxy = new MyProxy(new Gson());
         myProxy.getNewProxy();
         for(int i = 0; i < 1; i++) {
             System.out.printf("proxy ip   -->>  %s\tport -->>  %d\tproxy mode -->>  %s\t", myProxy.getIp(), myProxy.getPort(), myProxy.getProxyMode());

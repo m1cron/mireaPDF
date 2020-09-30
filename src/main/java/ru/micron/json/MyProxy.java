@@ -12,15 +12,15 @@ public class MyProxy extends UtilsForIO {
     private String ip;
     private int port;
     private int proxyMode;
-    private final Gson gson;
+    private Gson gson;
     private Proxy proxy;
 
-    public MyProxy() {
-        gson = new Gson();
+    public MyProxy(Gson gson) {
+        this.gson = gson;
     }
 
     private void TakeProxyInfo() {
-        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=100";
+        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=125";
         JsonArray proxy = gson.fromJson(UtilsForIO.readStringFromURL(proxyApi), JsonArray.class);
         JsonObject proxyObj = (JsonObject) proxy.get(0);
 
@@ -41,15 +41,13 @@ public class MyProxy extends UtilsForIO {
     public Proxy getNewProxy() {
         TakeProxyInfo();
         if (proxyMode != 0) {
-
             System.setProperty("socksProxyVersion", Integer.toString(proxyMode));
             proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(ip, port));
-            System.out.printf("connect to SOCKS proxy\tSOCKS v%d\n", proxyMode);
-
+            System.out.printf("connect to -->> %s\t%d\tSOCKS v%d\n", getIp(), getPort(), proxyMode);
         }
         else{
             proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port));
-            System.out.println("connect to HTTP proxy");
+            System.out.printf("connect to -->> %s\t%d\tHTTP %d\n", getIp(), getPort(), proxyMode);
         }
         return proxy;
     }

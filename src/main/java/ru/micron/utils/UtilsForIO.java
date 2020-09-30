@@ -44,12 +44,14 @@ abstract public class UtilsForIO {
     }
 
     public static String readStringFromURL(String url) {
+        InputStream urlCon = null;
         try {
-            Scanner scanner = new Scanner(new URL(url).openStream(), Charset.defaultCharset()).useDelimiter("\\A");
-            return scanner.hasNext() ? scanner.next() : "";
+            urlCon = new URL(url).openStream();
         } catch (IOException e) {
             e.printStackTrace();
-            return "null";
         }
+        assert urlCon != null;
+        Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A");
+        return scanner.hasNext() ? scanner.next() : "";
     }
 }
