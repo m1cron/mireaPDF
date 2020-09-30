@@ -1,9 +1,9 @@
 package ru.micron.utils;
 
 import com.google.common.io.Resources;
+import ru.micron.json.MyProxy;
 
 import java.io.IOException;
-import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -26,9 +26,9 @@ abstract public class UtilsForIO {
         return Files.readString(fileName);
     }
 
-    public static String readStringFromURL(String url, Proxy proxy) {
+    public static String readStringFromURL(String url, MyProxy myProxyproxy) {
         try {
-            Scanner scanner = new Scanner(new URL(url).openConnection(proxy).getInputStream(), Charset.defaultCharset()).useDelimiter("\\A");
+            Scanner scanner = new Scanner(new URL(url).openConnection(myProxyproxy.getProxy()).getInputStream(), Charset.defaultCharset()).useDelimiter("\\A");
             return scanner.hasNext() ? scanner.next() : "";
         } catch (IOException e) {
             e.printStackTrace();

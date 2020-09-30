@@ -24,13 +24,13 @@ class JsonFields {
 public class GetGithubFiles extends UtilsForIO {
     private final StringBuffer code;
     private final Gson gson;
-    private Proxy proxy;
+    private final MyProxy myProxy;
 
-    public GetGithubFiles(String ip, int port, boolean socksOrno) {
+    public GetGithubFiles() {
         code = new StringBuffer();
         gson = new Gson();
-
-        //proxy = setProxy();
+        myProxy = new MyProxy();
+        myProxy.getNewProxy();
     }
 
     private void addInBuff(String path, String codeBuff) {
@@ -41,7 +41,7 @@ public class GetGithubFiles extends UtilsForIO {
     }
 
     public void recursSearchGit(String url) {
-        String json = UtilsForIO.readStringFromURL(url, proxy);
+        String json = UtilsForIO.readStringFromURL(url, myProxy);
         try {
             JsonFields[] roots = gson.fromJson(json, JsonFields[].class);
             for (JsonFields root : roots) {
@@ -49,12 +49,12 @@ public class GetGithubFiles extends UtilsForIO {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
                     System.out.println("download " + root.path);
-                    addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, proxy));
+                    addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, myProxy));
                 }
             }
         } catch (JsonParseException e) {
             JsonFields root = gson.fromJson(json, JsonFields.class);
-            addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, proxy));
+            addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, myProxy));
         }
     }
 

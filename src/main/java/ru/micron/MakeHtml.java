@@ -28,7 +28,7 @@ public class MakeHtml {
         StudentJson.getStudentJson(map);
         GetJsonFromFile.parseJson(map, pracNum);
 
-        GetGithubFiles gh = new GetGithubFiles("1.20.97.181", 34102, true);
+        GetGithubFiles gh = new GetGithubFiles();
         gh.recursSearchGit(gitUrl);
         map.put("all_code", gh.getCode());
     }

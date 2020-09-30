@@ -13,20 +13,23 @@ public class MyProxy extends UtilsForIO {
     private int port;
     private int proxyMode;
     private final Gson gson;
+    private Proxy proxy;
 
     public MyProxy() {
         gson = new Gson();
     }
 
     private void TakeProxyInfo() {
-        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=50";
+        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=100";
         JsonArray proxy = gson.fromJson(UtilsForIO.readStringFromURL(proxyApi), JsonArray.class);
         JsonObject proxyObj = (JsonObject) proxy.get(0);
 
         ip = proxyObj.get("Ip").toString().replace("\"", " ").trim();
         port = proxyObj.get("Port").getAsInt();
-
         String mode = proxyObj.getAsJsonArray("Type").get(0).toString();
+
+        System.out.printf("proxy info -->>\t%s\t%d\t%s\n", ip, port, mode);
+
         if (mode.equals("\"SOCKS4\""))
             proxyMode = 4;
         else if (mode.equals("\"SOCKS5\""))
@@ -35,15 +38,23 @@ public class MyProxy extends UtilsForIO {
             proxyMode = 0;
     }
 
-    public Proxy getProxy() {
+    public Proxy getNewProxy() {
         TakeProxyInfo();
-        Proxy proxy = null;
         if (proxyMode != 0) {
+
             System.setProperty("socksProxyVersion", Integer.toString(proxyMode));
-            proxy = new java.net.Proxy(Proxy.Type.SOCKS, new InetSocketAddress(ip, port));
+            proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(ip, port));
+            System.out.printf("connect to SOCKS proxy\tSOCKS v%d\n", proxyMode);
+
         }
-        else
-            proxy = new java.net.Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port));
+        else{
+            proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port));
+            System.out.println("connect to HTTP proxy");
+        }
+        return proxy;
+    }
+
+    public Proxy getProxy() {
         return proxy;
     }
 
