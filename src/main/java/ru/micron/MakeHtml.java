@@ -12,9 +12,9 @@ import ru.micron.json.Github;
 import ru.micron.json.StudentJson;
 
 public class MakeHtml {
-    private static Map<String, String> map;
+    private Map<String, String> map;
 
-    public static void makeMap(int pracNum, String gitUrl) {
+    public void makeMap(int pracNum, String gitUrl) {
         map = new HashMap<>();
         map.put("year", "2020");
         map.put("step_by_step", "test"); // ?
@@ -22,11 +22,10 @@ public class MakeHtml {
         StudentJson.getStudentJson(map);
         GetJsonFromFile.parseJson(map, pracNum);
 
-        Github gh = new Github();
-        map.put("all_code", gh.getCode(gitUrl));
+        map.put("all_code", new Github().getCode(gitUrl));
     }
 
-    public static void makeHtml(String templatesDir, String ftlFile, String htmlFile) {
+    public void makeHtml(String templatesDir, String ftlFile, String htmlFile) {
         try {
             System.out.print("Creating HTML!\n");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);

@@ -29,8 +29,9 @@ public class Main {
             if (args[0].compareTo("-make") != 0)
                 printHelp();
             else {
-                MakeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
-                MakeHtml.makeHtml("./", "titul.ftl", "./index.html");
+                MakeHtml makeHtml = new MakeHtml();
+                makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
+                makeHtml.makeHtml("./", "titul.ftl", "./index.html");
                 MakePdf.makePdf("index.html", "pdf.pdf");
                 System.out.print("Work done!");
             }
