@@ -1,0 +1,99 @@
+/* zeroing css */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Убираем внутренние отступы */
+ul[class], ol[class] {
+    padding: 0;
+}
+
+/* Убираем внешние отступы */
+body,
+h1, h2, h3, h4,
+p,
+ul[class], ol[class],
+li,
+figure, figcaption,
+blockquote,
+dl, dd {
+    margin: 0;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class],
+ol[class] {
+    list-style: none;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Упрощаем работу с изображениями */
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Указываем понятную периодичность в потоке данных у article*/
+article > * + * {
+    margin-top: 1em;
+}
+
+
+/* Основные стили */
+body {
+    background-color: #f5f5f5;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.container {
+
+}
+
+.page {
+    width: 21cm;
+    height: 29.7cm;
+    margin: 0.5cm 0;
+    padding: 2cm 1.5cm 2cm 3cm;
+    background-color: #ffffff;
+    border: 1px solid #aeaeae;
+}
+
+.content {
+    /*border: 1px solid #aeaeae;*/
+    width: 100%;
+    height: 100%;
+}
+
+.content__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content__left {
+    margin-left: 50px;
+}
+
+.content__center {
+
+}
+
+.content-margin {
+    margin-top: 30px;
+    align-items: center;
+}
+
+.content-margin p {
+    margin-top: 5px;
+    align-items: center;
+}

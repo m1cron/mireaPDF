@@ -10,8 +10,15 @@
             align-items: center;
             margin-top: 30px;
         }
-        .left-content { margin-left: 50px; }
-        body { font-family: "Times New Roman", Times, serif; }
+
+        .left-content {
+            margin-left: 50px;
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+        }
+
         .content-margin {
             margin-top: 30px;
             align-items: center;
