@@ -6,94 +6,128 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <div class="container">
-    <!-- Титульник   -->
+    <!-- titul page   -->
     <div class="page">
         <div class="content">
             <div class="content__center">
-                <img src="logo.png" class="titul-logo" style="width: 110px; height: 110px;">
-                <p style="font-size: 10pt;">
+                <img class="titul-logo" src="logo.png">
+                <p class="str1">
                     МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ
                 </p>
-                <p style="text-align: center; font-size: 12pt;">
+                <p class="str2">
                     Федеральное государственное бюджетное образовательное учреждение <br> высшего образования
                 </p>
-                <b style="margin-top: 12pt;">
+                <b class="str3">
                     "МИРЭА - Российский технологический университет"
                 </b>
-                <h2 style="margin-top: 10pt;">
+                <h2 class="str4">
                     РТУ МИРЭА
                 </h2>
-                <hr noshade style="width: 95%; height: 3px; border: none; border-top: 1px solid black;
-                    border-bottom: 1px solid black; background-color: #fff;"/>
-                <p style="margin-top: 5px; font-size: 12pt;">
+                <hr class="hr1" noshade/>
+                <p class="str5" >
                     Институт информационных технологий (ИТ)
                 </p>
-                <p style="text-align: center;">
+                <p class="str6">
                     Кафедра инструментального и прикладного <br> программного обеспечения (ИиППО)
                 </p>
-                <hr style="width: 95%;"/>
+                <hr class="hr2"/>
 
             </div>
-            <div class="content__container" style="display:flex; flex-direction: column; justify-content: space-evenly;
-                 height: 600px;">
-                <p style="font-size: 14pt; text-align: center;">
+            <div class="content__container">
+                <p class="str7">
                     <b>ПРАКТИЧЕСКИЕ РАБОТЫ</b>  <br> <b>по дисциплине</b> <br> «Программирование на языке Джава»
                 </p>
-                <div class="content__names" style="margin-left: 20px;">
-                    <div class="student" style="font-size: 12pt;
-                    display:flex; justify-content: space-between;">
+                <div class="content__names">
+                    <div class="student">
                         <p>
                             Выполнил студент группы <span>_________________</span>
                         </p>
-                        <i style="margin-right: 20px;">Ffsfsfe</i>
+                        <i class="name">
+                            Ffsfsfe
+                        </i>
                     </div>
-                    <div class="assistant" style="margin-top: 30px; font-size: 12pt;
-                    display:flex; justify-content: space-between;">
+                    <div class="assistant">
                         <p>
                             Принял
                         </p>
-                        <i style="margin-right: 20px;">Gdhjdghj</i>
+                        <i class="name">
+                            Gdhjdghj
+                        </i>
                     </div>
                 </div>
-                <div class="content__bottom" style="margin-left: 40px; width: 350px;">
-                    <p style="font-size: 10pt; display:flex; justify-content: space-between;">
-                        <span style="width: 250px; text-align: center">Практические работы выполнены</span>
-                        <span>«___»_______2020г</span>
+                <div class="content__bottom">
+                    <p class="bottom-str1">
+                        <span class="bottom-str1__item1">
+                            Практические работы выполнены
+                        </span>
+                        <span class="bottom-str1__item2">
+                            «___»_______2020г
+                        </span>
                     </p>
-                    <p style="margin-top: 30px; font-size: 10pt; position: relative; bottom: 0px; display:flex;
-                        justify-content: space-between;">
-                        <span style="width: 250px; text-align: center">«Зачтено»</span>
-                        <span>«___»_______2020г.</span>
+                    <p class="bottom-str2">
+                        <span class="bottom-str2__item1">
+                            «Зачтено»
+                        </span>
+                        <span class="bottom-str2__item2">
+                            «___»_______2020г.
+                        </span>
                     </p>
                 </div>
             </div>
         </div>
-        <p style="margin-top: 15px; text-align: center; font-size: 11pt; opacity: 70%;">
+        <p class="running-title">
             Москва 2020
         </p>
     </div>
 
-    <!-- 2ая страница   -->
+    <!-- page 2 -->
     <div class="page">
         <div class="content">
-            <strong>Практическая работа 2</strong> <br/>
-            <div class="content-margin">
-                <strong>Цель работы</strong>
-                <p>Освоить на практике работу с абстрактными классами и наследованием на Java.</p>
-                <strong>Теоретическое введение</strong>
-                <p>
+            <h1 class="h1">
+                Практическая работа 2
+            </h1>
+            <div>
+                <h2 class="h2">
+                    Цель работы
+                </h2>
+                <p class="text">
+                    Освоить на практике работу с абстрактными классами и наследованием на Java.
+                </p>
+
+                <h2 class="h2">
+                    Теоретическое введение
+                </h2>
+                <p class="text">
                     abstract void yourMethod();
                     Класс, содержащий абстрактные методы, называется абстрактным классом. Такие классы при определении помечаются ключевым словом abstract.
                     Абстрактный метод внутри абстрактного класса не имеет тела, только прототип. Он состоит только из объявления и не имеет тела:
                     По сути, мы создаём шаблон метода. Например, можно создать абстрактный метод для вычисления площади фигуры в абстрактном классе Фигура. А все другие производные классы от главного класса могут уже реализовать свой код для готового метода. Ведь площадь у прямоугольника и треугольника вычисляется по разным алгоритмам и универсального метода не существует.
                     Если вы объявляете класс, производный от абстрактного класса, но хотите иметь возможность создания объектов нового типа, вам придётся предоставить определения для всех абстрактных методов базового класса. Если этого не сделать, производный класс тоже останется абстрактным, и компилятор заставит пометить новый класс ключевым словом abstract.
-                    Абстрактный класс не может содержать какие-либо объекты, а также абстрактные конструкторы и абстрактные статические методы. Любой подкласс абстрактного класса должен либо реализовать все абстрактные методы суперкласса, либо сам быть объявлен абстрактным.</p>
-                <strong>Ход работы</strong>
-                <p>test</p>
-                <strong>Код</strong>
-                <pre>
+                    Абстрактный класс не может содержать какие-либо объекты, а также абстрактные конструкторы и абстрактные статические методы. Любой подкласс абстрактного класса должен либо реализовать все абстрактные методы суперкласса, либо сам быть объявлен абстрактным.
+                </p>
+
+                <h2 class="h2">
+                    Ход работы
+                </h2>
+                <p class="text">
+                    test
+                </p>
+
+            </div>
+        </div>
+        <p class="running-title">
+            Москва 2020
+        </p>
+    </div>
+
+    <!-- page 3 -->
+    <div class="page">
+        <div class="content">
+            <h2 class="h2">
+                Код
+            </h2>
+            <pre class="code">
 <strong>src/ru/micron/task1/Main.java</strong>
 
 package ru.micron.task1;
@@ -156,16 +190,35 @@ public class Main {
         num7(5);
     }
 }
-                </pre>
-                <strong>Выводы по работе</strong>
-                <p>Я научился работать с абстрактными классами. Появилось понимание наследования в Java.</p>
-                <strong>Используемая литература</strong>
-                <p>1.	Конспект лекций по дисциплине “Программирование на языке Java”, РТУ МИРЭА. Лектор – Зорина Н.В.</p>
-            </div>
+            </pre>
         </div>
+        <p class="running-title">
+            Москва 2020
+        </p>
     </div>
 
-</div>
+    <!-- page 4 -->
+    <div class="page">
+        <div class="content">
+            <h2 class="h2">
+                Выводы по работе
+            </h2>
+            <p class="text">
+                Я научился работать с абстрактными классами. Появилось понимание наследования в Java.
+            </p>
 
+            <h2 class="h2">
+                Используемая литература
+            </h2>
+            <p class="text">
+                1.	Конспект лекций по дисциплине “Программирование на языке Java”, РТУ МИРЭА. Лектор – Зорина Н.В.
+            </p>
+
+        </div>
+        <p class="running-title">
+            Москва 2020
+        </p>
+    </div>
+</div>
 </body>
 </html>
