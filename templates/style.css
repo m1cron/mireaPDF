@@ -57,8 +57,10 @@ body {
 }
 
 .h1 {
-    font-size: 16pt;
+    margin-bottom: 20px;
+    text-transform: uppercase;
     text-align: center;
+    font-size: 16pt;
 }
 
 .h2 {
