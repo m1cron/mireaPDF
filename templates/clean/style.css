@@ -29,8 +29,8 @@ img {
 
 /* Основные стили */
 body {
-    display: flex;
-    justify-content: center;
+    /*display: flex;*/
+    /*justify-content: center;*/
     scroll-behavior: smooth;
     background-color: #f5f5f5;
     text-rendering: optimizeSpeed;
@@ -43,7 +43,7 @@ body {
 .page {
     width: 21cm;
     height: 29.7cm;
-    margin: 0.5cm 0;
+    margin: 0 0 0.5cm;
     padding: 2cm 1.5cm 2cm 3cm;
     background-color: #ffffff;
     border: 1px solid #aeaeae;
