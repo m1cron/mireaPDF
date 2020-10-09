@@ -1,0 +1,202 @@
+/* zeroing css */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, p, ul[class], ol[class], li, figure, figcaption, blockquote, dl, dd {
+    margin: 0;
+}
+
+ul[class], ol[class] {
+    padding: 0;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class], ol[class] {
+    list-style: none;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Упрощаем работу с изображениями */
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Основные стили */
+body {
+    scroll-behavior: smooth;
+    background-color: #f5f5f5;
+    text-rendering: optimizeSpeed;
+    font-size: 14pt;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.container {}
+
+.page {
+    width: 21cm;
+    height: 29.7cm;
+    /*margin: 0 0 0.5cm;*/
+    padding: 2cm 1.5cm 2cm 3cm;
+    background-color: #ffffff;
+    border-bottom: 1px solid #aeaeae;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.h1 {
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 16pt;
+}
+
+.h2 {
+    font-size: 16pt;
+    margin-left: 30px;
+}
+
+.text {
+    margin: 20px 0;
+}
+
+.code {
+    font-size: 9.5pt;
+    font-family: Consolas, serif;
+}
+
+.running-title {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 11pt;
+    opacity: 70%;
+}
+
+/* titul page */
+.titul {}
+
+.titul > .center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titul > .center > .logo {
+    width: 110px;
+    height: 110px;
+}
+
+.titul > .center > .str1 {
+    font-size: 10pt;
+}
+
+.titul > .center > .str2 {
+    text-align: center;
+    font-size: 12pt;
+}
+
+.titul > .center > .str3 {
+    margin-top: 12pt;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.titul > .center > .str4 {
+    margin-top: 10pt;
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+.titul > .center > .str5 {
+    margin-top: 5px;
+    font-size: 12pt;
+}
+
+.titul > .center > .str6 {
+    text-align: center;
+    font-size: 12pt;
+}
+
+.titul > .center > .hr1 {
+    width: 95%;
+    height: 3px;
+    border: none;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: #fff;
+}
+
+.titul > .center > .hr2 {
+    width: 95%;
+}
+
+
+.titul > .container {
+    height: 600px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.titul > .container > .str7 {
+    text-align: center;
+}
+
+.titul > .container > .names {
+    margin-left: 20px;
+}
+
+.titul > .container > .names > .student {
+    display:flex;
+    justify-content: space-between;
+    font-size: 12pt;
+}
+
+.titul > .container > .names > .assistant {
+    margin-top: 30px;
+    display:flex;
+    justify-content: space-between;
+    font-size: 12pt;
+}
+
+.titul > .container > .names > .name {
+    margin-right: 20px;
+}
+
+
+.titul > .container > .bottom {
+    width: 350px;
+    margin-left: 40px;
+}
+
+.titul > .container > .bottom > .str1 {
+    display:flex;
+    justify-content: space-between;
+    font-size: 10pt;
+}
+
+.titul > .container > .bottom > .str2 {
+    display:flex;
+    justify-content: space-between;
+    position: relative;
+    bottom: 0;
+    margin-top: 30px;
+    font-size: 10pt;
+}
+
+.titul > .container > .bottom .item1 {
+    width: 250px;
+    text-align: center;
+}
+
+/* /titul page */

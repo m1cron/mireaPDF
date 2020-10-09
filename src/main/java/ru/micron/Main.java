@@ -31,7 +31,7 @@ public class Main {
             else {
                 MakeHtml makeHtml = new MakeHtml();
                 makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
-                makeHtml.makeHtml("./", "titul.ftl", "./index.html");
+                makeHtml.makeHtml("./templates", "index.ftl", "./index.html");
                 MakePdf.makePdf("index.html", "pdf.pdf");
                 System.out.print("Work done!");
             }
