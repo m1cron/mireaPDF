@@ -3,7 +3,7 @@
 <head>
     <title>Отчет</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../clean/style.css">
+    <link rel="stylesheet" href="./templates/clean/style.css">
 </head>
 <body>
     <<div class="page">
@@ -11,7 +11,7 @@
             <!-- titul page   -->
             <div class="titul">
                 <div class="center">
-                    <img class="logo" src="clean/logo.png">
+                    <img class="logo" src="./templates/clean/logo.png">
                     <p class="str1">
                         МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ
                     </p>
@@ -43,7 +43,7 @@
                                 Выполнил студент группы <span>_________________</span>
                             </p>
                             <i class="name">
-                                ${student_name} <#-- to change -->
+                                ${student} <#-- to change -->
                             </i>
                         </div>
                         <div class="assistant">
@@ -51,7 +51,7 @@
                                 Принял
                             </p>
                             <i class="name">
-                                ${assistant_name} <#-- to change -->
+                                ${teacher} <#-- to change -->
                             </i>
                         </div>
                     </div>
@@ -84,29 +84,28 @@
     <<div class="page">
         <div class="content">
             <h1 class="h1">
-                ${practice_number} <#-- to change -->
+                ${prac_number} <#-- to change -->
             </h1>
             <div>
                 <h2 class="h2">
                     Цель работы
                 </h2>
                 <p class="text">
-                    ${work_goal} <#-- to change -->
+                    ${target_content} <#-- to change -->
                 </p>
 
                 <h2 class="h2">
                     Теоретическое введение
                 </h2>
                 <p class="text">
-                    abstract void yourMethod();
-                    ${theoretical_intro} <#-- to change -->
+                    ${teor_content} <#-- to change -->
                 </p>
 
                 <h2 class="h2">
                     Ход работы
                 </h2>
                 <p class="text">
-                    ${work_plan} <#-- to change -->
+                    ${step_by_step} <#-- to change -->
                 </p>
             </div>
         </div>
@@ -121,10 +120,7 @@
                 Код
             </h2>
             <pre class="code">
-<strong>
-    ${source_path} <#-- to change -->
-</strong>
-${code} <#-- to change -->
+                ${all_code} <#-- to change -->
             </pre>
         </div>
         <p class="running-title">
@@ -138,14 +134,14 @@ ${code} <#-- to change -->
                 Выводы по работе
             </h2>
             <p class="text">
-                ${conclusions} <#-- to change -->
+                ${conclusion_content} <#-- to change -->
             </p>
 
             <h2 class="h2">
                 Используемая литература
             </h2>
             <p class="text">
-                ${literature} <#-- to change -->
+                ${literature_content} <#-- to change -->
             </p>
         </div>
         <p class="running-title">
