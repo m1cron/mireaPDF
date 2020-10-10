@@ -30,7 +30,7 @@
             /*margin: 0 0 0.5cm;*/
             padding: 2cm 1.5cm 2cm 3cm;
             background-color: #ffffff;
-            border-bottom: 1px solid #aeaeae;
+            /*border-bottom: 1px solid #aeaeae;*/
         }
 
         .content {
@@ -294,9 +294,6 @@
                 </p>
             </div>
         </div>
-        <p class="running-title">
-            Москва 2020
-        </p>
     </div>
 
     <<div class="page">
@@ -311,9 +308,6 @@
 ${code} <#-- to change -->
             </pre>
         </div>
-        <p class="running-title">
-            Москва 2020
-        </p>
     </div>
 
     <<div class="page">
@@ -332,9 +326,6 @@ ${code} <#-- to change -->
                 ${literature} <#-- to change -->
             </p>
         </div>
-        <p class="running-title">
-            Москва 2020
-        </p>
     </div>
 
 </body>
