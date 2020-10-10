@@ -32,7 +32,7 @@ public class Main {
                 MakeHtml makeHtml = new MakeHtml();
                 makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
                 makeHtml.makeHtml("./templates", "index.ftl", "./index.html");
-                MakePdf.makePdf("index.html", "pdf.pdf");
+                new MakePdf().makePdf("./index.html");
                 System.out.print("Work done!");
             }
         } else
