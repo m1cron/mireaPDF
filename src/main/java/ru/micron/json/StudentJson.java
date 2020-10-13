@@ -22,7 +22,7 @@ public class StudentJson extends UtilsForIO {
     }
 
     public static void getStudentJson(Map<String, String> map) {
-        StudentInfo info = null;
+        StudentInfo info;
         if ((info = getStudentInfo()) != null) {
             map.put("student", info.getStudName());
             map.put("group", info.getGroupNum());

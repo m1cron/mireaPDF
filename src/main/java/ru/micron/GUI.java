@@ -73,41 +73,37 @@ public class GUI {
         panel.add(new JScrollPane(conclusion_content));
         panel.add(new JScrollPane(literature_content));
 
-        createPdf.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Map<String, String> map = new HashMap<>();
+        createPdf.addActionListener(e -> {
+            Map<String, String> map = new HashMap<>();
 
-                map.put("teacher", teacher.getText());
-                map.put("student", student.getText());
-                map.put("group", group.getText());
-                map.put("prac_number", prac_number.getText());
-                map.put("target_content", target_content.getText());
-                map.put("teor_content", teor_content.getText());
-                map.put("step_by_step", step_by_step.getText());
-                map.put("conclusion_content", conclusion_content.getText());
-                map.put("literature_content", literature_content.getText());
+            map.put("teacher", teacher.getText());
+            map.put("student", student.getText());
+            map.put("group", group.getText());
+            map.put("prac_number", prac_number.getText());
+            map.put("target_content", target_content.getText());
+            map.put("teor_content", teor_content.getText());
+            map.put("step_by_step", step_by_step.getText());
+            map.put("conclusion_content", conclusion_content.getText());
+            map.put("literature_content", literature_content.getText());
 
-                StudentJson.saveStudentJson(student.getText(),
-                                            group.getText(),
-                                            teacher.getText());
+            StudentJson.saveStudentJson(student.getText(),
+                                        group.getText(),
+                                        teacher.getText());
 
-                map.put("year", "2020");
-                map.put("month", "август");
-                map.put("day", "12");
+            map.put("year", "2020");
+            map.put("month", "август");
+            map.put("day", "12");
 
-                if (code.getText().contains("github.com/"))
-                    map.put("code", new Github().getCode(code.getText())); //<----
-                else
-                    map.put("code", code.getText());
+            if (code.getText().contains("github.com/"))
+                map.put("code", new Github().getCode(code.getText())); //<----
+            else
+                map.put("code", code.getText());
 
-                //StudentJson.getStudentJson(map);
-
-                new MakeHtml("./templates", "index.ftl")
-                        .makeHtml(map, "./index.html");
-                new MakePdf().makePdf("./index.html");
-            }
+            new MakeHtml("./templates", "index.ftl")
+                    .makeHtml(map, "./index.html");
+            new MakePdf().makePdf("./index.html");
         });
-
+        
         panel.add(createPdf);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
