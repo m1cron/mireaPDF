@@ -10,12 +10,7 @@ public class MakeMap {
 
     public void makeMap(int pracNum, String code) {
         map = new HashMap<>();
-        map.put("year", "2020");
         map.put("step_by_step", "test");
-
-        //StudentJson.getStudentJson(map);
-        //GetJsonFromFile.parseJson(map, pracNum);
-
         map.put("all_code", new Github().getCode(code));
     }
 

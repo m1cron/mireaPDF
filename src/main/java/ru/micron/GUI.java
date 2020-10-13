@@ -1,5 +1,7 @@
 package ru.micron;
 
+import ru.micron.json.Github;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -70,32 +72,36 @@ public class GUI extends MakeMap {
         createPdf.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> map = new HashMap<>();
+
+                map.put("teacher", teacher.getText());
+                map.put("student", student.getText());
+                map.put("group", group.getText());
                 map.put("prac_number", prac_number.getText());
+                map.put("target_content", target_content.getText());
+                map.put("teor_content", teor_content.getText());
+                map.put("step_by_step", step_by_step.getText());
+                map.put("conclusion_content", conclusion_content.getText());
+                map.put("literature_content", literature_content.getText());
 
+                map.put("year", "2020");
+                map.put("month", "август");
+                map.put("day", "12");
 
-                student.getText();
-                group.getText();
-                textField3.getText();
-                target_content.getText();
-                teor_content.getText();
-                step_by_step.getText();
-                code.getText();
-                conclusion_content.getText();
-                literature_content.getText();
+                if (code.getText().contains("github.com/"))
+                    map.put("code", new Github().getCode(code.getText())); //<----
+                else
+                    map.put("code", code.getText());
 
+                //StudentJson.getStudentJson(map);
+                //GetJsonFromFile.parseJson(map, pracNum);
 
-
-                //MakeHtml makeHtml = new MakeHtml("./templates", "index.ftl");
-                //makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
-
-
-                //makeHtml.makeHtml(map, "./index.html");
-                //new MakePdf().makePdf("./index.html");
+                new MakeHtml("./templates", "index.ftl")
+                        .makeHtml(map, "./index.html");
+                new MakePdf().makePdf("./index.html");
             }
         });
 
         panel.add(createPdf);
-
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

@@ -245,7 +245,7 @@
                                 Практические работы выполнены
                             </span>
                             <span>
-                                «___»_______2020г
+                                «___»_______${year}г
                             </span>
                         </p>
                         <p class="str2">
@@ -253,7 +253,7 @@
                                 «Зачтено»
                             </span>
                             <span>
-                                «___»_______2020г.
+                                «___»_______${year}г
                             </span>
                         </p>
                     </div>
@@ -261,7 +261,7 @@
             </div>
         </div>
         <p class="running-title">
-            Москва 2020
+            Москва ${year}
         </p>
     </div>
 
@@ -301,7 +301,7 @@
                 Код
             </h2>
             <pre class="code">
-                ${all_code} <#-- to change -->
+                ${code} <#-- to change -->
             </pre>
         </div>
     </div>

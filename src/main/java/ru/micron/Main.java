@@ -12,14 +12,7 @@ public class Main {
         System.exit(-1);
     }
 
-    public static void disableWarning() {
-        System.err.close();
-        System.setErr(System.out);
-    }
-
     public static void main(String[] args) {
-        //disableWarning();
-
         if (args.length == 4) {
             if (args[0].compareTo("-json") != 0)
                 printHelp();
@@ -29,7 +22,6 @@ public class Main {
             if (args[0].compareTo("-make") != 0)
                 printHelp();
             else {
-
    /*             makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
                 MakeHtml makeHtml = new MakeHtml("./templates", "index.ftl");
                 makeHtml.makeHtml("./index.html");
