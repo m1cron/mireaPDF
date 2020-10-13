@@ -23,6 +23,9 @@ public class Github extends UtilsForIO {
     private final StringBuffer code;
     private final Gson gson;
     private final MyProxy myProxy;
+    private final String divStart = "";
+    private final String divEnd = "";
+    private boolean flag0 = true;
 
     public Github() {
         code = new StringBuffer();
@@ -38,10 +41,21 @@ public class Github extends UtilsForIO {
     }
 
     private void addInBuff(String path, String codeBuff) {
-        code.append("\n\n<strong>")
+        code.append("<div class=\"page\">\n" +
+                "        <div class=\"content\">\n");
+
+        if (flag0)
+            code.append("<h2 class=\"h2\">Код</h2>");
+
+        code
+                .append("\n\n<pre class=\"code\">\n<strong>")
                 .append(path)
                 .append("</strong>\n\n")
-                .append(codeBuff);
+                .append(codeBuff)
+                .append("\n</pre>\n")
+                .append("</div>\n</div>\n\n");
+
+        flag0 = false;
     }
 
     public void recursSearchGit(String url) {

@@ -12,14 +12,7 @@ public class Main {
         System.exit(-1);
     }
 
-    public static void disableWarning() {
-        System.err.close();
-        System.setErr(System.out);
-    }
-
     public static void main(String[] args) {
-        //disableWarning();
-
         if (args.length == 4) {
             if (args[0].compareTo("-json") != 0)
                 printHelp();
@@ -29,13 +22,16 @@ public class Main {
             if (args[0].compareTo("-make") != 0)
                 printHelp();
             else {
-                MakeHtml makeHtml = new MakeHtml();
-                makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
-                makeHtml.makeHtml("./templates", "index.ftl", "./index.html");
-                MakePdf.makePdf("index.html", "pdf.pdf");
+                MakeMap map = new MakeMap();
+                map.makeMap(Integer.parseInt(args[1]), args[2]);
+                new MakeHtml("./templates", "index.ftl")
+                        .makeHtml(map.getMap(), "./index.html");
+                new MakePdf().makePdf("./index.html");
                 System.out.print("Work done!");
             }
-        } else
+        } else if (args.length == 0)
+            new GUI().run();
+        else
             printHelp();
     }
 }
