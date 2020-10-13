@@ -1,6 +1,7 @@
 package ru.micron;
 
 import ru.micron.json.Github;
+import ru.micron.json.StudentInfo;
 import ru.micron.json.StudentJson;
 
 import javax.swing.*;
@@ -26,15 +27,15 @@ public class GUI {
     }
 
     public void run() {
+        StudentInfo info = StudentJson.getStudentInfo();
 
-
-        JTextField teacher = new JTextField("Преподаватель", 20);
+        JTextField teacher = new JTextField(info == null ? "Преподаватель" : info.getTchName(), 20);
         teacher.setBackground(Color.WHITE);
 
-        JTextField student = new JTextField("Студент", 20);
+        JTextField student = new JTextField(info == null ? "Студент" : info.getStudName(), 20);
         student.setBackground(Color.WHITE);
 
-        JTextField group = new JTextField("Группа", 14);
+        JTextField group = new JTextField(info == null ? "Группа" : info.getGroupNum(), 14);
         group.setBackground(Color.WHITE);
 
         JTextField prac_number = new JTextField("№", 5);
@@ -100,7 +101,6 @@ public class GUI {
                     map.put("code", code.getText());
 
                 //StudentJson.getStudentJson(map);
-                //GetJsonFromFile.parseJson(map, pracNum);
 
                 new MakeHtml("./templates", "index.ftl")
                         .makeHtml(map, "./index.html");

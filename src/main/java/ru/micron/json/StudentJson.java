@@ -7,25 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-class StudentInfo {
-    public String studName, tchName, groupNum;
-
-    StudentInfo(String studName, String tchName, String groupNum) {
-        this.studName = studName;
-        this.tchName = tchName;
-        this.groupNum = groupNum;
-    }
-
-    @Override
-    public String toString() {
-        return "Info{" +
-                "studName='" + studName + '\'' +
-                ", tchName='" + tchName + '\'' +
-                ", groupNum='" + groupNum + '\'' +
-                '}';
-    }
-}
-
 public class StudentJson extends UtilsForIO {
     private static final String studentJsonName = "info.json";
 
@@ -41,10 +22,12 @@ public class StudentJson extends UtilsForIO {
     }
 
     public static void getStudentJson(Map<String, String> map) {
-        StudentInfo info = getStudentInfo();
-        map.put("student", info.studName);
-        map.put("group", info.groupNum);
-        map.put("teacher", info.tchName);
+        StudentInfo info = null;
+        if ((info = getStudentInfo()) != null) {
+            map.put("student", info.getStudName());
+            map.put("group", info.getGroupNum());
+            map.put("teacher", info.getTchName());
+        }
     }
 
     public static StudentInfo getStudentInfo() {
