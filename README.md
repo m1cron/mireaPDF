@@ -21,6 +21,9 @@ $ java -jar mireaPDF*.jar -make "Work number" "Url to the Github folder"
 - [ ] Учитывать максимум контента по высоте
 - [ ] Сделать скачивание из корневой директории GitHub
 - [ ] Добавить конвертацию в DOCX
+- [ ] Добавить выбор прокси и пинга
+- [ ] Добавить выбор драйвера (chrome/firefox/etc)
+- [ ] OPTIONAL: Добавить загрузку из интернета (chrome/firefox/etc)
 
 #### `Best free API's for get proxy lists:`
 ##### ```https://www.proxyscan.io/api```
