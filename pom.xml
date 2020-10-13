@@ -6,7 +6,7 @@
 
     <groupId>ru.micron</groupId>
     <artifactId>mireaPDF</artifactId>
-    <version>0.2</version>
+    <version>1.0</version>
     <name>HTMLtoPDF</name>
 
     <properties>

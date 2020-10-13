@@ -91,8 +91,18 @@ public class GUI {
 
             if (code.getText().contains("github.com/"))
                 map.put("code", new Github().getCode(code.getText()));
-            else
-                map.put("code", code.getText());
+            else {
+                StringBuffer buf = new StringBuffer(500);
+
+                buf.append("<div class=\"page\">\n" +
+                        "        <div class=\"content\">\n")
+                        .append("<h2 class=\"h2\">Код</h2>")
+                        .append("\n\n<pre class=\"code\">\n")
+                        .append(code.getText())
+                        .append("\n</pre>\n")
+                        .append("</div>\n</div>\n\n");
+                map.put("code", buf.toString());
+            }
 
             new MakeHtml("./templates", "index.ftl")
                     .makeHtml(map, "./index.html");

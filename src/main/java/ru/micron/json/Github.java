@@ -23,8 +23,6 @@ public class Github extends UtilsForIO {
     private final StringBuffer code;
     private final Gson gson;
     private final MyProxy myProxy;
-    private final String divStart = "";
-    private final String divEnd = "";
     private boolean flag0 = true;
 
     public Github() {
