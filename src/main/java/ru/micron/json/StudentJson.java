@@ -41,14 +41,20 @@ public class StudentJson extends UtilsForIO {
     }
 
     public static void getStudentJson(Map<String, String> map) {
+        Gson gson = new Gson();
+        StudentInfo info = getStudentInfo();
+        map.put("student", info.studName);
+        map.put("group", info.groupNum);
+        map.put("teacher", info.tchName);
+    }
+
+    public static StudentInfo getStudentInfo() {
+        Gson gson = new Gson();
         try {
-            Gson gson = new Gson();
-            StudentInfo info = gson.fromJson(readFile(studentJsonName), StudentInfo.class);
-            map.put("student", info.studName);
-            map.put("group", info.groupNum);
-            map.put("teacher", info.tchName);
+            return gson.fromJson(readFile(studentJsonName), StudentInfo.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
