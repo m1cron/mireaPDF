@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GUI extends MakeMap {
+public class GUI {
     private final JFrame frame;
     private final JPanel panel;
 

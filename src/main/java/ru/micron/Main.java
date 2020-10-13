@@ -22,13 +22,16 @@ public class Main {
             if (args[0].compareTo("-make") != 0)
                 printHelp();
             else {
-   /*             makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
-                MakeHtml makeHtml = new MakeHtml("./templates", "index.ftl");
-                makeHtml.makeHtml("./index.html");
+                MakeMap map = new MakeMap();
+                map.makeMap(Integer.parseInt(args[1]), args[2]);
+                new MakeHtml("./templates", "index.ftl")
+                        .makeHtml(map.getMap(), "./index.html");
                 new MakePdf().makePdf("./index.html");
-                System.out.print("Work done!");*/
+                System.out.print("Work done!");
             }
-        } else
+        } else if (args.length == 0)
+            new GUI().run();
+        else
             printHelp();
     }
 }
