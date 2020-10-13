@@ -20,7 +20,7 @@ public class MyProxy extends UtilsForIO {
     }
 
     private void TakeProxyInfo() {
-        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=150";                  // << ---- proxy max ping switch
+        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=100&uptime=70&not_country=cn,nl,us&last_check=600";                  // << ---- proxy max ping switch
         JsonArray proxy = gson.fromJson(UtilsForIO.readStringFromURL(proxyApi), JsonArray.class);
         JsonObject proxyObj = (JsonObject) proxy.get(0);
 

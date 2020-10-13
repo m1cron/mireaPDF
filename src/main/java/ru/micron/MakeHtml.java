@@ -30,7 +30,7 @@ public class MakeHtml {
             template.process(map, html);
             html.flush();
             html.close();
-            htmlOpen.deleteOnExit();
+            //htmlOpen.deleteOnExit();
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }

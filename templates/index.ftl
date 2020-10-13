@@ -126,7 +126,6 @@
             width: 95%;
         }
 
-
         .titul > .container {
             height: 600px;
             display:flex;
@@ -159,7 +158,6 @@
             margin-right: 20px;
         }
 
-
         .titul > .container > .bottom {
             width: 350px;
             margin-left: 40px;
@@ -184,9 +182,6 @@
             width: 250px;
             text-align: center;
         }
-
-        /* /titul page */
-
     </style>
 </head>
 <body>
@@ -295,16 +290,7 @@
     </div>
 
     <!-- page 3 -->
-    <div class="page">
-        <div class="content">
-            <h2 class="h2">
-                Код
-            </h2>
-            <pre class="code">
-                ${code} <#-- to change -->
-            </pre>
-        </div>
-    </div>
+    ${code} <#-- to change -->
 
     <!-- page 4 -->
     <div class="page">

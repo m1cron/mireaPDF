@@ -6,8 +6,6 @@ import ru.micron.json.StudentJson;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,17 +83,14 @@ public class GUI {
             map.put("step_by_step", step_by_step.getText());
             map.put("conclusion_content", conclusion_content.getText());
             map.put("literature_content", literature_content.getText());
+            map.put("year", "2020");
 
             StudentJson.saveStudentJson(student.getText(),
                                         group.getText(),
                                         teacher.getText());
 
-            map.put("year", "2020");
-            map.put("month", "август");
-            map.put("day", "12");
-
             if (code.getText().contains("github.com/"))
-                map.put("code", new Github().getCode(code.getText())); //<----
+                map.put("code", new Github().getCode(code.getText()));
             else
                 map.put("code", code.getText());
 
@@ -103,7 +98,7 @@ public class GUI {
                     .makeHtml(map, "./index.html");
             new MakePdf().makePdf("./index.html");
         });
-        
+
         panel.add(createPdf);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
