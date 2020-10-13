@@ -41,7 +41,6 @@ public class StudentJson extends UtilsForIO {
     }
 
     public static void getStudentJson(Map<String, String> map) {
-        Gson gson = new Gson();
         StudentInfo info = getStudentInfo();
         map.put("student", info.studName);
         map.put("group", info.groupNum);
