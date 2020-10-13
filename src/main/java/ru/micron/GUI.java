@@ -92,16 +92,10 @@ public class GUI {
             if (code.getText().contains("github.com/"))
                 map.put("code", new Github().getCode(code.getText()));
             else {
-                StringBuffer buf = new StringBuffer(500);
-
-                buf.append("<div class=\"page\">\n" +
-                        "        <div class=\"content\">\n")
-                        .append("<h2 class=\"h2\">Код</h2>")
-                        .append("\n\n<pre class=\"code\">\n")
-                        .append(code.getText())
-                        .append("\n</pre>\n")
-                        .append("</div>\n</div>\n\n");
-                map.put("code", buf.toString());
+                String buf = "<div class=\"page\">\n<div class=\"content\">\n" +
+                        "<h2 class=\"h2\">Код</h2>\n<pre class=\"code\">\n" +
+                        code.getText() + "\n</pre>\n</div>\n</div>";
+                map.put("code", buf);
             }
 
             new MakeHtml("./templates", "index.ftl")
