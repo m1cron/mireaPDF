@@ -11,7 +11,13 @@ public class MakePdf {
     private final WebDriver driver;
 
     public MakePdf() {
-        System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+        String opSys = System.getProperty("os.name").toLowerCase();
+        if (opSys.contains("win"))
+            System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+        else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix"))
+            System.setProperty("webdriver.chrome.driver", "./drivers/chromedriverUnix");
+        else if (opSys.contains("mac"))
+            System.setProperty("webdriver.chrome.driver", "./drivers/chromedriverMac");
         driver = new ChromeDriver();
     }
 
