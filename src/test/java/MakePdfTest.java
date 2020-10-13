@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class MakePdfTest {
 
     public static void main(String[] argv) {
-        String fileInputPath = "./templates/index.html";
+        String fileInputPath = "./templates/index.ftl";
         File file = new File(fileInputPath);
 
         System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
