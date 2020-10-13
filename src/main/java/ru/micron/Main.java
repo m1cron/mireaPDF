@@ -29,11 +29,12 @@ public class Main {
             if (args[0].compareTo("-make") != 0)
                 printHelp();
             else {
-                MakeHtml makeHtml = new MakeHtml();
-                makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
-                makeHtml.makeHtml("./templates", "index.ftl", "./index.html");
+
+   /*             makeHtml.makeMap(Integer.parseInt(args[1]), args[2]);
+                MakeHtml makeHtml = new MakeHtml("./templates", "index.ftl");
+                makeHtml.makeHtml("./index.html");
                 new MakePdf().makePdf("./index.html");
-                System.out.print("Work done!");
+                System.out.print("Work done!");*/
             }
         } else
             printHelp();
