@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 abstract public class UtilsForIO {
 
@@ -29,7 +30,7 @@ abstract public class UtilsForIO {
     }
 
         public static String readStringFromURL(String url, MyProxy myProxyproxy, Proxy recursProxy) {
-        InputStream urlCon = null;
+        InputStream urlCon;
         try {
             urlCon = new URL(url).openConnection(myProxyproxy.getProxy()).getInputStream();
         } catch (IOException e) {
@@ -50,5 +51,13 @@ abstract public class UtilsForIO {
         assert urlCon != null;
         Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A");
         return scanner.hasNext() ? scanner.next() : "";
+    }
+
+    public static void sleep(int sec) {
+        try {
+            TimeUnit.SECONDS.sleep(sec);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
