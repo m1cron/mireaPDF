@@ -16,7 +16,7 @@ public class MakeMap {
         map.put("year", "2020");
         StudentJson.getStudentJson(map);
         GetJsonFromFile.parseJson(map, pracNum);
-        map.put("code", new Github().getCode(code));
+        map.put("code", new Github(code).getCode());
     }
 
     public Map<String, String> getMap() {

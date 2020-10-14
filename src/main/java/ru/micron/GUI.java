@@ -98,14 +98,7 @@ public class GUI {
                                         group.getText(),
                                         teacher.getText());
 
-            if (code.getText().contains("github.com/"))
-                map.put("code", new Github().getCode(code.getText()));
-            else {
-                String buf = "<div class=\"page\">\n<div class=\"content\">\n" +
-                        "<h2 class=\"h2\">Код</h2>\n<pre class=\"code\">\n" +
-                        code.getText() + "\n</pre>\n</div>\n</div>";
-                map.put("code", buf);
-            }
+            map.put("code", new Github(code.getText()).getCode());
 
             new MakeHtml("./templates", "index.ftl")
                     .makeHtml(map, "./index.html");

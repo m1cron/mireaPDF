@@ -21,15 +21,22 @@ class JsonFields {
 
 public class Github extends UtilsForIO {
     private final StringBuffer code;
-    private final Gson gson;
-    private final MyProxy myProxy;
+    private Gson gson;
+    private MyProxy myProxy;
     private boolean flag0 = true;
 
-    public Github() {
+    public Github(String codeOrUrl) {
         code = new StringBuffer();
-        gson = new Gson();
-        myProxy = new MyProxy(gson);
-        myProxy.getNewProxy();
+        if (codeOrUrl.contains("github.com/")) {
+            gson = new Gson();
+            myProxy = new MyProxy(gson);
+            myProxy.getNewProxy();
+            recursSearchGit(codeOrUrl);
+        } else {
+            code.append("<div class=\"page\">\n<div class=\"content\">\n" +
+                    "<h2 class=\"h2\">Код</h2>\n<pre class=\"code\">\n")
+                    .append(codeOrUrl).append("\n</pre>\n</div>\n</div>");
+        }
     }
 
     public static String parseUrl(String url) {
@@ -74,8 +81,7 @@ public class Github extends UtilsForIO {
         }
     }
 
-    public String getCode(String gitUrl) {
-        recursSearchGit(parseUrl(gitUrl));
+    public String getCode() {
         return code.toString();
     }
 }
