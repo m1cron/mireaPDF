@@ -33,9 +33,7 @@ public class Github extends UtilsForIO {
             myProxy.getNewProxy();
             recursSearchGit(codeOrUrl);
         } else {
-            code.append("<div class=\"page\">\n<div class=\"content\">\n" +
-                    "<h2 class=\"h2\">Код</h2>\n<pre class=\"code\">\n")
-                    .append(codeOrUrl).append("\n</pre>\n</div>\n</div>");
+            addInBuff("", codeOrUrl);
         }
     }
 
@@ -46,21 +44,25 @@ public class Github extends UtilsForIO {
     }
 
     private void addInBuff(String path, String codeBuff) {
-        code.append("<div class=\"page\">\n" +
-                "        <div class=\"content\">\n");
+        code.append("<div class=\"page\">\n\t<div class=\"content\">\n\t");
 
-        if (flag0)
-            code.append("<h2 class=\"h2\">Код</h2>");
+        if (flag0) {
+            code.append("\t<h2 class=\"h2\">Код</h2>");
+        }
 
-        code
-                .append("\n\n<pre class=\"code\">\n<strong>")
-                .append(path)
-                .append("</strong>\n\n")
-                .append(codeBuff)
-                .append("\n</pre>\n")
-                .append("</div>\n</div>\n\n");
+        code.append("\n\t\t<pre class=\"code\">\n");
+
+        if (!path.equals("")) {
+            code.append("<strong>")
+                    .append(path)
+                    .append("</strong>\n\n");
+        }
+
+        code.append(codeBuff)
+                .append("\n\t\t</pre>\n\t</div>\n</div>");
 
         flag0 = false;
+        System.out.printf("github len -> %d\t total len -> %d\n", codeBuff.length(), code.length());
     }
 
     public void recursSearchGit(String url) {
