@@ -22,6 +22,7 @@ public class GUI {
         panel.setPreferredSize(new Dimension(700, 460));
         frame.add(panel);
         frame.pack();
+        frame.setResizable(false);
     }
 
     public void run() {
