@@ -1,8 +1,8 @@
-import ru.micron.MakePdf;
+import ru.micron.MakeDocuments;
 
 public class MakeWordTest {
     public static void main(String[] args) {
-        MakePdf make = new MakePdf();
+        MakeDocuments make = new MakeDocuments();
         make.makeWord("pdf.pdf", "word.docx");
         make.closeDriver();
     }

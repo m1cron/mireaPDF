@@ -8,10 +8,10 @@ import ru.micron.utils.UtilsForIO;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-public class MakePdf {
+public class MakeDocuments {
     private final WebDriver driver;
 
-    public MakePdf() {
+    public MakeDocuments() {
         String opSys = System.getProperty("os.name").toLowerCase();
         if (opSys.contains("win"))
             System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");

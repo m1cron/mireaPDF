@@ -100,7 +100,7 @@ public class GUI {
 
             new MakeHtml("./templates", "index.ftl")
                     .makeHtml(map, "./index.html");
-            new MakePdf().makePdf("./index.html", "pdf.pdf");
+            new MakeDocuments().makePdf("./index.html", "pdf.pdf");
         });
 
         panel.add(createPdf);
