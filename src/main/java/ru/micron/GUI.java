@@ -88,7 +88,11 @@ public class GUI {
             map.put("step_by_step", step_by_step.getText());
             map.put("conclusion_content", conclusion_content.getText());
             map.put("literature_content", literature_content.getText());
-            map.put("year", "2020");
+
+            GetDate date = new GetDate();
+            map.put("day", date.getDay());
+            map.put("month", date.getMonth());
+            map.put("year", date.getYear());
 
             StudentJson.saveStudentJson(student.getText(),
                                         group.getText(),
