@@ -44,16 +44,16 @@
             margin-bottom: 20px;
             text-transform: uppercase;
             text-align: center;
-            font-size: 16pt;
+            font-size: 14pt;
         }
 
         .h2 {
-            font-size: 16pt;
+            font-size: 14pt;
             margin-left: 30px;
         }
 
         .text {
-            margin: 20px 0;
+            margin: 14px 0;
         }
 
         .code {
