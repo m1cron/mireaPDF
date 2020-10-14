@@ -57,6 +57,7 @@ public class GUI {
         JTextArea literature_content = new JTextArea("Используемая литература", 10, 20);
         literature_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
+        JCheckBox checkMakeDocx = new JCheckBox("Делать DOCX?");
         JButton createPdf = new JButton("Создать PDF");
 
         panel.add(teacher);
@@ -71,7 +72,10 @@ public class GUI {
         panel.add(new JScrollPane(conclusion_content));
         panel.add(new JScrollPane(literature_content));
 
-        createPdf.addActionListener(e -> {
+        panel.add(createPdf);
+        panel.add(checkMakeDocx);
+
+        createPdf.addActionListener(e0 -> {
             Map<String, String> map = new HashMap<>();
 
             map.put("teacher", teacher.getText());
@@ -100,10 +104,14 @@ public class GUI {
 
             new MakeHtml("./templates", "index.ftl")
                     .makeHtml(map, "./index.html");
-            new MakeDocuments().makePdf("./index.html", "pdf.pdf");
+
+            MakeDocuments docs = new MakeDocuments();
+            docs.makePdf("./index.html", "pdf.pdf");
+            if (checkMakeDocx.isSelected())
+                docs.makeWord("pdf.pdf", "word.docx");
+            docs.closeDriver();
         });
 
-        panel.add(createPdf);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
