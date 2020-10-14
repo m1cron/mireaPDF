@@ -26,7 +26,7 @@ public class Main {
                 map.makeMap(Integer.parseInt(args[1]), args[2]);
                 new MakeHtml("./templates", "index.ftl")
                         .makeHtml(map.getMap(), "./index.html");
-                new MakePdf().makePdf("./index.html");
+                new MakePdf().makePdf("./index.html", "pdf.pdf");
                 System.out.print("Work done!");
             }
         } else if (args.length == 0)
