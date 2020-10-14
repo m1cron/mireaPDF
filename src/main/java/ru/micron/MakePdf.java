@@ -23,27 +23,18 @@ public class MakePdf {
         else if (opSys.contains("mac"))
             System.setProperty("webdriver.chrome.driver", "./drivers/chromedriverMac");
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     public void makePdf(String html, String pdfName) {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://deftpdf.com/ru/html-to-pdf");
         driver.findElement(By.xpath("//input[@type='file']")).sendKeys(new File(html).getAbsolutePath());
         driver.findElement(By.xpath("//a[@id='HTMLFileToPDF']")).click();
         UtilsForIO.sleep(2);
-        String download = driver.findElement(By.xpath("//*[@id='apply-popup']/div[2]/div[2]/div/div[2]/div[1]/a"))
+        String downloadUrl = driver.findElement(By.xpath("//*[@id='apply-popup']/div[2]/div[2]/div/div[2]/div[1]/a"))
                                 .getAttribute("href");
+        UtilsForIO.downloadFile(downloadUrl, pdfName);
         driver.close();
         driver.quit();
-        try {
-            FileUtils.copyURLToFile(
-                    new URL(download),
-                    new File("./" + pdfName),
-                    10000,
-                    10000);
-            System.out.println("Download PDF OK!");
-        } catch (IOException e) {
-            System.out.println("Download PDF FAIL!");
-        }
     }
 }

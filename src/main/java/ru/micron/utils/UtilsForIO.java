@@ -1,8 +1,10 @@
 package ru.micron.utils;
 
 import com.google.common.io.Resources;
+import org.apache.commons.io.FileUtils;
 import ru.micron.json.MyProxy;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Proxy;
@@ -58,6 +60,19 @@ abstract public class UtilsForIO {
             TimeUnit.SECONDS.sleep(sec);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void downloadFile(String downloadUrl, String fileName) {
+        try {
+            FileUtils.copyURLToFile(
+                    new URL(downloadUrl),
+                    new File("./" + fileName),
+                    10000,
+                    10000);
+            System.out.println("Download " + fileName + " OK!");
+        } catch (IOException e) {
+            System.out.println("Download " + fileName + " FAIL!");
         }
     }
 }
