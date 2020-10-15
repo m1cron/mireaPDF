@@ -24,14 +24,18 @@ public class Github extends UtilsForIO {
     private Gson gson;
     private MyProxy myProxy;
     private boolean flag0 = true;
+    private final boolean useProxy;
 
-    public Github(String codeOrUrl) {
+    public Github(String codeOrUrl, boolean useProxy) {
+        this.useProxy = useProxy;
         code = new StringBuffer();
         if (codeOrUrl.contains("github.com/")) {
             gson = new Gson();
-            myProxy = new MyProxy(gson);
-            myProxy.getNewProxy();
-            recursSearchGit(codeOrUrl);
+            if (useProxy) {
+                myProxy = new MyProxy(gson);
+                myProxy.getNewProxy();
+            }
+            recursSearchGit(parseUrl(codeOrUrl));
         } else {
             addInBuff("", codeOrUrl);
         }
@@ -66,7 +70,8 @@ public class Github extends UtilsForIO {
     }
 
     public void recursSearchGit(String url) {
-        String json = UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy());
+        String json = useProxy ? UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy()) :
+                                    UtilsForIO.readStringFromURL(url);
         try {
             JsonFields[] roots = gson.fromJson(json, JsonFields[].class);
             for (JsonFields root : roots) {
@@ -74,12 +79,14 @@ public class Github extends UtilsForIO {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
                     System.out.println("download " + root.path);
-                    addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()));
+                    addInBuff(root.path, useProxy ? UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
+                                                    UtilsForIO.readStringFromURL(root.download_url));
                 }
             }
         } catch (JsonParseException e) {
             JsonFields root = gson.fromJson(json, JsonFields.class);
-            addInBuff(root.path, UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()));
+            addInBuff(root.path, useProxy ? UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
+                                            UtilsForIO.readStringFromURL(root.download_url));
         }
     }
 

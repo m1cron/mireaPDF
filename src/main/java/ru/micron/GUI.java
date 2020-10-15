@@ -59,6 +59,10 @@ public class GUI {
         literature_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
         JCheckBox checkMakeDocx = new JCheckBox("Делать DOCX?");
+
+        JCheckBox useProxy = new JCheckBox("Прокси?");
+        useProxy.setHorizontalTextPosition(SwingConstants.LEFT);
+
         JButton createPdf = new JButton("Создать PDF");
 
         panel.add(teacher);
@@ -73,6 +77,7 @@ public class GUI {
         panel.add(new JScrollPane(conclusion_content));
         panel.add(new JScrollPane(literature_content));
 
+        panel.add(useProxy);
         panel.add(createPdf);
         panel.add(checkMakeDocx);
 
@@ -98,7 +103,7 @@ public class GUI {
                                         group.getText(),
                                         teacher.getText());
 
-            map.put("code", new Github(code.getText()).getCode());
+            map.put("code", new Github(code.getText(), useProxy.isSelected()).getCode());
 
             new MakeHtml("./templates", "index.ftl")
                     .makeHtml(map, "./index.html");
