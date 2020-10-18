@@ -23,8 +23,15 @@ public class Github extends UtilsForIO {
     private final StringBuffer code;
     private Gson gson;
     private MyProxy myProxy;
-    private boolean flag0 = true;
     private final boolean useProxy;
+    private boolean headerFlag = true;
+    private boolean startFlag = true;
+    private boolean endFlag = false;
+    private boolean flagNewPage = false;
+    private final String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t";
+    private final String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
+    private final String codeStart = "\n\t\t<pre class=\"code\">\n";
+    private final int maxHeight = 50;
 
     public Github(String codeOrUrl, boolean useProxy, String proxyPing) {
         this.useProxy = useProxy;
@@ -43,30 +50,56 @@ public class Github extends UtilsForIO {
 
     public static String parseUrl(String url) {
         return url.replace("github.com", "api.github.com/repos")
-                .replace("/tree/master/", "/contents/")
-                .replace("/blob/master/", "/contents/");
+                    .replace("/tree/master/", "/contents/")
+                    .replace("/blob/master/", "/contents/");
     }
 
     private void addInBuff(String path, String codeBuff) {
-        code.append("<div class=\"page\">\n\t<div class=\"content\">\n\t");
-
-        if (flag0) {
-            code.append("\t<h2 class=\"h2\">Код</h2>");
+        if (startFlag) {
+            code.append(divStart);
+            if (headerFlag) {
+                code.append("\t<h2 class=\"h2\">Код</h2>");
+            }
+            headerFlag = false;
         }
 
-        code.append("\n\t\t<pre class=\"code\">\n");
+        code.append(codeStart);
 
         if (!path.equals("")) {
-            code.append("<strong>")
+            code.append("\t<strong>")
                     .append(path)
                     .append("</strong>\n\n");
         }
+        String[] codeStrs = codeBuff.split("\n");
 
-        code.append(codeBuff)
-                .append("\n\t\t</pre>\n\t</div>\n</div>");
+        int startWith = 0;
 
-        flag0 = false;
-        System.out.printf("github len -> %d\t total len -> %d\n", codeBuff.length(), code.length());
+        if (codeStrs.length > maxHeight) {
+            flagNewPage = true;
+            endFlag = true;
+            for (startWith = 0; startWith < maxHeight; startWith++) {
+                code.append(codeStrs[startWith]);
+            }
+            code.append(divEnd);
+        } else {
+            startFlag = true;
+        }
+
+        if (flagNewPage) {
+            code.append(divStart);
+            code.append(codeStart);
+            flagNewPage = false;
+        }
+
+        for (; startWith < codeStrs.length; startWith++) {
+            code.append(codeStrs[startWith]);
+        }
+
+        if (endFlag) {
+            code.append(divEnd);
+        }
+
+
     }
 
     public void recursSearchGit(String url) {

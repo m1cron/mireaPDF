@@ -2,6 +2,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import ru.micron.GetDate;
 import ru.micron.MakeHtml;
 import ru.micron.json.GetJsonFromFile;
 import ru.micron.json.Github;
@@ -19,13 +20,18 @@ public class MakeHtmlTest {
 
     public static void makeMap(int pracNum) {
         map = new HashMap<>();
-        map.put("year", "2020");
+
+        GetDate date = new GetDate();
+        map.put("day", date.getDay());
+        map.put("month", date.getMonth());
+        map.put("year", date.getYear());
+
         map.put("step_by_step", "test"); // ?
 
         StudentJson.getStudentJson(map);
         GetJsonFromFile.parseJson(map, pracNum);
 
-        map.put("all_code", "2734253457");
+        map.put("code", "2734253457");
     }
 
     public static void makeHtml(String templatesDir, String ftlFile, String htmlFile) {

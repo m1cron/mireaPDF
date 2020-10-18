@@ -13,7 +13,12 @@ public class MakeMap {
     public void makeMap(int pracNum, String code) {
         map = new HashMap<>();
         map.put("step_by_step", "test");
-        map.put("year", "2020");
+
+        GetDate date = new GetDate();
+        map.put("day", date.getDay());
+        map.put("month", date.getMonth());
+        map.put("year", date.getYear());
+
         StudentJson.getStudentJson(map);
         GetJsonFromFile.parseJson(map, pracNum);
         map.put("code", new Github(code, false, "100").getCode());
