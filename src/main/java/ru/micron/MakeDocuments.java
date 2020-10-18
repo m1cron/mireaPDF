@@ -13,16 +13,18 @@ public class MakeDocuments {
     private final WebDriver driver;
 
     public MakeDocuments() {
+        String driverName = "webdriver.chrome.driver";
+
         String opSys = System.getProperty("os.name").toLowerCase();
         if (opSys.contains("win"))
-            System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+            System.setProperty(driverName, "./drivers/chromedriver.exe");
         else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix"))
-            System.setProperty("webdriver.chrome.driver", "./drivers/chromedriverUnix");
+            System.setProperty(driverName, "./drivers/chromedriverUnix");
         else if (opSys.contains("mac"))
-            System.setProperty("webdriver.chrome.driver", "./drivers/chromedriverMac");
+            System.setProperty(driverName, "./drivers/chromedriverMac");
         driver = new ChromeDriver(new ChromeOptions()
                                         .addArguments("window-size=800,600")
-                                        .addArguments("window-position=-1920,0"));
+                                        .addArguments("window-position=-1920,10"));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
