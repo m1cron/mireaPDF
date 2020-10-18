@@ -44,7 +44,7 @@ public class Github extends UtilsForIO {
             }
             recursSearchGit(parseUrl(codeOrUrl));
         } else {
-            addInBuff("", codeOrUrl);
+            splitAdd(codeOrUrl);
         }
     }
 
@@ -54,11 +54,18 @@ public class Github extends UtilsForIO {
                     .replace("/blob/master/", "/contents/");
     }
 
-    private void addInBuff(String path, String codeBuff) {
+    private void splitAdd(String path, String codeBuff) {
         if (!path.equals("")) {
             codeArr.add("\t\n\n<strong>" + path + "</strong>\n\n");
         }
-        Collections.addAll(codeArr, codeBuff.split("\n"));
+        String[] temp = codeBuff.split("/(\n)/");
+        for(String s : temp)
+            System.out.println(s);
+        Collections.addAll(codeArr, temp);
+    }
+
+    private void splitAdd(String codeBuff) {
+        Collections.addAll(codeArr, codeBuff.split("/(\n)/"));
     }
 
     private void getFormatCode() {
@@ -86,13 +93,13 @@ public class Github extends UtilsForIO {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
                     System.out.println("download " + root.path);
-                    addInBuff(root.path, useProxy ? UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
+                    splitAdd(root.path, useProxy ? UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
                                                     UtilsForIO.readStringFromURL(root.download_url));
                 }
             }
         } catch (JsonParseException e) {
             JsonFields root = gson.fromJson(json, JsonFields.class);
-            addInBuff(root.path, useProxy ? UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
+            splitAdd(root.path, useProxy ? UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
                                             UtilsForIO.readStringFromURL(root.download_url));
         }
     }
