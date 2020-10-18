@@ -4,14 +4,13 @@ import com.google.common.io.Resources;
 import org.apache.commons.io.FileUtils;
 import ru.micron.json.MyProxy;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -39,8 +38,9 @@ abstract public class UtilsForIO {
             return readStringFromURL(url, myProxyproxy, myProxyproxy.getNewProxy());
         }
         assert urlCon != null;
-        Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A");
-        return scanner.hasNext() ? scanner.next() : "";
+        try (Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A")) {
+            return scanner.hasNext() ? scanner.next() : "";
+        }
     }
 
     public static String readStringFromURL(String url) {
@@ -51,8 +51,43 @@ abstract public class UtilsForIO {
             e.printStackTrace();
         }
         assert urlCon != null;
-        Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A");
-        return scanner.hasNext() ? scanner.next() : "";
+        try (Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A")) {
+            return scanner.hasNext() ? scanner.next() : "";
+        }
+    }
+
+    public static ArrayList<String> readArrayStringsFromUrl(String url) {
+        ArrayList<String> buf = new ArrayList<>(75);
+
+        InputStream urlCon = null;
+        try {
+            urlCon = new URL(url).openStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert urlCon != null;
+        try (Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\n")) {
+            while (scanner.hasNext())
+                buf.add(scanner.next());
+        }
+        return buf;
+    }
+
+    public static ArrayList<String> readArrayStringsFromUrl(String url, MyProxy myProxyproxy, Proxy recursProxy) {
+        ArrayList<String> buf = new ArrayList<>(75);
+
+        InputStream urlCon = null;
+        try {
+            urlCon = new URL(url).openConnection(myProxyproxy.getProxy()).getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert urlCon != null;
+        try (Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\n")) {
+            while (scanner.hasNext())
+                buf.add(scanner.next());
+        }
+        return buf;
     }
 
     public static void sleep(int sec) {
