@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import ru.micron.utils.UtilsForIO;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 class JsonFields {
     public String name, path, url, download_url, type;
 
@@ -24,18 +27,15 @@ public class Github extends UtilsForIO {
     private Gson gson;
     private MyProxy myProxy;
     private final boolean useProxy;
-    private boolean headerFlag = true;
-    private boolean startFlag = true;
-    private boolean endFlag = false;
-    private boolean flagNewPage = false;
-    private final String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t";
+    private final String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t\n\t\t<pre class=\"code\">\n";
     private final String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
-    private final String codeStart = "\n\t\t<pre class=\"code\">\n";
-    private final int maxHeight = 50;
+    private final int maxHeight = 53;
+    private final ArrayList<String> codeArr;
 
     public Github(String codeOrUrl, boolean useProxy, String proxyPing) {
+        codeArr = new ArrayList<>(500);
         this.useProxy = useProxy;
-        code = new StringBuffer();
+        code = new StringBuffer(5000);
         if (codeOrUrl.contains("github.com/")) {
             gson = new Gson();
             if (useProxy) {
@@ -55,51 +55,25 @@ public class Github extends UtilsForIO {
     }
 
     private void addInBuff(String path, String codeBuff) {
-        if (startFlag) {
-            code.append(divStart);
-            if (headerFlag) {
-                code.append("\t<h2 class=\"h2\">Код</h2>");
-            }
-            headerFlag = false;
-        }
-
-        code.append(codeStart);
-
         if (!path.equals("")) {
-            code.append("\t<strong>")
-                    .append(path)
-                    .append("</strong>\n\n");
+            codeArr.add("\t\n\n<strong>" + path + "</strong>\n\n");
         }
-        String[] codeStrs = codeBuff.split("\n");
+        Collections.addAll(codeArr, codeBuff.split("\n"));
+    }
 
-        int startWith = 0;
+    private void getFormatCode() {
+        code.append(divStart).append("\t<h2 class=\"h2\">Код</h2>");
 
-        if (codeStrs.length > maxHeight) {
-            flagNewPage = true;
-            endFlag = true;
-            for (startWith = 0; startWith < maxHeight; startWith++) {
-                code.append(codeStrs[startWith]);
+        short count = 4;
+        for (String s : codeArr) {
+            code.append(s);
+            if (count == maxHeight) {
+                code.append(divEnd).append(divStart);
+                count = 0;
             }
-            code.append(divEnd);
-        } else {
-            startFlag = true;
+            count++;
         }
-
-        if (flagNewPage) {
-            code.append(divStart);
-            code.append(codeStart);
-            flagNewPage = false;
-        }
-
-        for (; startWith < codeStrs.length; startWith++) {
-            code.append(codeStrs[startWith]);
-        }
-
-        if (endFlag) {
-            code.append(divEnd);
-        }
-
-
+        code.append(divEnd);
     }
 
     public void recursSearchGit(String url) {
@@ -124,6 +98,7 @@ public class Github extends UtilsForIO {
     }
 
     public String getCode() {
+        getFormatCode();
         return code.toString();
     }
 }
