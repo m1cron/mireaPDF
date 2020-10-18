@@ -1,6 +1,6 @@
-# MIREA Java генератор отчётов с GitHub
+# Report generator in PDF and DOCX format from GitHub
 
-### `Установка`
+### `Installing`
 
 ```
 $ git clone https://github.com/m1cron/mireaPDF
@@ -8,18 +8,11 @@ $ cd mireaPDF
 $ mvn package
 ```
 
-### `Использование`
+### `Usage`
 
 ```
 $ java -jar mireaPDF*.jar
 ```
-
-#### Фикс лист
-- [ ] Учитывать контент по ширине
-- [x] Учитыват  контент по высоте
-- [x] Добавить конвертацию в DOCX
-- [x] Добавить выбор прокси
-- [x] Добавить выбор пинга прокси
 
 #### `Best free API's for get proxy lists:`
 ##### ```https://www.proxyscan.io/api```
