@@ -15,7 +15,7 @@ public class GUI {
 
     public GUI() throws HeadlessException {
         frame = new JFrame("MIREA PDF");
-        frame.setIconImage(new ImageIcon(ClassLoader.getSystemResource("./icon.png")).getImage());
+        frame.setIconImage(new ImageIcon("./icon.png").getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(700, 460));

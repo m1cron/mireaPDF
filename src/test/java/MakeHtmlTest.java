@@ -3,9 +3,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ru.micron.GetDate;
-import ru.micron.MakeHtml;
 import ru.micron.json.GetJsonFromFile;
-import ru.micron.json.Github;
 import ru.micron.json.StudentJson;
 
 import java.io.File;
