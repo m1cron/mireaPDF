@@ -27,9 +27,6 @@ public class Github extends UtilsForIO {
     private Gson gson;
     private MyProxy myProxy;
     private final boolean useProxy;
-    private final String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t\n\t\t<pre class=\"code\">\n";
-    private final String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
-    private final int maxHeight = 53;
     private final ArrayList<String> codeArr;
 
     public Github(String codeOrUrl, boolean useProxy, String proxyPing) {
@@ -69,12 +66,14 @@ public class Github extends UtilsForIO {
     }
 
     private void getFormatCode() {
-        code.append(divStart).append("\t<h2 class=\"h2\">Код</h2>");
+        String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t\n\t\t<pre class=\"code\">\n";
+        String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
 
+        code.append(divStart).append("\t<h2 class=\"h2\">Код</h2>");
         short count = 4;
         for (String s : codeArr) {
             code.append(s);
-            if (count == maxHeight) {
+            if (count == 53) {      /*                      <<------ page maxHeight content change HERE */
                 code.append(divEnd).append(divStart);
                 count = 0;
             }
