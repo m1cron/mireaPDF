@@ -31,7 +31,7 @@ abstract public class UtilsForIO {
         return Files.readString(fileName);
     }
 
-        public static String readStringFromURL(String url, MyProxy myProxyproxy, Proxy recursProxy) {
+    public static String readStringFromURL(String url, MyProxy myProxyproxy, Proxy recursProxy) {
         InputStream urlCon;
         try {
             urlCon = new URL(url).openConnection(myProxyproxy.getProxy()).getInputStream();
