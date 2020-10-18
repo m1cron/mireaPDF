@@ -55,14 +55,19 @@ public class Github extends UtilsForIO {
         if (!path.equals("")) {
             codeArr.add("\t\n\n<strong>" + path + "</strong>\n\n");
         }
-        String[] temp = codeBuff.split("/(\n)/");
-        for(String s : temp)
-            System.out.println(s);
-        Collections.addAll(codeArr, temp);
+        Collections.addAll(codeArr, codeBuff.split("(?=\n)"));
     }
 
     private void splitAdd(String codeBuff) {
-        Collections.addAll(codeArr, codeBuff.split("/(\n)/"));
+        Collections.addAll(codeArr, codeBuff.split("(?=\n)"));
+    }
+
+    private String formatWidth(String str) {
+        final short maxWidth = 110;      /*                <<------ page maxWidth content change HERE */
+        if (str.length() > maxWidth) {
+            return str.substring(0, maxWidth) + "\n" + str.substring(maxWidth);
+        }
+        return str;
     }
 
     private void getFormatCode() {
@@ -72,7 +77,7 @@ public class Github extends UtilsForIO {
         code.append(divStart).append("\t<h2 class=\"h2\">Код</h2>");
         short count = 4;
         for (String s : codeArr) {
-            code.append(s);
+            code.append(formatWidth(s));
             if (count == 53) {      /*                      <<------ page maxHeight content change HERE */
                 code.append(divEnd).append(divStart);
                 count = 0;
