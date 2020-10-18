@@ -14,14 +14,16 @@ public class MyProxy extends UtilsForIO {
     private int port;
     private int proxyMode;
     private Proxy proxy;
+    private final String proxyPing;
 
-    public MyProxy(Gson gson) {
+    public MyProxy(Gson gson, String proxyPing) {
         this.gson = gson;
+        this.proxyPing = proxyPing;
     }
 
     private void TakeProxyInfo() {
-        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&ping=100&uptime=70&not_country=cn,nl,us&last_check=600";                  // << ---- proxy max ping switch
-        JsonArray proxy = gson.fromJson(UtilsForIO.readStringFromURL(proxyApi), JsonArray.class);
+        String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&uptime=70&not_country=cn,nl,us&last_check=600&ping=";
+        JsonArray proxy = gson.fromJson(UtilsForIO.readStringFromURL(proxyApi + proxyPing), JsonArray.class);
         JsonObject proxyObj = (JsonObject) proxy.get(0);
 
         ip = proxyObj.get("Ip").toString().replace("\"", " ").trim();

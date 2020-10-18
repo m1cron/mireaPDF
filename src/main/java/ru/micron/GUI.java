@@ -6,7 +6,6 @@ import ru.micron.json.StudentJson;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +62,13 @@ public class GUI {
         JCheckBox useProxy = new JCheckBox("Прокси?");
         useProxy.setHorizontalTextPosition(SwingConstants.LEFT);
 
+        JTextArea pingText = new JTextArea("Ping:");
+        pingText.setBackground(panel.getBackground());
+        pingText.setEditable(false);
+
+        JTextField proxyPing = new JTextField("100", 3);
+        proxyPing.setBackground(Color.WHITE);
+
         JButton createPdf = new JButton("Создать PDF");
 
         panel.add(teacher);
@@ -77,6 +83,8 @@ public class GUI {
         panel.add(new JScrollPane(conclusion_content));
         panel.add(new JScrollPane(literature_content));
 
+        panel.add(pingText);
+        panel.add(proxyPing);
         panel.add(useProxy);
         panel.add(createPdf);
         panel.add(checkMakeDocx);
@@ -103,7 +111,7 @@ public class GUI {
                                         group.getText(),
                                         teacher.getText());
 
-            map.put("code", new Github(code.getText(), useProxy.isSelected()).getCode());
+            map.put("code", new Github(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCode());
 
             new MakeHtml("./templates", "index.ftl")
                     .makeHtml(map, "./index.html");

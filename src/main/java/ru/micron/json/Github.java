@@ -26,13 +26,13 @@ public class Github extends UtilsForIO {
     private boolean flag0 = true;
     private final boolean useProxy;
 
-    public Github(String codeOrUrl, boolean useProxy) {
+    public Github(String codeOrUrl, boolean useProxy, String proxyPing) {
         this.useProxy = useProxy;
         code = new StringBuffer();
         if (codeOrUrl.contains("github.com/")) {
             gson = new Gson();
             if (useProxy) {
-                myProxy = new MyProxy(gson);
+                myProxy = new MyProxy(gson, proxyPing);
                 myProxy.getNewProxy();
             }
             recursSearchGit(parseUrl(codeOrUrl));
