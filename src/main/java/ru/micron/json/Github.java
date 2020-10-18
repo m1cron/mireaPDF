@@ -63,9 +63,10 @@ public class Github extends UtilsForIO {
     }
 
     private String formatWidth(String str) {
-        final short maxWidth = 110;      /*                <<------ page maxWidth content change HERE */
+        final short maxWidth = 65;      /*                <<------ page maxWidth content change HERE */
         if (str.length() > maxWidth) {
-            return str.substring(0, maxWidth) + "\n" + str.substring(maxWidth);
+            String buf = str.substring(maxWidth);
+            return str.substring(0, maxWidth) + "\n" + formatWidth(buf);
         }
         return str;
     }
@@ -78,7 +79,7 @@ public class Github extends UtilsForIO {
         short count = 4;
         for (String s : codeArr) {
             code.append(formatWidth(s));
-            if (count == 53) {      /*                      <<------ page maxHeight content change HERE */
+            if (count == 45) {      /*                      <<------ page maxHeight content change HERE */
                 code.append(divEnd).append(divStart);
                 count = 0;
             }

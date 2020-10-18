@@ -57,8 +57,8 @@
         }
 
         .code {
-            font-size: 9.5pt;
-            font-family: Consolas, serif;
+            font-size: 12pt;
+            font-family: "Courier New", serif;
         }
 
         .running-title {
