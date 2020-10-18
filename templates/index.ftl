@@ -159,7 +159,7 @@
         }
 
         .titul > .container > .bottom {
-            width: 350px;
+            width: 370px;
             margin-left: 40px;
         }
 
