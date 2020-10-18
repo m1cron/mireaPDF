@@ -3,6 +3,7 @@ package ru.micron;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import ru.micron.utils.UtilsForIO;
 
 import java.io.File;
@@ -19,7 +20,9 @@ public class MakeDocuments {
             System.setProperty("webdriver.chrome.driver", "./drivers/chromedriverUnix");
         else if (opSys.contains("mac"))
             System.setProperty("webdriver.chrome.driver", "./drivers/chromedriverMac");
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(new ChromeOptions()
+                                        .addArguments("window-size=800,600")
+                                        .addArguments("window-position=-1920,0"));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
