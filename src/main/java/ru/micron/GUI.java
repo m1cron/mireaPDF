@@ -6,6 +6,7 @@ import ru.micron.json.StudentJson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +16,7 @@ public class GUI {
 
     public GUI() throws HeadlessException {
         frame = new JFrame("MIREA PDF");
-        ImageIcon img = new ImageIcon("java.png");
-        frame.setIconImage(img.getImage());
+        frame.setIconImage(new ImageIcon(ClassLoader.getSystemResource("./icon.png")).getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(700, 460));
