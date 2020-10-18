@@ -35,7 +35,7 @@ public class StudentJson extends UtilsForIO {
         try {
             return gson.fromJson(readFile(studentJsonName), StudentInfo.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Json is missing!");
         }
         return null;
     }
