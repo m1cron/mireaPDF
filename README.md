@@ -3,6 +3,7 @@
 ### `Installing`
 
 ```
+step 0: install the Chrome Driver and put it in /usr/bin    <--- if Unix systems
 $ git clone https://github.com/m1cron/mireaPDF
 $ cd mireaPDF
 $ mvn package
