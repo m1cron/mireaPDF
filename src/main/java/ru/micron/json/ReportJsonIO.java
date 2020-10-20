@@ -7,22 +7,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-class ReportJson {
-    public String target, theory, step_by_step,conclusion, literature;
-
-    @Override
-    public String toString() {
-        return "ReportJson{" +
-                "target='" + target + '\'' +
-                ", theory='" + theory + '\'' +
-                ", step_by_step='" + step_by_step + '\'' +
-                ", conclusion='" + conclusion + '\'' +
-                ", literature='" + literature + '\'' +
-                '}';
-    }
-}
-
-public class GetJsonFromFile extends UtilsForIO {
+public class ReportJsonIO extends UtilsForIO {
     private static final String fileJson = "theory.json";
 
     public static void parseJson(Map<String, String> map, int pracNum) {
