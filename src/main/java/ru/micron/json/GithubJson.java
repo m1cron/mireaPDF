@@ -1,7 +1,11 @@
 package ru.micron.json;
 
 public class GithubJson {
-    private String name, path, url, download_url, type;
+    private final String name;
+    private final String path;
+    private final String url;
+    private final String download_url;
+    private final String type;
 
     public GithubJson(String name, String path, String url, String download_url, String type) {
         this.name = name;

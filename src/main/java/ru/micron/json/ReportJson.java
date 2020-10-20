@@ -1,7 +1,11 @@
 package ru.micron.json;
 
 public class ReportJson {
-    private String target, theory, step_by_step,conclusion, literature;
+    private final String target;
+    private final String theory;
+    private final String step_by_step;
+    private final String conclusion;
+    private final String literature;
 
     public ReportJson(String target, String theory, String step_by_step, String conclusion, String literature) {
         this.target = target;
