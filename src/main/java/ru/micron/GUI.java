@@ -4,6 +4,8 @@ import ru.micron.json.ReportJson;
 import ru.micron.json.StudentJson;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,37 +31,37 @@ public class GUI {
     }
 
     public void run() {
-        StudentJson studInfo = studentJsonIO.getStudentJson();
-        ReportJson report = reportJsonIO.getReportJson();
+        StudentJson studentJson = studentJsonIO.getStudentJson();
+        ReportJson reportJson = reportJsonIO.getReportJson();
 
-        JTextField teacher = new JTextField(studInfo.getTchName(), 20);
+        JTextField teacher = new JTextField(studentJson.getTchName(), 20);
         teacher.setBackground(Color.WHITE);
 
-        JTextField student = new JTextField(studInfo.getStudName(), 20);
+        JTextField student = new JTextField(studentJson.getStudName(), 20);
         student.setBackground(Color.WHITE);
 
-        JTextField group = new JTextField(studInfo.getGroupNum(), 14);
+        JTextField group = new JTextField(studentJson.getGroupNum(), 14);
         group.setBackground(Color.WHITE);
 
         JTextField prac_number = new JTextField("№", 5);
         prac_number.setBackground(Color.WHITE);
 
-        JTextArea target_content = new JTextArea(report.getTarget(), 10, 20);
+        JTextArea target_content = new JTextArea(reportJson.getTarget(), 10, 20);
         target_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea teor_content = new JTextArea(report.getTheory(), 10, 20);
+        JTextArea teor_content = new JTextArea(reportJson.getTheory(), 10, 20);
         teor_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea step_by_step = new JTextArea(report.getStep_by_step(), 10, 20);
+        JTextArea step_by_step = new JTextArea(reportJson.getStep_by_step(), 10, 20);
         step_by_step.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea code = new JTextArea(report.getCode(), 10, 20);
+        JTextArea code = new JTextArea(reportJson.getCode(), 10, 20);
         code.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea conclusion_content = new JTextArea(report.getConclusion(), 10, 20);
+        JTextArea conclusion_content = new JTextArea(reportJson.getConclusion(), 10, 20);
         conclusion_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea literature_content = new JTextArea(report.getLiterature(), 10, 20);
+        JTextArea literature_content = new JTextArea(reportJson.getLiterature(), 10, 20);
         literature_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
         JCheckBox checkMakeDocx = new JCheckBox("Делать DOCX?");
@@ -100,6 +102,13 @@ public class GUI {
             map.put("teacher", teacher.getText());
             map.put("student", student.getText());
             map.put("group", group.getText());
+
+            studentJson.setGroupNum(group.getText());
+            studentJson.setStudName(student.getText());
+            studentJson.setTchName(teacher.getText());
+
+            studentJsonIO.saveJson(studentJson);
+
             map.put("prac_number", prac_number.getText());
             map.put("target_content", target_content.getText());
             map.put("teor_content", teor_content.getText());
@@ -107,17 +116,21 @@ public class GUI {
             map.put("conclusion_content", conclusion_content.getText());
             map.put("literature_content", literature_content.getText());
 
+            reportJson.setTarget(target_content.getText());
+            reportJson.setTheory(teor_content.getText());
+            reportJson.setStep_by_step(step_by_step.getText());
+            reportJson.setConclusion(conclusion_content.getText());
+            reportJson.setLiterature(literature_content.getText());
+            reportJson.setCode(code.getText());
+
+            reportJsonIO.saveJson(reportJson);
+
+            map.put("code", new Github(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCode());
+
             GetDate date = new GetDate();
             map.put("day", date.getDay());
             map.put("month", date.getMonth());
             map.put("year", date.getYear());
-
-            studentJsonIO.saveJson(new StudentJson(student.getText(),
-                                                    group.getText(),
-                                                    teacher.getText()));
-            //reportJsonIO.
-
-            map.put("code", new Github(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCode());
 
             new MakeHtml("./templates", "index.ftl")
                     .makeHtml(map, "./index.html");
