@@ -35,7 +35,7 @@ public class StudentJsonIO extends JsonIO {
             return gson.fromJson(UtilsForIO.readFile(studentJsonName), StudentJson.class);
         } catch (IOException e) {
             System.out.println("Student json doesn't exist!");
+            return new StudentJson("Преподаватель","Студент", "Группа");
         }
-        return null;
     }
 }

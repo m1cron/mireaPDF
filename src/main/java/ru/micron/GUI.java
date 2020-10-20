@@ -24,16 +24,16 @@ public class GUI {
     }
 
     public void run() {
-        StudentJson info = new StudentJsonIO().getStudentInfo();
+        StudentJson studInfo = new StudentJsonIO().getStudentInfo();
         ReportJson report = new ReportJsonIO().getReportJson();
 
-        JTextField teacher = new JTextField(info == null ? "Преподаватель" : info.getTchName(), 20);
+        JTextField teacher = new JTextField(studInfo.getTchName(), 20);
         teacher.setBackground(Color.WHITE);
 
-        JTextField student = new JTextField(info == null ? "Студент" : info.getStudName(), 20);
+        JTextField student = new JTextField(studInfo.getStudName(), 20);
         student.setBackground(Color.WHITE);
 
-        JTextField group = new JTextField(info == null ? "Группа" : info.getGroupNum(), 14);
+        JTextField group = new JTextField(studInfo.getGroupNum(), 14);
         group.setBackground(Color.WHITE);
 
         JTextField prac_number = new JTextField("№", 5);
