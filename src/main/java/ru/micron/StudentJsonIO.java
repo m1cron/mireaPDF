@@ -1,6 +1,6 @@
 package ru.micron;
 
-import com.google.gson.Gson;
+import ru.micron.json.JsonIO;
 import ru.micron.json.StudentJson;
 import ru.micron.utils.UtilsForIO;
 
@@ -8,11 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-public class StudentJsonIO extends UtilsForIO {
+public class StudentJsonIO extends JsonIO {
     private static final String studentJsonName = "info.json";
 
-    public static void saveStudentJson(String studName, String groupNum, String tchName) {
-        Gson gson = new Gson();
+    public void saveStudentJson(String studName, String groupNum, String tchName) {
         try {
             FileWriter file = new FileWriter(studentJsonName);
             gson.toJson(new StudentJson(studName, tchName, groupNum), file);
@@ -22,7 +21,7 @@ public class StudentJsonIO extends UtilsForIO {
         }
     }
 
-    public static void getStudentJson(Map<String, String> map) {
+    public void getStudentJson(Map<String, String> map) {
         StudentJson info;
         if ((info = getStudentInfo()) != null) {
             map.put("student", info.getStudName());
@@ -31,12 +30,11 @@ public class StudentJsonIO extends UtilsForIO {
         }
     }
 
-    public static StudentJson getStudentInfo() {
-        Gson gson = new Gson();
+    public StudentJson getStudentInfo() {
         try {
-            return gson.fromJson(readFile(studentJsonName), StudentJson.class);
+            return gson.fromJson(UtilsForIO.readFile(studentJsonName), StudentJson.class);
         } catch (IOException e) {
-            System.out.println("Json is missing!");
+            System.out.println("Student json doesn't exist!");
         }
         return null;
     }

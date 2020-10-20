@@ -1,5 +1,6 @@
 package ru.micron;
 
+import ru.micron.json.ReportJson;
 import ru.micron.json.StudentJson;
 
 import javax.swing.*;
@@ -23,7 +24,8 @@ public class GUI {
     }
 
     public void run() {
-        StudentJson info = StudentJsonIO.getStudentInfo();
+        StudentJson info = new StudentJsonIO().getStudentInfo();
+        ReportJson report = new ReportJsonIO().getReportJson();
 
         JTextField teacher = new JTextField(info == null ? "Преподаватель" : info.getTchName(), 20);
         teacher.setBackground(Color.WHITE);
@@ -37,22 +39,22 @@ public class GUI {
         JTextField prac_number = new JTextField("№", 5);
         prac_number.setBackground(Color.WHITE);
 
-        JTextArea target_content = new JTextArea("Цель работы", 10, 20);
+        JTextArea target_content = new JTextArea(report.getTarget(), 10, 20);
         target_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea teor_content = new JTextArea("Теоретическое введение", 10, 20);
+        JTextArea teor_content = new JTextArea(report.getTheory(), 10, 20);
         teor_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea step_by_step = new JTextArea("Ход работы", 10, 20);
+        JTextArea step_by_step = new JTextArea(report.getStep_by_step(), 10, 20);
         step_by_step.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea code = new JTextArea("Код с GitHub или ссылка", 10, 20);
+        JTextArea code = new JTextArea(report.getCode(), 10, 20);
         code.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea conclusion_content = new JTextArea("Вывод", 10, 20);
+        JTextArea conclusion_content = new JTextArea(report.getConclusion(), 10, 20);
         conclusion_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea literature_content = new JTextArea("Используемая литература", 10, 20);
+        JTextArea literature_content = new JTextArea(report.getLiterature(), 10, 20);
         literature_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
         JCheckBox checkMakeDocx = new JCheckBox("Делать DOCX?");
@@ -105,7 +107,7 @@ public class GUI {
             map.put("month", date.getMonth());
             map.put("year", date.getYear());
 
-            StudentJsonIO.saveStudentJson(student.getText(),
+            new StudentJsonIO().saveStudentJson(student.getText(),
                                         group.getText(),
                                         teacher.getText());
 

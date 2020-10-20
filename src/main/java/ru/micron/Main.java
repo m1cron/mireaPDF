@@ -15,7 +15,7 @@ public class Main {
             if (args[0].compareTo("-json") != 0)
                 printHelp();
             else
-                StudentJsonIO.saveStudentJson(args[1], args[2], args[3]);
+                new StudentJsonIO().saveStudentJson(args[1], args[2], args[3]);
         } else if (args.length == 3) {
             if (args[0].compareTo("-make") != 0)
                 printHelp();
