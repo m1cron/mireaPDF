@@ -21,7 +21,7 @@ public class MakeDocuments {
         else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix"))
             System.setProperty(driverName, "/usr/bin/chromedriver");
         else if (opSys.contains("mac"))
-            System.setProperty(driverName, "./drivers/chromedriverMac");
+            System.setProperty(driverName, "/usr/local/bin/chromedriver");
         driver = new ChromeDriver(new ChromeOptions()
                                         .addArguments("window-size=800,600")
                                         .addArguments("window-position=-1920,10"));
