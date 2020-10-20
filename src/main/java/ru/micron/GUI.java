@@ -18,10 +18,10 @@ public class GUI {
         frame.setIconImage(new ImageIcon("./icon.png").getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new JPanel();
-        panel.setPreferredSize(new Dimension(700, 460));
+        panel.setPreferredSize(new Dimension(825, 490));
         frame.add(panel);
         frame.pack();
-        frame.setResizable(false);
+        frame.setResizable(true);
     }
 
     public void run() {

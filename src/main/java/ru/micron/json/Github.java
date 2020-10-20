@@ -65,8 +65,7 @@ public class Github extends UtilsForIO {
     private String formatWidth(String str) {
         final short maxWidth = 65;      /*                <<------ page maxWidth content change HERE */
         if (str.length() > maxWidth) {
-            String buf = str.substring(maxWidth);
-            return str.substring(0, maxWidth) + "\n" + formatWidth(buf);
+            return str.substring(0, maxWidth) + "\n" + formatWidth(str.substring(maxWidth));
         }
         return str;
     }
@@ -89,8 +88,9 @@ public class Github extends UtilsForIO {
     }
 
     public void recursSearchGit(String url) {
-        String json = useProxy ? UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy()) :
-                                    UtilsForIO.readStringFromURL(url);
+        String json = useProxy ?
+                            UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy()) :
+                            UtilsForIO.readStringFromURL(url);
         try {
             JsonFields[] roots = gson.fromJson(json, JsonFields[].class);
             for (JsonFields root : roots) {
