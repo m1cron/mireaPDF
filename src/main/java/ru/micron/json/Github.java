@@ -7,21 +7,6 @@ import ru.micron.utils.UtilsForIO;
 import java.util.ArrayList;
 import java.util.Collections;
 
-class GithubJson {
-    public String name, path, url, download_url, type;
-
-    @Override
-    public String toString() {
-        return "Json{" +
-                "name='" + name + '\'' +
-                ", path='" + path + '\'' +
-                ", url='" + url + '\'' +
-                ", download_url='" + download_url + '\'' +
-                ", type='" + type + '\'' +
-                '}';
-    }
-}
-
 public class Github extends UtilsForIO {
     private final StringBuffer code;
     private Gson gson;
