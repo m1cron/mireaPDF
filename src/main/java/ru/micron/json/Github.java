@@ -7,7 +7,7 @@ import ru.micron.utils.UtilsForIO;
 import java.util.ArrayList;
 import java.util.Collections;
 
-class JsonFields {
+class GithubJson {
     public String name, path, url, download_url, type;
 
     @Override
@@ -92,8 +92,8 @@ public class Github extends UtilsForIO {
                             UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy()) :
                             UtilsForIO.readStringFromURL(url);
         try {
-            JsonFields[] roots = gson.fromJson(json, JsonFields[].class);
-            for (JsonFields root : roots) {
+            GithubJson[] roots = gson.fromJson(json, GithubJson[].class);
+            for (GithubJson root : roots) {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
@@ -107,7 +107,7 @@ public class Github extends UtilsForIO {
                 }
             }
         } catch (JsonParseException e) {
-            JsonFields root = gson.fromJson(json, JsonFields.class);
+            GithubJson root = gson.fromJson(json, GithubJson.class);
             if (root.path.contains(".java")) {
                 splitAdd(root.path,
                                     useProxy ?
