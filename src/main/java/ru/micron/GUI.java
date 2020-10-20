@@ -11,6 +11,8 @@ import java.util.Map;
 public class GUI {
     private final JFrame frame;
     private final JPanel panel;
+    private final StudentJsonIO studentJsonIO;
+    private final ReportJsonIO reportJsonIO;
 
     public GUI() throws HeadlessException {
         frame = new JFrame("MIREA PDF");
@@ -21,11 +23,14 @@ public class GUI {
         frame.add(panel);
         frame.pack();
         frame.setResizable(true);
+
+        studentJsonIO = new StudentJsonIO();
+        reportJsonIO = new ReportJsonIO();
     }
 
     public void run() {
-        StudentJson studInfo = new StudentJsonIO().getStudentInfo();
-        ReportJson report = new ReportJsonIO().getReportJson();
+        StudentJson studInfo = studentJsonIO.getStudentInfo();
+        ReportJson report = reportJsonIO.getReportJson();
 
         JTextField teacher = new JTextField(studInfo.getTchName(), 20);
         teacher.setBackground(Color.WHITE);
@@ -107,7 +112,7 @@ public class GUI {
             map.put("month", date.getMonth());
             map.put("year", date.getYear());
 
-            new StudentJsonIO().saveStudentJson(student.getText(),
+            studentJsonIO.saveStudentJson(student.getText(),
                                         group.getText(),
                                         teacher.getText());
 

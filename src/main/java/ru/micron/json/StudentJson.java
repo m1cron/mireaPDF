@@ -1,9 +1,9 @@
 package ru.micron.json;
 
 public class StudentJson {
-    private final String studName;
-    private final String tchName;
-    private final String groupNum;
+    private String studName;
+    private String tchName;
+    private String groupNum;
 
     public StudentJson(String studName, String tchName, String groupNum) {
         this.studName = studName;
@@ -21,6 +21,18 @@ public class StudentJson {
 
     public String getGroupNum() {
         return groupNum;
+    }
+
+    public void setStudName(String studName) {
+        this.studName = studName;
+    }
+
+    public void setTchName(String tchName) {
+        this.tchName = tchName;
+    }
+
+    public void setGroupNum(String groupNum) {
+        this.groupNum = groupNum;
     }
 
     @Override
