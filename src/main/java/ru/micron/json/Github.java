@@ -97,15 +97,23 @@ public class Github extends UtilsForIO {
                 if (root.type.equals("dir")) {
                     recursSearchGit(root.url);
                 } else if (root.download_url != null) {
-                    System.out.println("download " + root.path);
-                    splitAdd(root.path, useProxy ? UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
-                                                    UtilsForIO.readStringFromURL(root.download_url));
+                    if (root.path.contains(".java")) {
+                        System.out.println("download " + root.path);
+                        splitAdd(root.path,
+                                            useProxy ?
+                                                UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
+                                                UtilsForIO.readStringFromURL(root.download_url));
+                    }
                 }
             }
         } catch (JsonParseException e) {
             JsonFields root = gson.fromJson(json, JsonFields.class);
-            splitAdd(root.path, useProxy ? UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
-                                            UtilsForIO.readStringFromURL(root.download_url));
+            if (root.path.contains(".java")) {
+                splitAdd(root.path,
+                                    useProxy ?
+                                        UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
+                                        UtilsForIO.readStringFromURL(root.download_url));
+            }
         }
     }
 

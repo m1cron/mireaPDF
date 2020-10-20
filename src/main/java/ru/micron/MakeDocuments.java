@@ -19,7 +19,7 @@ public class MakeDocuments {
         if (opSys.contains("win"))
             System.setProperty(driverName, "./drivers/chromedriver.exe");
         else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix"))
-            System.setProperty(driverName, "./drivers/chromedriverUnix");
+            System.setProperty(driverName, "/usr/bin/chromedriver");
         else if (opSys.contains("mac"))
             System.setProperty(driverName, "./drivers/chromedriverMac");
         driver = new ChromeDriver(new ChromeOptions()
