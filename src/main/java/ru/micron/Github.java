@@ -80,25 +80,25 @@ public class Github extends UtilsForIO {
         try {
             GithubJson[] roots = gson.fromJson(json, GithubJson[].class);
             for (GithubJson root : roots) {
-                if (root.type.equals("dir")) {
-                    recursSearchGit(root.url);
-                } else if (root.download_url != null) {
-                    if (root.path.contains(".java")) {
-                        System.out.println("download " + root.path);
-                        splitAdd(root.path,
+                if (root.getType().equals("dir")) {
+                    recursSearchGit(root.getUrl());
+                } else if (root.getDownload_url() != null) {
+                    if (root.getPath().contains(".java")) {
+                        System.out.println("download " + root.getPath());
+                        splitAdd(root.getPath(),
                                             useProxy ?
-                                                UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
-                                                UtilsForIO.readStringFromURL(root.download_url));
+                                                UtilsForIO.readStringFromURL(root.getDownload_url(), myProxy, myProxy.getProxy()) :
+                                                UtilsForIO.readStringFromURL(root.getDownload_url()));
                     }
                 }
             }
         } catch (JsonParseException e) {
             GithubJson root = gson.fromJson(json, GithubJson.class);
-            if (root.path.contains(".java")) {
-                splitAdd(root.path,
+            if (root.getPath().contains(".java")) {
+                splitAdd(root.getPath(),
                                     useProxy ?
-                                        UtilsForIO.readStringFromURL(root.download_url, myProxy, myProxy.getProxy()) :
-                                        UtilsForIO.readStringFromURL(root.download_url));
+                                        UtilsForIO.readStringFromURL(root.getDownload_url(), myProxy, myProxy.getProxy()) :
+                                        UtilsForIO.readStringFromURL(root.getDownload_url()));
             }
         }
     }

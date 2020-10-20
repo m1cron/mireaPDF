@@ -5,7 +5,7 @@ public class StudentJson {
     private final String tchName;
     private final String groupNum;
 
-    StudentJson(String studName, String tchName, String groupNum) {
+    public StudentJson(String studName, String tchName, String groupNum) {
         this.studName = studName;
         this.tchName = tchName;
         this.groupNum = groupNum;

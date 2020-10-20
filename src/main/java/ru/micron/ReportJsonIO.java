@@ -17,11 +17,11 @@ public class ReportJsonIO extends UtilsForIO {
             ReportJson[] arr = gson.fromJson(readFileFromRes(fileJson, Charset.defaultCharset()), ReportJson[].class);
             ReportJson obj = arr[pracNum];
             map.put("prac_number", Integer.toString(pracNum));
-            map.put("target_content", obj.target);
-            map.put("teor_content", obj.theory);
-            map.put("step_by_step", obj.step_by_step);
-            map.put("conclusion_content", obj.conclusion);
-            map.put("literature_content", obj.literature);
+            map.put("target_content", obj.getTarget());
+            map.put("teor_content", obj.getTheory());
+            map.put("step_by_step", obj.getStep_by_step());
+            map.put("conclusion_content", obj.getConclusion());
+            map.put("literature_content", obj.getLiterature());
         } catch (IOException e) {
             e.printStackTrace();
         }
