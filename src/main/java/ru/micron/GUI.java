@@ -1,7 +1,5 @@
 package ru.micron;
 
-import ru.micron.json.Github;
-import ru.micron.json.StudentInfo;
 import ru.micron.json.StudentJson;
 
 import javax.swing.*;
@@ -25,7 +23,7 @@ public class GUI {
     }
 
     public void run() {
-        StudentInfo info = StudentJson.getStudentInfo();
+        StudentJson info = StudentJsonIO.getStudentInfo();
 
         JTextField teacher = new JTextField(info == null ? "Преподаватель" : info.getTchName(), 20);
         teacher.setBackground(Color.WHITE);
@@ -107,7 +105,7 @@ public class GUI {
             map.put("month", date.getMonth());
             map.put("year", date.getYear());
 
-            StudentJson.saveStudentJson(student.getText(),
+            StudentJsonIO.saveStudentJson(student.getText(),
                                         group.getText(),
                                         teacher.getText());
 

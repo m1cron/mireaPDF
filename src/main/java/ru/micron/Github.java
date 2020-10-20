@@ -1,7 +1,8 @@
-package ru.micron.json;
+package ru.micron;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import ru.micron.json.GithubJson;
 import ru.micron.utils.UtilsForIO;
 
 import java.util.ArrayList;

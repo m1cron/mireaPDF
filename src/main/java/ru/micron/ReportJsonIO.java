@@ -1,6 +1,7 @@
-package ru.micron.json;
+package ru.micron;
 
 import com.google.gson.*;
+import ru.micron.json.ReportJson;
 import ru.micron.utils.UtilsForIO;
 
 import java.io.IOException;

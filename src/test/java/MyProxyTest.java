@@ -1,5 +1,5 @@
 import com.google.gson.Gson;
-import ru.micron.json.MyProxy;
+import ru.micron.MyProxy;
 import ru.micron.utils.UtilsForIO;
 
 public class MyProxyTest {

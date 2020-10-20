@@ -1,7 +1,5 @@
 package ru.micron;
 
-import ru.micron.json.StudentJson;
-
 public class Main {
 
     public static void printHelp() {
@@ -17,7 +15,7 @@ public class Main {
             if (args[0].compareTo("-json") != 0)
                 printHelp();
             else
-                StudentJson.saveStudentJson(args[1], args[2], args[3]);
+                StudentJsonIO.saveStudentJson(args[1], args[2], args[3]);
         } else if (args.length == 3) {
             if (args[0].compareTo("-make") != 0)
                 printHelp();

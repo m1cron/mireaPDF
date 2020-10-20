@@ -1,9 +1,5 @@
 package ru.micron;
 
-import ru.micron.json.Github;
-import ru.micron.json.ReportJsonIO;
-import ru.micron.json.StudentJson;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +15,7 @@ public class MakeMap {
         map.put("month", date.getMonth());
         map.put("year", date.getYear());
 
-        StudentJson.getStudentJson(map);
+        StudentJsonIO.getStudentJson(map);
         ReportJsonIO.parseJson(map, pracNum);
         map.put("code", new Github(code, false, "100").getCode());
     }

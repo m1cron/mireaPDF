@@ -3,8 +3,8 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ru.micron.GetDate;
-import ru.micron.json.ReportJsonIO;
-import ru.micron.json.StudentJson;
+import ru.micron.ReportJsonIO;
+import ru.micron.StudentJsonIO;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -26,7 +26,7 @@ public class MakeHtmlTest {
 
         map.put("step_by_step", "test"); // ?
 
-        StudentJson.getStudentJson(map);
+        StudentJsonIO.getStudentJson(map);
         ReportJsonIO.parseJson(map, pracNum);
 
         map.put("code", "2734253457");

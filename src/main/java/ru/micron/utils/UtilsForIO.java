@@ -2,7 +2,7 @@ package ru.micron.utils;
 
 import com.google.common.io.Resources;
 import org.apache.commons.io.FileUtils;
-import ru.micron.json.MyProxy;
+import ru.micron.MyProxy;
 
 import java.io.*;
 import java.net.Proxy;
