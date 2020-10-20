@@ -15,7 +15,7 @@ public class MakeMap {
         map.put("month", date.getMonth());
         map.put("year", date.getYear());
 
-        new StudentJsonIO().getStudentJson(map);
+        new StudentJsonIO().fillStudentMap(map);
         new ReportJsonIO().parseJson(map, pracNum);
         map.put("code", new Github(code, false, "100").getCode());
     }

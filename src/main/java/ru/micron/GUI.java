@@ -29,7 +29,7 @@ public class GUI {
     }
 
     public void run() {
-        StudentJson studInfo = studentJsonIO.getStudentInfo();
+        StudentJson studInfo = studentJsonIO.getStudentJson();
         ReportJson report = reportJsonIO.getReportJson();
 
         JTextField teacher = new JTextField(studInfo.getTchName(), 20);
@@ -112,9 +112,10 @@ public class GUI {
             map.put("month", date.getMonth());
             map.put("year", date.getYear());
 
-            studentJsonIO.saveStudentJson(student.getText(),
-                                        group.getText(),
-                                        teacher.getText());
+            studentJsonIO.saveJson(new StudentJson(student.getText(),
+                                                    group.getText(),
+                                                    teacher.getText()));
+            //reportJsonIO.
 
             map.put("code", new Github(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCode());
 

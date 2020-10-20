@@ -1,21 +1,40 @@
 package ru.micron;
 
-import ru.micron.json.JsonIO;
+import com.google.gson.Gson;
 import ru.micron.json.ReportJson;
 import ru.micron.utils.UtilsForIO;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-public class ReportJsonIO extends JsonIO {
+public class ReportJsonIO implements JsonIO<ReportJson> {
+    private static Gson gson;
     private static final String fileJson = "theory.json";
     private static final String fileJson0 = "report.json";
     private static ReportJson reportJson;
 
     public ReportJsonIO() {
+        gson = new Gson();
+        reportJson = getJson();
+    }
+
+    @Override
+    public void saveJson(ReportJson obj) {
         try {
-            reportJson = gson.fromJson(UtilsForIO.readFile(fileJson0), ReportJson.class);
+            FileWriter file = new FileWriter(fileJson0);
+            gson.toJson(obj, file);
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public ReportJson getJson() {
+        try {
+            return reportJson = gson.fromJson(UtilsForIO.readFile(fileJson0), ReportJson.class);
         } catch (IOException e) {
             System.out.println("Report json doesn't exist!");
             reportJson = new ReportJson(
@@ -25,14 +44,13 @@ public class ReportJsonIO extends JsonIO {
                     "Код с GitHub или ссылка",
                     "Вывод",
                     "Используемая литература");
+            return reportJson;
         }
     }
 
     public ReportJson getReportJson() {
         return reportJson;
     }
-
-
 
     public void parseJson(Map<String, String> map, int pracNum) {
         try {
@@ -47,9 +65,5 @@ public class ReportJsonIO extends JsonIO {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new ReportJsonIO().getReportJson());
     }
 }
