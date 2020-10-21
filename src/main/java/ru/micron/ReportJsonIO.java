@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class ReportJsonIO implements JsonIO<ReportJson> {
     private static Gson gson;
-    private static final String fileJson = "theory.json";
     private static final String fileJson0 = "report.json";
     private static ReportJson reportJson;
 
