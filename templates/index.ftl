@@ -57,7 +57,7 @@
         }
 
         .code {
-            font-size: 12pt;
+            font-size: 10.5pt;
             font-family: "Courier New", serif;
         }
 
