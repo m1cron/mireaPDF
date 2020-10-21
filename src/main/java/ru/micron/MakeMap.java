@@ -1,5 +1,9 @@
 package ru.micron;
 
+import ru.micron.json.ReportJson;
+import ru.micron.utils.UtilsForIO;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +20,16 @@ public class MakeMap {
         map.put("year", date.getYear());
 
         new StudentJsonIO().fillStudentMap(map);
-        new ReportJsonIO().parseJson(map, pracNum);
+        ReportJson report = new ReportJsonIO().getReportJson();
+
+        map.put("prac_number", Integer.toString(pracNum));
+        map.put("target_content", report.getTarget());
+        map.put("teor_content", report.getTheory());
+        map.put("step_by_step", report.getStep_by_step());
+        map.put("conclusion_content", report.getConclusion());
+        map.put("literature_content", report.getLiterature());
+
+
         map.put("code", new Github(code, false, "100").getCode());
     }
 

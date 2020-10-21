@@ -1,6 +1,5 @@
 package ru.micron.utils;
 
-import com.google.common.io.Resources;
 import org.apache.commons.io.FileUtils;
 import ru.micron.MyProxy;
 
@@ -15,15 +14,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 abstract public class UtilsForIO {
-
-    public static String readFileFromRes(final String fileName, Charset charset) throws IOException {
-        return Resources.toString(Resources.getResource(fileName), charset);
-    }
-
-    public static void writeFile(String fileDir, String str) throws IOException {
-        Path fileName = Path.of(fileDir);
-        Files.writeString(fileName, str);
-    }
 
     public static String readFile(String fileDir) throws IOException {
         Path fileName = Path.of(fileDir);
