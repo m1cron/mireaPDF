@@ -40,10 +40,6 @@ public class StudentJsonIO implements JsonIO<StudentJson> {
         }
     }
 
-    public StudentJson getStudentJson() {
-        return studentJson;
-    }
-
     @Override
     public void fillMap(Map<String, String> map) {
         StudentJson info;
@@ -52,5 +48,9 @@ public class StudentJsonIO implements JsonIO<StudentJson> {
             map.put("group", info.getGroupNum());
             map.put("teacher", info.getTchName());
         }
+    }
+
+    public StudentJson getStudentJson() {
+        return studentJson;
     }
 }

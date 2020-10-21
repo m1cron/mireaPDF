@@ -22,10 +22,8 @@ public class Main {
             if (args[0].compareTo("-make") != 0)
                 printHelp();
             else {
-                MakeMap map = new MakeMap();
-                map.makeMap(args[2]);
                 new MakeHtml("./templates", "index.ftl")
-                        .makeHtml(map.getMap(), "./index.html");
+                                    .makeHtml(new MakeMap(args[2]).getMap(), "./index.html");
                 MakeDocuments docs = new MakeDocuments();
                 docs.makePdf("./index.html", "pdf.pdf");
                 docs.closeDriver();

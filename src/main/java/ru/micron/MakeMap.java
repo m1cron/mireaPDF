@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MakeMap {
-    private Map<String, String> map;
+    private final Map<String, String> map;
 
-    public void makeMap(String code) {
+    public MakeMap(String code) {
         map = new HashMap<>();
 
         new GetDate().fillMap(map);

@@ -36,6 +36,7 @@ public class Github extends UtilsForIO {
                 }
             });
 
+            formatCode();
         } else {
             splitAdd(codeOrUrl);
         }
@@ -66,7 +67,7 @@ public class Github extends UtilsForIO {
         return str;
     }
 
-    private void getFormatCode() {
+    private void formatCode() {
         String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t\n\t\t<pre class=\"code\">\n";
         String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
 
@@ -103,8 +104,7 @@ public class Github extends UtilsForIO {
                                     UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy()) :
                                     UtilsForIO.readStringFromURL(url);
         try {
-            GithubJson[] jsons = gson.fromJson(stringJson, GithubJson[].class);
-            githubArr.addAll(Arrays.asList(jsons));
+            githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, GithubJson[].class)));
         } catch (JsonParseException e) {
             githubArr.add(gson.fromJson(stringJson, GithubJson.class));
         } finally {
@@ -119,7 +119,6 @@ public class Github extends UtilsForIO {
     }
 
     public String getCode() {
-        getFormatCode();
         return code.toString();
     }
 }
