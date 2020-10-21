@@ -10,8 +10,8 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 abstract public class UtilsForIO {
@@ -56,40 +56,6 @@ abstract public class UtilsForIO {
         }
     }
 
-    public static ArrayList<String> readArrayStringsFromUrl(String url) {
-        ArrayList<String> buf = new ArrayList<>(75);
-
-        InputStream urlCon = null;
-        try {
-            urlCon = new URL(url).openStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert urlCon != null;
-        try (Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\n")) {
-            while (scanner.hasNext())
-                buf.add(scanner.next());
-        }
-        return buf;
-    }
-
-    public static ArrayList<String> readArrayStringsFromUrl(String url, MyProxy myProxyproxy, Proxy recursProxy) {
-        ArrayList<String> buf = new ArrayList<>(75);
-
-        InputStream urlCon = null;
-        try {
-            urlCon = new URL(url).openConnection(myProxyproxy.getProxy()).getInputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert urlCon != null;
-        try (Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\n")) {
-            while (scanner.hasNext())
-                buf.add(scanner.next());
-        }
-        return buf;
-    }
-
     public static void sleep(int sec) {
         try {
             TimeUnit.SECONDS.sleep(sec);
@@ -109,5 +75,18 @@ abstract public class UtilsForIO {
         } catch (IOException e) {
             System.out.println("Download " + fileName + " FAIL!");
         }
+    }
+
+    public static void showThreadsTrace() {
+        Set<Thread> threads = Thread.getAllStackTraces().keySet();
+        System.out.println("====================================");
+        for (Thread t : threads) {
+            String name = t.getName();
+            Thread.State state = t.getState();
+            int priority = t.getPriority();
+            String type = t.isDaemon() ? "Daemon" : "Normal";
+            System.out.printf("%-20s \t %s \t %d \t %s\n", name, state, priority, type);
+        }
+        System.out.println("====================================");
     }
 }

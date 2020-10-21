@@ -18,7 +18,7 @@ public class Github extends UtilsForIO {
     public Github(String codeOrUrl, boolean useProxy, String proxyPing) {
         this.useProxy = useProxy;
         codeArr = new ArrayList<>(500);
-        threadArr = new ArrayList<>(24);//Collections.synchronizedList(new ArrayList<>(24));
+        threadArr = new ArrayList<>(24);
         code = new StringBuffer(5000);
         if (codeOrUrl.contains("github.com/")) {
             gson = new Gson();
@@ -26,7 +26,6 @@ public class Github extends UtilsForIO {
                 myProxy = new MyProxy(gson, proxyPing);
                 myProxy.getNewProxy();
             }
-            System.out.println(Thread.currentThread().getName());
             recursSearchGit(parseUrl(codeOrUrl));
 
             threadArr.forEach(thread -> {
@@ -115,7 +114,6 @@ public class Github extends UtilsForIO {
                 } else if (json.getPath().contains(".java") && json.getDownload_url() != null) {
                     downloadFromGit(json);
                 }
-
             }
         }
     }
