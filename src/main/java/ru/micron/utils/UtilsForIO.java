@@ -30,6 +30,18 @@ abstract public class UtilsForIO {
         return Files.readString(fileName);
     }
 
+    public static String scanInStream(InputStream stream) {
+        try (Scanner scanner = new Scanner(stream, Charset.defaultCharset()).useDelimiter("\\A")) {
+            return scanner.hasNext() ? scanner.next() : "";
+        } finally {
+            try {
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static String readStringFromURL(String url, MyProxy myProxyproxy, Proxy recursProxy) {
         InputStream urlCon;
         try {
@@ -37,23 +49,17 @@ abstract public class UtilsForIO {
         } catch (IOException e) {
             return readStringFromURL(url, myProxyproxy, myProxyproxy.getNewProxy());
         }
-        assert urlCon != null;
-        try (Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A")) {
-            return scanner.hasNext() ? scanner.next() : "";
-        }
+        return scanInStream(urlCon);
     }
 
     public static String readStringFromURL(String url) {
         InputStream urlCon = null;
         try {
-            urlCon = new URL(url).openStream();
+            urlCon = new URL(url).openConnection().getInputStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Turn on proxy!");
         }
-        assert urlCon != null;
-        try (Scanner scanner = new Scanner(urlCon, Charset.defaultCharset()).useDelimiter("\\A")) {
-            return scanner.hasNext() ? scanner.next() : "";
-        }
+        return scanInStream(urlCon);
     }
 
     public static void sleep(int sec) {
