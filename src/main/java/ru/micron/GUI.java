@@ -107,19 +107,22 @@ public class GUI {
 
             studentJsonIO.saveJson(studentJson);
 
-            map.put("prac_number", prac_number.getText());
+            /*smap.put("prac_number", prac_number.getText());
             map.put("target_content", target_content.getText());
             map.put("teor_content", teor_content.getText());
             map.put("step_by_step", step_by_step.getText());
             map.put("conclusion_content", conclusion_content.getText());
-            map.put("literature_content", literature_content.getText());
+            map.put("literature_content", literature_content.getText());*/
 
+            reportJson.setPrac_number(prac_number.getText());
             reportJson.setTarget(target_content.getText());
             reportJson.setTheory(teor_content.getText());
             reportJson.setStep_by_step(step_by_step.getText());
             reportJson.setConclusion(conclusion_content.getText());
             reportJson.setLiterature(literature_content.getText());
             reportJson.setCode(code.getText());
+
+            reportJsonIO.fillMap(map);
 
             reportJsonIO.saveJson(reportJson);
 

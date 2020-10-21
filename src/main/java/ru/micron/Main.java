@@ -23,7 +23,7 @@ public class Main {
                 printHelp();
             else {
                 MakeMap map = new MakeMap();
-                map.makeMap(Integer.parseInt(args[1]), args[2]);
+                map.makeMap(args[2]);
                 new MakeHtml("./templates", "index.ftl")
                         .makeHtml(map.getMap(), "./index.html");
                 MakeDocuments docs = new MakeDocuments();
