@@ -5,8 +5,7 @@ import com.google.gson.JsonParseException;
 import ru.micron.json.GithubJson;
 import ru.micron.utils.UtilsForIO;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class Github extends UtilsForIO {
     private final StringBuffer code;
@@ -74,31 +73,28 @@ public class Github extends UtilsForIO {
     }
 
     public void recursSearchGit(String url) {
-        String json = useProxy ?
-                            UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy()) :
-                            UtilsForIO.readStringFromURL(url);
+        List<GithubJson> githubArr = Collections.synchronizedList(new ArrayList<>(10));
+
+        String stringJson = useProxy ?
+                                        UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy()) :
+                                        UtilsForIO.readStringFromURL(url);
         try {
-            GithubJson[] roots = gson.fromJson(json, GithubJson[].class);
-            for (GithubJson root : roots) {
-                if (root.getType().equals("dir")) {
-                    recursSearchGit(root.getUrl());
-                } else if (root.getDownload_url() != null) {
-                    if (root.getPath().contains(".java")) {
-                        System.out.println("download " + root.getPath());
-                        splitAdd(root.getPath(),
-                                            useProxy ?
-                                                UtilsForIO.readStringFromURL(root.getDownload_url(), myProxy, myProxy.getProxy()) :
-                                                UtilsForIO.readStringFromURL(root.getDownload_url()));
-                    }
-                }
-            }
+            GithubJson[] jsons = gson.fromJson(stringJson, GithubJson[].class);
+            githubArr.addAll(Arrays.asList(jsons));
         } catch (JsonParseException e) {
-            GithubJson root = gson.fromJson(json, GithubJson.class);
-            if (root.getPath().contains(".java")) {
-                splitAdd(root.getPath(),
-                                    useProxy ?
-                                        UtilsForIO.readStringFromURL(root.getDownload_url(), myProxy, myProxy.getProxy()) :
-                                        UtilsForIO.readStringFromURL(root.getDownload_url()));
+            githubArr.add(gson.fromJson(stringJson, GithubJson.class));
+        }
+        finally {
+            for (GithubJson json : githubArr) {
+                if (json.getType().equals("dir")) {
+                    recursSearchGit(json.getUrl());
+                } else if (json.getPath().contains(".java") && json.getDownload_url() != null) {
+                    System.out.println("download " + json.getPath());
+                    splitAdd(json.getPath(),
+                            useProxy ?
+                                    UtilsForIO.readStringFromURL(json.getDownload_url(), myProxy, myProxy.getProxy()) :
+                                    UtilsForIO.readStringFromURL(json.getDownload_url()));
+                }
             }
         }
     }
