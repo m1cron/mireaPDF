@@ -2,6 +2,7 @@ package ru.micron;
 
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
 
 public class GetDate {
     private final String year;
@@ -17,6 +18,13 @@ public class GetDate {
         month = months[Calendar.getInstance(locale).get(Calendar.MONTH)];
         day = Integer.toString(Calendar.getInstance(locale).get(Calendar.DATE));
     }
+
+    public void fillMap(Map<String, String> map) {
+        map.put("day", day);
+        map.put("month", month);
+        map.put("year", year);
+    }
+
 
     public String getYear() {
         return year;

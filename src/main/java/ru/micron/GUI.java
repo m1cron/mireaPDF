@@ -130,10 +130,7 @@ public class GUI {
             long endTime = System.currentTimeMillis();
             System.out.println("Total execution time: " + (endTime-startTime) + "ms");
 
-            GetDate date = new GetDate();
-            map.put("day", date.getDay());
-            map.put("month", date.getMonth());
-            map.put("year", date.getYear());
+            new GetDate().fillMap(map);
 
             new MakeHtml("./templates", "index.ftl")
                     .makeHtml(map, "./index.html");

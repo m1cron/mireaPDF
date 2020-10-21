@@ -14,10 +14,7 @@ public class MakeMap {
         map = new HashMap<>();
         map.put("step_by_step", "test");
 
-        GetDate date = new GetDate();
-        map.put("day", date.getDay());
-        map.put("month", date.getMonth());
-        map.put("year", date.getYear());
+        new GetDate().fillMap(map);
 
         new StudentJsonIO().fillMap(map);
 
