@@ -4,8 +4,6 @@ import ru.micron.json.ReportJson;
 import ru.micron.json.StudentJson;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -125,7 +123,12 @@ public class GUI {
 
             reportJsonIO.saveJson(reportJson);
 
+            long startTime = System.currentTimeMillis();
+
             map.put("code", new Github(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCode());
+
+            long endTime = System.currentTimeMillis();
+            System.out.println("Total execution time: " + (endTime-startTime) + "ms");
 
             GetDate date = new GetDate();
             map.put("day", date.getDay());
