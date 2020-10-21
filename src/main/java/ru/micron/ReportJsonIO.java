@@ -38,6 +38,7 @@ public class ReportJsonIO implements JsonIO<ReportJson> {
         } catch (IOException e) {
             System.out.println("Report json doesn't exist!");
             reportJson = new ReportJson(
+                    "№",
                     "Цель работы",
                     "Теоретическое введение",
                     "Ход работы",
@@ -52,7 +53,7 @@ public class ReportJsonIO implements JsonIO<ReportJson> {
     public void fillMap(Map<String, String> map) {
         ReportJson report;
         if ((report = getReportJson()) != null) {
-            map.put("prac_number", "num");
+            map.put("prac_number", report.getPrac_number());
             map.put("target_content", report.getTarget());
             map.put("teor_content", report.getTheory());
             map.put("step_by_step", report.getStep_by_step());
