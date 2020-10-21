@@ -97,22 +97,9 @@ public class GUI {
         createPdf.addActionListener(e0 -> {
             Map<String, String> map = new HashMap<>();
 
-            map.put("teacher", teacher.getText());
-            map.put("student", student.getText());
-            map.put("group", group.getText());
-
             studentJson.setGroupNum(group.getText());
             studentJson.setStudName(student.getText());
             studentJson.setTchName(teacher.getText());
-
-            studentJsonIO.saveJson(studentJson);
-
-            /*smap.put("prac_number", prac_number.getText());
-            map.put("target_content", target_content.getText());
-            map.put("teor_content", teor_content.getText());
-            map.put("step_by_step", step_by_step.getText());
-            map.put("conclusion_content", conclusion_content.getText());
-            map.put("literature_content", literature_content.getText());*/
 
             reportJson.setPrac_number(prac_number.getText());
             reportJson.setTarget(target_content.getText());
@@ -122,8 +109,10 @@ public class GUI {
             reportJson.setLiterature(literature_content.getText());
             reportJson.setCode(code.getText());
 
+            studentJsonIO.fillMap(map);
             reportJsonIO.fillMap(map);
 
+            studentJsonIO.saveJson(studentJson);
             reportJsonIO.saveJson(reportJson);
 
             long startTime = System.currentTimeMillis();

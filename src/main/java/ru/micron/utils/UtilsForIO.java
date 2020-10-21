@@ -65,8 +65,8 @@ abstract public class UtilsForIO {
             FileUtils.copyURLToFile(
                     new URL(downloadUrl),
                     new File("./" + fileName),
-                    10000,
-                    10000);
+                                Integer.MAX_VALUE,
+                                Integer.MAX_VALUE);
             System.out.println("Download " + fileName + " OK!");
         } catch (IOException e) {
             System.out.println("Download " + fileName + " FAIL!");
