@@ -48,6 +48,19 @@ public class ReportJsonIO implements JsonIO<ReportJson> {
         }
     }
 
+    @Override
+    public void fillMap(Map<String, String> map) {
+        ReportJson report;
+        if ((report = getReportJson()) != null) {
+            map.put("prac_number", "num");
+            map.put("target_content", report.getTarget());
+            map.put("teor_content", report.getTheory());
+            map.put("step_by_step", report.getStep_by_step());
+            map.put("conclusion_content", report.getConclusion());
+            map.put("literature_content", report.getLiterature());
+        }
+    }
+
     public ReportJson getReportJson() {
         return reportJson;
     }

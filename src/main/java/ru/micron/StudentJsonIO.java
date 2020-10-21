@@ -43,9 +43,10 @@ public class StudentJsonIO implements JsonIO<StudentJson> {
         return studentJson;
     }
 
-    public void fillStudentMap(Map<String, String> map) {
+    @Override
+    public void fillMap(Map<String, String> map) {
         StudentJson info;
-        if ((info = getJson()) != null) {
+        if ((info = getStudentJson()) != null) {
             map.put("student", info.getStudName());
             map.put("group", info.getGroupNum());
             map.put("teacher", info.getTchName());
