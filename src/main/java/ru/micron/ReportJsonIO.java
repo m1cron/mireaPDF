@@ -1,12 +1,12 @@
 package ru.micron;
 
 import com.google.gson.Gson;
+import ru.micron.interfaces.JsonIO;
 import ru.micron.json.ReportJson;
 import ru.micron.utils.UtilsForIO;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Map;
 
 public class ReportJsonIO implements JsonIO<ReportJson> {

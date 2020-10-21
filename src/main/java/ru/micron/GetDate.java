@@ -1,10 +1,12 @@
 package ru.micron;
 
+import ru.micron.interfaces.MapFilling;
+
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Map;
 
-public class GetDate {
+public class GetDate implements MapFilling {
     private final String year;
     private final String month;
     private final String day;
@@ -19,6 +21,7 @@ public class GetDate {
         day = Integer.toString(Calendar.getInstance(locale).get(Calendar.DATE));
     }
 
+    @Override
     public void fillMap(Map<String, String> map) {
         map.put("day", day);
         map.put("month", month);
