@@ -41,7 +41,7 @@ public class GUI {
         JTextField group = new JTextField(studentJson.getGroupNum(), 14);
         group.setBackground(Color.WHITE);
 
-        JTextField prac_number = new JTextField("№", 5);
+        JTextField prac_number = new JTextField(reportJson.getPrac_number(), 5);
         prac_number.setBackground(Color.WHITE);
 
         JTextArea target_content = new JTextArea(reportJson.getTarget(), 10, 20);
