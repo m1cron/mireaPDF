@@ -61,16 +61,18 @@ abstract public class UtilsForIO {
     }
 
     public static void downloadFile(String downloadUrl, String fileName) {
-        try {
-            FileUtils.copyURLToFile(
-                    new URL(downloadUrl),
-                    new File("./" + fileName),
-                                Integer.MAX_VALUE,
-                                Integer.MAX_VALUE);
-            System.out.println("Download " + fileName + " OK!");
-        } catch (IOException e) {
-            System.out.println("Download " + fileName + " FAIL!");
-        }
+        new Thread(() -> {
+            try {
+                FileUtils.copyURLToFile(
+                        new URL(downloadUrl),
+                        new File("./" + fileName),
+                        Integer.MAX_VALUE,
+                        Integer.MAX_VALUE);
+                System.out.println("Download " + fileName + " OK!");
+            } catch (IOException e) {
+                System.out.println("Download " + fileName + " FAIL!");
+            }
+        }).start();
     }
 
     public static void showThreadsTrace() {
