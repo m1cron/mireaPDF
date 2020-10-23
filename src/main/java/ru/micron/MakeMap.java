@@ -12,8 +12,7 @@ public class MakeMap {
         new GetDate().fillMap(map);
         new StudentJsonIO().fillMap(map);
         new ReportJsonIO().fillMap(map);
-
-        map.put("code", new Github(code, false, "100").getCode());
+        new ReportFormatting(new Github(code, false, "100").getCodeArr()).fillMap(map);
     }
 
     public Map<String, String> getMap() {

@@ -5,6 +5,7 @@ import ru.micron.json.StudentJson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,7 +118,11 @@ public class GUI {
 
             long startTime = System.currentTimeMillis();
 
-            map.put("code", new Github(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCode());
+            if (code.getText().contains("github.com/")) {
+                new ReportFormatting(new Github(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCodeArr()).fillMap(map);
+            } else {
+                new ReportFormatting(Arrays.asList(code.getText().split("\n"))).fillMap(map);
+            }
 
             long endTime = System.currentTimeMillis();
             System.out.println("Total execution time: " + (endTime-startTime) + "ms");

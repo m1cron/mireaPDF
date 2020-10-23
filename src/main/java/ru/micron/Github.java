@@ -8,38 +8,30 @@ import ru.micron.utils.UtilsForIO;
 import java.util.*;
 
 public class Github extends UtilsForIO {
-    private final StringBuffer code;
-    private Gson gson;
     private MyProxy myProxy;
+    private final Gson gson;
     private final boolean useProxy;
-    private final ArrayList<String> codeArr;
+    private final List<String> codeArr;
     private final List<Thread> threadArr;
 
     public Github(String codeOrUrl, boolean useProxy, String proxyPing) {
         this.useProxy = useProxy;
         codeArr = new ArrayList<>(500);
         threadArr = new ArrayList<>(24);
-        code = new StringBuffer(5000);
-        if (codeOrUrl.contains("github.com/")) {
-            gson = new Gson();
-            if (useProxy) {
-                myProxy = new MyProxy(gson, proxyPing);
-                myProxy.getNewProxy();
-            }
-            recursSearchGit(parseUrl(codeOrUrl));
-
-            threadArr.forEach(thread -> {
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            formatCode();
-        } else {
-            splitAdd(codeOrUrl);
+        gson = new Gson();
+        if (useProxy) {
+            myProxy = new MyProxy(gson, proxyPing);
+            myProxy.getNewProxy();
         }
+        recursSearchGit(parseUrl(codeOrUrl));
+
+        threadArr.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static String parseUrl(String url) {
@@ -49,40 +41,8 @@ public class Github extends UtilsForIO {
     }
 
     private synchronized void splitAdd(String path, String codeBuff) {
-        if (!path.equals("")) {
-            codeArr.add("\t\n\n<strong>" + path + "</strong>\n\n");
-        }
+        codeArr.add("\t\n\n<strong>" + path + "</strong>\n\n");
         Collections.addAll(codeArr, codeBuff.split("\n"));
-    }
-
-    private void splitAdd(String codeBuff) {
-        Collections.addAll(codeArr, codeBuff.split("\n"));
-    }
-
-    private String formatWidth(String str) {
-        final short maxWidth = 70;      /*                <<------ page maxWidth content change HERE */
-        if (str.length() > maxWidth) {
-            return str.substring(0, maxWidth) + "\n" + formatWidth(str.substring(maxWidth));
-        }
-        return str;
-    }
-
-    private void formatCode() {
-        String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t\n";
-        String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
-        String codeStart = "\t\t<pre class=\"code\">\n";
-
-        code.append(divStart).append("\t<h2 class=\"h2\">Код</h2>").append(codeStart);
-        short count = 4;
-        for (String s : codeArr) {
-            code.append(formatWidth(s)).append("\n");
-            if (count == 47) {      /*                      <<------ page maxHeight content change HERE */
-                code.append(divEnd).append(divStart).append(codeStart);
-                count = 0;
-            }
-            count++;
-        }
-        code.append(divEnd);
     }
 
     public void downloadFromGit(GithubJson json) {
@@ -118,7 +78,7 @@ public class Github extends UtilsForIO {
         }
     }
 
-    public String getCode() {
-        return code.toString();
+    public List<String> getCodeArr() {
+        return codeArr;
     }
 }
