@@ -1,12 +1,14 @@
 package ru.micron;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import ru.micron.utils.UtilsForIO;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class MakeDocuments {
@@ -32,26 +34,47 @@ public class MakeDocuments {
         driver.get("https://deftpdf.com/ru/html-to-pdf");
         driver.findElement(By.xpath("//input[@type='file']")).sendKeys(new File(html).getAbsolutePath());
         driver.findElement(By.xpath("//a[@id='HTMLFileToPDF']")).click();
-        UtilsForIO.sleep(2);
+        sleep(2);
         String downloadUrl = driver.findElement(By.xpath("//*[@id='apply-popup']/div[2]/div[2]/div/div[2]/div[1]/a"))
                                 .getAttribute("href");
-        UtilsForIO.downloadFile(downloadUrl, pdfName);
+        downloadFile(downloadUrl, pdfName);
     }
 
     public void makeWord(String pdfName, String wordName) {
         driver.get("https://www.pdf2go.com/ru/pdf-to-word");
         driver.findElement(By.cssSelector("input[type=file]")).sendKeys(new File(pdfName).getAbsolutePath());
-        UtilsForIO.sleep(2);
+        sleep(2);
         driver.findElement(By.xpath("//*[@id=\"qg-toast\"]/div[3]/div[2]/p[2]/button")).click();
         driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div[1]/button")).click();
-        UtilsForIO.sleep(10);
+        sleep(10);
         String downloadUrl = driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div/div[1]/div/div[1]/div[8]/div[2]/div/div/div[2]/div[3]/a"))
                                     .getAttribute("href");
-        UtilsForIO.downloadFile(downloadUrl, wordName);
+        downloadFile(downloadUrl, wordName);
     }
 
     public void closeDriver() {
         driver.close();
         driver.quit();
+    }
+
+    public static void downloadFile(String downloadUrl, String fileName) {
+        try {
+            FileUtils.copyURLToFile(
+                    new URL(downloadUrl),
+                    new File("./" + fileName),
+                    Integer.MAX_VALUE,
+                    Integer.MAX_VALUE);
+            System.out.println("Download " + fileName + " OK!");
+        } catch (IOException e) {
+            System.out.println("Download " + fileName + " FAIL!");
+        }
+    }
+
+    public static void sleep(int sec) {
+        try {
+            TimeUnit.SECONDS.sleep(sec);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

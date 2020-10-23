@@ -3,12 +3,13 @@ package ru.micron;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import ru.micron.interfaces.ReadStringFromURL;
 import ru.micron.utils.UtilsForIO;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
-public class MyProxy extends UtilsForIO {
+public class MyProxy extends UtilsForIO implements ReadStringFromURL {
     private final Gson gson;
     private String ip;
     private int port;
@@ -23,7 +24,7 @@ public class MyProxy extends UtilsForIO {
 
     private void TakeProxyInfo() {
         String proxyApi = "https://www.proxyscan.io/api/proxy?format=json&uptime=70&not_country=cn,nl,us&last_check=600&ping=";
-        JsonArray proxy = gson.fromJson(UtilsForIO.readStringFromURL(proxyApi + proxyPing), JsonArray.class);
+        JsonArray proxy = gson.fromJson(readStringFromURL(proxyApi + proxyPing), JsonArray.class);
         JsonObject proxyObj = (JsonObject) proxy.get(0);
 
         ip = proxyObj.get("Ip").toString().replace("\"", " ").trim();

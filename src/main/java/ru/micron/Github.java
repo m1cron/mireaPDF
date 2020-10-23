@@ -2,12 +2,13 @@ package ru.micron;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import ru.micron.interfaces.ReadStringFromURL;
 import ru.micron.json.GithubJson;
 import ru.micron.utils.UtilsForIO;
 
 import java.util.*;
 
-public class Github extends UtilsForIO {
+public class Github extends UtilsForIO implements ReadStringFromURL {
     private MyProxy myProxy;
     private final Gson gson;
     private final boolean useProxy;
@@ -50,8 +51,8 @@ public class Github extends UtilsForIO {
             System.out.println("download " + json.getPath() + " in thread " + Thread.currentThread().getName());
             splitAdd(json.getPath(),
                     useProxy ?
-                            UtilsForIO.readStringFromURL(json.getDownload_url(), myProxy, myProxy.getProxy()) :
-                            UtilsForIO.readStringFromURL(json.getDownload_url()));
+                            readStringFromURL(json.getDownload_url(), myProxy, myProxy.getProxy()) :
+                            readStringFromURL(json.getDownload_url()));
         });
         thread.start();
         threadArr.add(thread);
@@ -61,8 +62,8 @@ public class Github extends UtilsForIO {
         List<GithubJson> githubArr = new ArrayList<>(12);
 
         String stringJson = useProxy ?
-                                    UtilsForIO.readStringFromURL(url, myProxy, myProxy.getProxy()) :
-                                    UtilsForIO.readStringFromURL(url);
+                                    readStringFromURL(url, myProxy, myProxy.getProxy()) :
+                                    readStringFromURL(url);
         try {
             githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, GithubJson[].class)));
         } catch (JsonParseException e) {
