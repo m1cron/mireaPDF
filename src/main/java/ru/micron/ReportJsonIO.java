@@ -3,7 +3,6 @@ package ru.micron;
 import com.google.gson.Gson;
 import ru.micron.interfaces.JsonIO;
 import ru.micron.json.ReportJson;
-import ru.micron.utils.UtilsForIO;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class ReportJsonIO implements JsonIO<ReportJson> {
     @Override
     public ReportJson getJson(Class<ReportJson> jsonClass) {
         try {
-            return reportJson = gson.fromJson(UtilsForIO.readFile(jsonName), jsonClass);
+            return reportJson = gson.fromJson(readFile(jsonName), jsonClass);
         } catch (IOException e) {
             System.out.println("Report json doesn't exist!");
             reportJson = new ReportJson();

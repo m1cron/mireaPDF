@@ -1,16 +1,8 @@
-package ru.micron.utils;
+package ru.micron.interfaces;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Set;
 
-abstract public class UtilsForIO {
-
-    public static String readFile(String fileDir) throws IOException {
-        Path fileName = Path.of(fileDir);
-        return Files.readString(fileName);
-    }
+public class ThreadsTrace {
 
     public static void showThreadsTrace() {
         Set<Thread> threads = Thread.getAllStackTraces().keySet();
@@ -24,4 +16,5 @@ abstract public class UtilsForIO {
         }
         System.out.println("====================================");
     }
+
 }

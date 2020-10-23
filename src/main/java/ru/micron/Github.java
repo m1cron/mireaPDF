@@ -4,11 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import ru.micron.interfaces.ReadStringFromURL;
 import ru.micron.json.GithubJson;
-import ru.micron.utils.UtilsForIO;
 
 import java.util.*;
 
-public class Github extends UtilsForIO implements ReadStringFromURL {
+public class Github implements ReadStringFromURL {
     private MyProxy myProxy;
     private final Gson gson;
     private final boolean useProxy;

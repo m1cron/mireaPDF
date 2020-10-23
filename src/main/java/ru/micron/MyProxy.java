@@ -4,12 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import ru.micron.interfaces.ReadStringFromURL;
-import ru.micron.utils.UtilsForIO;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
-public class MyProxy extends UtilsForIO implements ReadStringFromURL {
+public class MyProxy implements ReadStringFromURL {
     private final Gson gson;
     private String ip;
     private int port;
