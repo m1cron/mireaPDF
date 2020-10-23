@@ -6,20 +6,17 @@ import ru.micron.json.GithubJson;
 import java.util.*;
 
 public class Github extends MyProxy {
-    private MyProxy myProxy;
     private final boolean useProxy;
     private final List<String> codeArr;
     private final List<Thread> threadArr;
 
-    public Github(String codeOrUrl, boolean useProxy, String proxyPing) {
+    public Github(String link, boolean useProxy, String proxyPing) {
+        super(proxyPing);
         this.useProxy = useProxy;
         codeArr = new ArrayList<>(500);
         threadArr = new ArrayList<>(24);
 
-        if (useProxy) {
-            myProxy = new MyProxy(gson, proxyPing);
-        }
-        recursSearchGit(parseUrl(codeOrUrl));
+        recursSearchGit(parseUrl(link));
 
         threadArr.forEach(thread -> {
             try {
@@ -40,7 +37,7 @@ public class Github extends MyProxy {
             System.out.println("download " + json.getPath() + " in thread " + Thread.currentThread().getName());
             splitAdd(json.getPath(),
                     useProxy  ?
-                                readStringFromURL(json.getDownload_url(), myProxy) :
+                                readStringFromURL(json.getDownload_url(), this) :
                                 readStringFromURL(json.getDownload_url()));
         });
         thread.start();
@@ -51,7 +48,7 @@ public class Github extends MyProxy {
         List<GithubJson> githubArr = new ArrayList<>(12);
 
         String stringJson = useProxy  ?
-                                        readStringFromURL(url, myProxy) :
+                                        readStringFromURL(url, this) :
                                         readStringFromURL(url);
         try {
             githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, GithubJson[].class)));

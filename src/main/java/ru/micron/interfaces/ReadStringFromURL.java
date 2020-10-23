@@ -1,6 +1,5 @@
 package ru.micron.interfaces;
 
-import com.google.gson.Gson;
 import ru.micron.MyProxy;
 
 import java.io.IOException;
