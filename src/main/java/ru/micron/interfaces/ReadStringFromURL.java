@@ -1,10 +1,10 @@
 package ru.micron.interfaces;
 
+import com.google.gson.Gson;
 import ru.micron.MyProxy;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Scanner;
@@ -23,12 +23,13 @@ public interface ReadStringFromURL {
         }
     }
 
-    default String readStringFromURL(String url, MyProxy myProxyproxy, Proxy recursProxy) {
+    default String readStringFromURL(String url, MyProxy myProxy) {
         InputStream urlCon;
         try {
-            urlCon = new URL(url).openConnection(myProxyproxy.getProxy()).getInputStream();
+            urlCon = new URL(url).openConnection(myProxy.getProxy()).getInputStream();
         } catch (IOException e) {
-            return readStringFromURL(url, myProxyproxy, myProxyproxy.getNewProxy());
+            myProxy.getNewProxy();
+            return readStringFromURL(url, myProxy);
         }
         return scanInStream(urlCon);
     }

@@ -9,16 +9,23 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 
 public class MyProxy implements ReadStringFromURL {
-    private final Gson gson;
-    private String ip;
-    private int port;
-    private int proxyMode;
-    private Proxy proxy;
-    private final String proxyPing;
+    protected final Gson gson;
+    protected String ip;
+    protected int port;
+    protected int proxyMode;
+    protected Proxy proxy;
+    protected final String proxyPing;
+
+    public MyProxy() {
+        this.gson = new Gson();
+        this.proxyPing = "100";
+        this.proxy = getNewProxy();
+    }
 
     public MyProxy(Gson gson, String proxyPing) {
         this.gson = gson;
         this.proxyPing = proxyPing;
+        this.proxy = getNewProxy();
     }
 
     private void TakeProxyInfo() {
@@ -45,11 +52,10 @@ public class MyProxy implements ReadStringFromURL {
         if (proxyMode != 0) {
             System.setProperty("socksProxyVersion", Integer.toString(proxyMode));
             proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(ip, port));
-            System.out.printf("connect to -->> %s\t%d\tSOCKS v%d\n", getIp(), getPort(), proxyMode);
-        }
-        else{
+            System.out.printf("connect to -->> %s\t%d\tping -> %s\tSOCKS v%d\n", ip, port, proxyPing, proxyMode);
+        } else {
             proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port));
-            System.out.printf("connect to -->> %s\t%d\tHTTP %d\n", getIp(), getPort(), proxyMode);
+            System.out.printf("connect to -->> %s\t%d\tping -> %s\tHTTP\n", ip, port, proxyPing);
         }
         return proxy;
     }
@@ -64,6 +70,10 @@ public class MyProxy implements ReadStringFromURL {
 
     public int getPort() {
         return port;
+    }
+
+    public String getProxyPing() {
+        return proxyPing;
     }
 
     public int getProxyMode() {

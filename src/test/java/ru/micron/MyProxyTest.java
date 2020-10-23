@@ -12,7 +12,7 @@ public class MyProxyTest implements ReadStringFromURL {
         myProxy.getNewProxy();
         for (int i = 0; i < 20; i++) {
             System.out.printf("proxy ip   -->>  %s\tport -->>  %d\tproxy mode -->>  %s\n", myProxy.getIp(), myProxy.getPort(), myProxy.getProxyMode());
-            readStringFromURL("https://api.github.com/repos/m1cron/java_rtu", myProxy, myProxy.getProxy());
+            readStringFromURL("https://api.github.com/repos/m1cron/java_rtu", myProxy);
         }
     }
 }
