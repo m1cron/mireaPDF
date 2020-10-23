@@ -2,9 +2,9 @@ package ru.micron.interfaces;
 
 import java.util.Set;
 
-public class ThreadsTrace {
+interface ThreadsTrace {
 
-    public static void showThreadsTrace() {
+    static void showThreadsTrace() {
         Set<Thread> threads = Thread.getAllStackTraces().keySet();
         System.out.println("====================================");
         for (Thread t : threads) {

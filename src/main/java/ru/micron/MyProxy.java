@@ -13,10 +13,10 @@ import java.net.URL;
 
 public class MyProxy implements ReadStringFromURL {
     private final String proxyApi;
+    private Proxy proxy;
     private String ip;
     private int port;
     protected final Gson gson;
-    protected Proxy proxy;
 
     public MyProxy(String proxyPing) {
         this.proxyApi = "https://www.proxyscan.io/api/proxy?format=json&uptime=70&not_country=cn,nl,us&last_check=600&ping=" + proxyPing;
@@ -34,9 +34,8 @@ public class MyProxy implements ReadStringFromURL {
 
         System.setProperty("socksProxyVersion", proxyMode.contains("4") ? "4" : "5");
         proxy = new Proxy(proxyMode.contains("SOCKS") ? Proxy.Type.SOCKS : Proxy.Type.HTTP, new InetSocketAddress(ip, port));
-        System.out.printf("connect to\t%s\t\t\t%d\t%s\n", ip, port, proxyMode);
+        System.out.printf("connect to %s\t\t\t%d\t%s\n", ip, port, proxyMode);
     }
-
 
     public String readStringFromURL(String url) {
         InputStream urlCon = null;
