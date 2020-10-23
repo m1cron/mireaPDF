@@ -5,8 +5,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import ru.micron.interfaces.ReadStringFromURL;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.URL;
 
 public class MyProxy implements ReadStringFromURL {
     private final String proxyApi;
@@ -32,6 +35,18 @@ public class MyProxy implements ReadStringFromURL {
         System.setProperty("socksProxyVersion", proxyMode.contains("4") ? "4" : "5");
         proxy = new Proxy(proxyMode.contains("SOCKS") ? Proxy.Type.SOCKS : Proxy.Type.HTTP, new InetSocketAddress(ip, port));
         System.out.printf("connect to\t%s\t\t\t%d\t%s\n", ip, port, proxyMode);
+    }
+
+
+    public String readStringFromURL(String url) {
+        InputStream urlCon = null;
+        try {
+            urlCon = new URL(url).openConnection().getInputStream();
+        } catch (IOException e) {
+            System.out.println("Enabled proxy!");
+            readStringFromURL(url, this);
+        }
+        return scanInStream(urlCon);
     }
 
     public Proxy getProxy() {

@@ -10,16 +10,14 @@ import java.util.Scanner;
 
 public interface ReadStringFromURL {
 
-    default String scanInStream(InputStream stream) {
-        try (Scanner scanner = new Scanner(stream, Charset.defaultCharset()).useDelimiter("\\A")) {
-            return scanner.hasNext() ? scanner.next() : "";
-        } finally {
-            try {
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    default String readStringFromURL(String url) {
+        InputStream urlCon = null;
+        try {
+            urlCon = new URL(url).openConnection().getInputStream();
+        } catch (IOException e) {
+            System.out.println("Turn on proxy!");
         }
+        return scanInStream(urlCon);
     }
 
     default String readStringFromURL(String url, MyProxy myProxy) {
@@ -33,14 +31,16 @@ public interface ReadStringFromURL {
         return scanInStream(urlCon);
     }
 
-    default String readStringFromURL(String url) {
-        InputStream urlCon = null;
-        try {
-            urlCon = new URL(url).openConnection().getInputStream();
-        } catch (IOException e) {
-            System.out.println("Turn on proxy!");
+    default String scanInStream(InputStream stream) {
+        try (Scanner scanner = new Scanner(stream, Charset.defaultCharset()).useDelimiter("\\A")) {
+            return scanner.hasNext() ? scanner.next() : "";
+        } finally {
+            try {
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return scanInStream(urlCon);
     }
 
 }
