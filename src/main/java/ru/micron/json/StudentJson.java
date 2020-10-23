@@ -5,6 +5,12 @@ public class StudentJson {
     private String tchName;
     private String groupNum;
 
+    public StudentJson() {
+        this.studName = "Студент";
+        this.tchName = "Преподаватель";
+        this.groupNum = "Группа";
+    }
+
     public StudentJson(String studName, String tchName, String groupNum) {
         this.studName = studName;
         this.tchName = tchName;
@@ -37,7 +43,7 @@ public class StudentJson {
 
     @Override
     public String toString() {
-        return "Info{" +
+        return "StudentJson{" +
                 "studName='" + studName + '\'' +
                 ", tchName='" + tchName + '\'' +
                 ", groupNum='" + groupNum + '\'' +

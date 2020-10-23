@@ -11,18 +11,18 @@ import java.util.Map;
 
 public class ReportJsonIO implements JsonIO<ReportJson> {
     private static Gson gson;
-    private static final String fileJson0 = "report.json";
+    private static final String jsonName = "report.json";
     private static ReportJson reportJson;
 
     public ReportJsonIO() {
         gson = new Gson();
-        reportJson = getJson();
+        reportJson = getJson(ReportJson.class);
     }
 
     @Override
     public void saveJson(ReportJson obj) {
         try {
-            FileWriter file = new FileWriter(fileJson0);
+            FileWriter file = new FileWriter(jsonName);
             gson.toJson(obj, file);
             file.close();
         } catch (IOException e) {
@@ -31,19 +31,12 @@ public class ReportJsonIO implements JsonIO<ReportJson> {
     }
 
     @Override
-    public ReportJson getJson() {
+    public ReportJson getJson(Class<ReportJson> jsonClass) {
         try {
-            return reportJson = gson.fromJson(UtilsForIO.readFile(fileJson0), ReportJson.class);
+            return reportJson = gson.fromJson(UtilsForIO.readFile(jsonName), jsonClass);
         } catch (IOException e) {
             System.out.println("Report json doesn't exist!");
-            reportJson = new ReportJson(
-                    "№",
-                    "Цель работы",
-                    "Теоретическое введение",
-                    "Ход работы",
-                    "Код с GitHub или ссылка",
-                    "Вывод",
-                    "Используемая литература");
+            reportJson = new ReportJson();
             return reportJson;
         }
     }

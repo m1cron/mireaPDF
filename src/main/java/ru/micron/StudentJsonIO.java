@@ -7,22 +7,23 @@ import ru.micron.utils.UtilsForIO;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 public class StudentJsonIO implements JsonIO<StudentJson> {
-    private static final String studentJsonName = "info.json";
+    private static final String jsonName = "info.json";
     private static Gson gson;
     private final StudentJson studentJson;
 
     public StudentJsonIO() {
         gson = new Gson();
-        studentJson = getJson();
+        studentJson = getJson(StudentJson.class);
     }
 
     @Override
     public void saveJson(StudentJson obj) {
         try {
-            FileWriter file = new FileWriter(studentJsonName);
+            FileWriter file = new FileWriter(jsonName);
             gson.toJson(obj, file);
             file.close();
         } catch (IOException e) {
@@ -31,12 +32,12 @@ public class StudentJsonIO implements JsonIO<StudentJson> {
     }
 
     @Override
-    public StudentJson getJson() {
+    public StudentJson getJson(Class<StudentJson> jsonClass) {
         try {
-            return gson.fromJson(UtilsForIO.readFile(studentJsonName), StudentJson.class);
+            return gson.fromJson(UtilsForIO.readFile(jsonName), (Type) jsonClass);
         } catch (IOException e) {
             System.out.println("Student json doesn't exist!");
-            return new StudentJson("Преподаватель","Студент", "Группа");
+            return new StudentJson();
         }
     }
 

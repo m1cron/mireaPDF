@@ -9,6 +9,16 @@ public class ReportJson {
     private String conclusion;
     private String literature;
 
+    public ReportJson() {
+        this.prac_number = "№";
+        this.target = "Цель работы";
+        this.theory = "Теоретическое введение";
+        this.step_by_step = "Ход работы";
+        this.code = "Код с GitHub или ссылка";
+        this.conclusion = "Вывод";
+        this.literature = "Используемая литература";
+    }
+
     public ReportJson(String prac_number, String target, String theory, String step_by_step, String code, String conclusion, String literature) {
         this.prac_number = prac_number;
         this.target = target;
@@ -78,9 +88,11 @@ public class ReportJson {
     @Override
     public String toString() {
         return "ReportJson{" +
-                "target='" + target + '\'' +
+                "prac_number='" + prac_number + '\'' +
+                ", target='" + target + '\'' +
                 ", theory='" + theory + '\'' +
                 ", step_by_step='" + step_by_step + '\'' +
+                ", code='" + code + '\'' +
                 ", conclusion='" + conclusion + '\'' +
                 ", literature='" + literature + '\'' +
                 '}';
