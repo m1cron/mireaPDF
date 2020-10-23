@@ -34,11 +34,10 @@ public class Github extends MyProxy {
 
     public void downloadFromGit(GithubJson json) {
         Thread thread = new Thread(() -> {
-            System.out.println("download " + json.getPath() + " in thread " + Thread.currentThread().getName());
             splitAdd(json.getPath(),
-                    useProxy  ?
-                                readStringFromURL(json.getDownload_url(), this) :
+                    useProxy ? readStringFromURL(json.getDownload_url(), this) :
                                 readStringFromURL(json.getDownload_url()));
+            System.out.println("download " + json.getPath() + " in thread " + Thread.currentThread().getName());
         });
         thread.start();
         threadArr.add(thread);
@@ -47,8 +46,7 @@ public class Github extends MyProxy {
     public void recursSearchGit(String url) {
         List<GithubJson> githubArr = new ArrayList<>(12);
 
-        String stringJson = useProxy  ?
-                                        readStringFromURL(url, this) :
+        String stringJson = useProxy ? readStringFromURL(url, this) :
                                         readStringFromURL(url);
         try {
             githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, GithubJson[].class)));

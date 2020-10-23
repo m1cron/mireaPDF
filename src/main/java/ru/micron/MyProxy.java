@@ -19,7 +19,7 @@ public class MyProxy implements ReadStringFromURL {
     protected final Gson gson;
 
     public MyProxy(String proxyPing) {
-        this.proxyApi = "https://www.proxyscan.io/api/proxy?format=json&uptime=70&not_country=cn,nl,us&last_check=600&ping=" + proxyPing;
+        this.proxyApi = "https://www.proxyscan.io/api/proxy?format=json&uptime=75&last_check=600&ping=" + proxyPing;
         this.gson = new Gson();
         getNewProxy();
     }
