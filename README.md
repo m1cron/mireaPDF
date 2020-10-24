@@ -11,12 +11,25 @@ $ mvn package
 
 ### `Usage`
 
+``` $ java -jar mireaPDF*.jar ```
+
+
+
+### `Technology Stack`
 ```
-$ java -jar mireaPDF*.jar
+Java 14
+Apache Maven
+Json API (GSON)
+Selenium API with Chrome Driver
+FreeMaker
+HTMM + CSS
+jUnit 4
+Apache Commons-IO
 ```
 
-#### `Best free API's for get proxy lists:`
-##### ```https://www.proxyscan.io/api```
-##### ```https://www.proxy-list.download/api/v1```
-##### ```https://proxyscrape.com/api-documentation```
-##### ```https://ipstack.com/product```
+
+##### `Best free API's for get proxy lists:`
+```https://www.proxyscan.io/api``` <br/>
+```https://www.proxy-list.download/api/v1``` <br/>
+```https://proxyscrape.com/api-documentation``` <br/>
+```https://ipstack.com/product``` <br/>
