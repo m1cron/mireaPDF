@@ -8,7 +8,7 @@ public class Main {
         System.out.print("Options:\n");
         System.out.printf("\t%s %60s\n", "--help", "Display this information.");
         System.out.printf("\t%s %24s\n", "-json <Stud name> <Grp> <Tchr name>", "Make Student Json.");
-        System.out.printf("\t%s %31s\n", "-make <Work number> <GitHub Task URL>", "Make PDF from Student Json.");
+        System.out.printf("\t%s %31s\n", "-make <Make DOCX? (0 or 1)> <GitHub Task URL>", "Make documents.");
         System.exit(-1);
     }
 
@@ -26,6 +26,9 @@ public class Main {
                                     .makeHtml(new MakeMap(args[2]).getMap(), "./index.html");
                 MakeDocuments docs = new MakeDocuments();
                 docs.makePdf("./index.html", "pdf.pdf");
+                if (args[1].equals("1")) {
+                    docs.makeWord("pdf.pdf", "word.docx");
+                }
                 docs.closeDriver();
                 System.out.print("Work done!");
             }
