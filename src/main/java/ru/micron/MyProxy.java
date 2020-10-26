@@ -12,31 +12,33 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.util.Scanner;
 
 public class MyProxy {
-    protected final Gson gson;
     private final String proxyApi;
     private volatile Proxy proxy;
+    protected final Gson gson;
+    protected final boolean useProxy;
 
-    public MyProxy(String proxyPing) {
+    public MyProxy(String proxyPing, boolean useProxy) {
         this.proxyApi = "https://www.proxyscan.io/api/proxy?format=json&uptime=75&last_check=600&ping=" + proxyPing;
         this.gson = new Gson();
-        getNewProxy();
+        if ((this.useProxy = useProxy)) {
+            getNewProxy();
+        }
     }
 
-    public synchronized void getNewProxy() {
+    public synchronized Proxy getNewProxy() {
         JsonArray proxyList = gson.fromJson(readStringFromURL(proxyApi), JsonArray.class);
         JsonObject proxyObj = (JsonObject) proxyList.get(0);
 
-        String ip = proxyObj.get("Ip").toString().replace("\"", " ").trim();
+        String ip = proxyObj.get("Ip").toString().replace("\"", "");
         int port = proxyObj.get("Port").getAsInt();
         String proxyMode = proxyObj.getAsJsonArray("Type").get(0).toString();
 
         System.setProperty("socksProxyVersion", proxyMode.contains("4") ? "4" : "5");
         proxy = new Proxy(proxyMode.contains("SOCKS") ? Proxy.Type.SOCKS : Proxy.Type.HTTP, new InetSocketAddress(ip, port));
         System.out.println("getNewProxy >> connect to " + ip + "\t\t\t" + port + "\t\t" + proxyMode + "\t\tfrom  " + Thread.currentThread().getName());
+        return proxy;
     }
 
     public String readStringFromURL(String url) {
@@ -48,20 +50,19 @@ public class MyProxy {
             return scanInStream(urlCon.getInputStream());
         } catch (IOException e) {
             System.out.println("Enabled proxy!");
-            return readStringFromURL(url, this);
+            return readStringFromURL(url, getNewProxy());
         }
     }
 
-    public String readStringFromURL(String url, MyProxy myProxy) {
+    public String readStringFromURL(String url, Proxy myProxy) {
         URLConnection urlCon;
         try {
-            urlCon = new URL(url).openConnection(myProxy.getProxy());
+            urlCon = new URL(url).openConnection(myProxy);
             urlCon.setConnectTimeout(2000);
             urlCon.setReadTimeout(3000);
             return scanInStream(urlCon.getInputStream());
         } catch (IOException e) {
-            myProxy.getNewProxy();
-            return readStringFromURL(url, myProxy);
+            return readStringFromURL(url, getNewProxy());
         }
     }
 
