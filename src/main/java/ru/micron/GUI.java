@@ -96,7 +96,7 @@ public class GUI {
         panel.add(checkMakeDocx);
 
         createPdf.addActionListener(e0 -> {
-            Map<String, String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>(16, 1);
 
             studentJson.setGroupNum(group.getText());
             studentJson.setStudName(student.getText());
