@@ -19,10 +19,11 @@ $ mvn package
 ```
 Java 14
 Apache Maven
-Json API (GSON)
+Github API (GSON)
 Selenium API with Chrome Driver
 FreeMaker
-HTMM + CSS
+HTML + CSS
+Java Swing
 jUnit 4
 Apache Commons-IO
 ```
