@@ -2,22 +2,20 @@ package ru.micron;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class MakeDocumentsTest {
 
     @Test
     public void makePdf() {
         MakeDocuments docs = new MakeDocuments();
-        docs.makePdf("index.html", "pdf.pdf");
+        docs.makePdf("./TMP/index.html", "./TMP/pdf.pdf");
         docs.closeDriver();
     }
 
     @Test
     public void makeWord() {
         MakeDocuments docs = new MakeDocuments();
-        docs.makePdf("index.html", "pdf.pdf");
-        docs.makeWord("pdf.pdf", "word.docx");
+        docs.makePdf("./TMP/index.html", "./TMP/pdf.pdf");
+        docs.makeWord("./TMP/pdf.pdf", "./TMP/word.docx");
         docs.closeDriver();
     }
 
