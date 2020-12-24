@@ -24,4 +24,16 @@ public class GithubTest {
         String destUrl = "https://api.github.com/repos/m1cron/java_rtu/contents/src/ru/micron";
         Assert.assertEquals(Github.parseUrl(url), destUrl);
     }
+
+    @Test
+    public void getRegExPattern() {
+        String[] arr0 = {"kjdhzfg.java", "ajdhgf.JaVa", "IUYGFDRSGdgf31Pp.cs"};
+        for (String s : arr0) {
+            Assert.assertTrue(s.matches(Github.getRegExPattern()));
+        }
+        String[] arr1 = {"kjdhzfg..java", "ajdhgf.JaV!a", "IUYGFDRSGdgf3#1Pp.cs"};
+        for (String s : arr1) {
+            Assert.assertFalse(s.matches(Github.getRegExPattern()));
+        }
+    }
 }

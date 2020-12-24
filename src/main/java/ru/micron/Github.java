@@ -8,6 +8,7 @@ import java.util.*;
 public class Github extends MyProxy {
     private final List<String> codeArr;
     private final List<Thread> threadArr;
+    private static final String regExPattern = "(?i)\\w+\\.(java|c|cpp|hpp|h|cs|cc|cxx|html|css|js|php|py)+$";
 
     public Github(String link, boolean useProxy, String proxyPing) {
         super(proxyPing, useProxy);
@@ -54,12 +55,7 @@ public class Github extends MyProxy {
             for (GithubJson json : githubArr) {
                 if (json.getType().equals("dir")) {
                     recursSearchGit(json.getUrl());
-                } else if ((json.getPath().toLowerCase().contains(".java") ||
-                        json.getPath().toLowerCase().contains(".c") ||
-                        json.getPath().toLowerCase().contains(".cpp") ||
-                        json.getPath().toLowerCase().contains(".html") ||
-                        json.getPath().toLowerCase().contains(".js") ||
-                        json.getPath().toLowerCase().contains(".css")) && json.getDownload_url() != null) {
+                } else if (json.getPath().matches(regExPattern) && json.getDownload_url() != null) {
                     downloadFromGit(json);
                 }
             }
@@ -74,5 +70,9 @@ public class Github extends MyProxy {
 
     public List<String> getCodeArr() {
         return codeArr;
+    }
+
+    public static String getRegExPattern() {
+        return regExPattern;
     }
 }
