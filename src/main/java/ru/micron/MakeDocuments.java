@@ -63,9 +63,9 @@ public class MakeDocuments {
                     new File("./" + fileName),
                     Integer.MAX_VALUE,
                     Integer.MAX_VALUE);
-            System.out.println("Download " + fileName + " OK!");
+            System.out.printf("Download %s OK!\n", fileName);
         } catch (IOException e) {
-            System.out.println("Download " + fileName + " FAIL!");
+            System.out.printf("Download %s FAIL!\n", fileName);
         }
     }
 
