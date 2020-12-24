@@ -6,6 +6,7 @@ import java.nio.file.Path;
 
 public interface JsonIO<T> extends MapFilling {
     void saveJson(T obj);
+
     T getJson(Class<T> jsonClass);
 
     default String readFile(String fileDir) throws IOException {

@@ -83,9 +83,9 @@
                     <outputDirectory>${basedir}</outputDirectory>
                     <archive>
                         <manifest>
-                        <addClasspath>true</addClasspath>
-                        <classpathPrefix>lib/</classpathPrefix>
-                        <mainClass>ru.micron.Main</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>ru.micron.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

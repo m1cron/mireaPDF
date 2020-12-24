@@ -55,11 +55,11 @@ public class Github extends MyProxy {
                 if (json.getType().equals("dir")) {
                     recursSearchGit(json.getUrl());
                 } else if ((json.getPath().toLowerCase().contains(".java") ||
-                            json.getPath().toLowerCase().contains(".c")    ||
-                            json.getPath().toLowerCase().contains(".cpp")  ||
-                            json.getPath().toLowerCase().contains(".html") ||
-                            json.getPath().toLowerCase().contains(".js")   ||
-                            json.getPath().toLowerCase().contains(".css")) && json.getDownload_url() != null) {
+                        json.getPath().toLowerCase().contains(".c") ||
+                        json.getPath().toLowerCase().contains(".cpp") ||
+                        json.getPath().toLowerCase().contains(".html") ||
+                        json.getPath().toLowerCase().contains(".js") ||
+                        json.getPath().toLowerCase().contains(".css")) && json.getDownload_url() != null) {
                     downloadFromGit(json);
                 }
             }

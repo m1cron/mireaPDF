@@ -24,9 +24,8 @@ public class MakeDocuments {
             System.setProperty(driverName, "/usr/bin/chromedriver");
         else if (opSys.contains("mac"))
             System.setProperty(driverName, "/usr/local/bin/chromedriver");
-        driver = new ChromeDriver(new ChromeOptions()
-                                        .addArguments("window-size=800,600")
-                                        .addArguments("window-position=-1920,10"));
+        driver = new ChromeDriver(new ChromeOptions().addArguments("window-size=800,600")
+                                                     .addArguments("window-position=-1920,10"));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
@@ -36,7 +35,7 @@ public class MakeDocuments {
         driver.findElement(By.xpath("//a[@id='HTMLFileToPDF']")).click();
         sleep(2);
         String downloadUrl = driver.findElement(By.xpath("//*[@id='apply-popup']/div[2]/div[2]/div/div[2]/div[1]/a"))
-                                .getAttribute("href");
+                .getAttribute("href");
         downloadFile(downloadUrl, pdfName);
     }
 
@@ -48,7 +47,7 @@ public class MakeDocuments {
         driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div[1]/button")).click();
         sleep(10);
         String downloadUrl = driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div/div[1]/div/div[1]/div[8]/div[2]/div/div/div[2]/div[3]/a"))
-                                    .getAttribute("href");
+                .getAttribute("href");
         downloadFile(downloadUrl, wordName);
     }
 

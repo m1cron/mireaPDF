@@ -7,7 +7,7 @@ public class MakeMap {
     private final Map<String, String> map;
 
     public MakeMap(String code) {
-        map = new HashMap<>(16,1);
+        map = new HashMap<>(16, 1);
 
         new GetDate().fillMap(map);
         new StudentJsonIO().fillMap(map);

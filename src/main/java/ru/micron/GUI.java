@@ -125,7 +125,7 @@ public class GUI {
             }
 
             long endTime = System.currentTimeMillis();
-            System.out.println("Total execution time: " + (endTime-startTime) + "ms");
+            System.out.println("Total execution time: " + (endTime - startTime) + "ms");
 
             new GetDate().fillMap(map);
 

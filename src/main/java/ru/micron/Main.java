@@ -23,7 +23,7 @@ public class Main {
                 printHelp();
             else {
                 new MakeHtml("./templates", "index.ftl")
-                                    .makeHtml(new MakeMap(args[2]).getMap(), "./index.html");
+                        .makeHtml(new MakeMap(args[2]).getMap(), "./index.html");
                 MakeDocuments docs = new MakeDocuments();
                 docs.makePdf("./index.html", "pdf.pdf");
                 if (args[1].equals("1")) {
