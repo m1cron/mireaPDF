@@ -25,7 +25,7 @@ public class Github extends MyProxy {
     }
 
     private synchronized void splitAdd(String path, String codeBuff) {
-        codeArr.add("\t\n\n<strong>" + path + "</strong>\n\n");
+        codeArr.add(String.format("\t\n\n<strong>%s</strong>\n\n", path));
         Collections.addAll(codeArr, codeBuff.split("\n"));
     }
 
@@ -34,7 +34,7 @@ public class Github extends MyProxy {
             splitAdd(json.getPath(),
                     useProxy ? readStringFromURL(json.getDownload_url(), getProxy()) :
                                 readStringFromURL(json.getDownload_url()));
-            System.out.printf("download %s in thread %s%n", json.getPath(), Thread.currentThread().getName());
+            System.out.printf("download %s in thread %s\n", json.getPath(), Thread.currentThread().getName());
         });
         thread.start();
         threadArr.add(thread);
