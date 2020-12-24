@@ -27,11 +27,11 @@ public class GithubTest {
 
     @Test
     public void getRegExPattern() {
-        String[] arr0 = {"kjdhzfg.java", "ajdhgf.JaVa", "IUYGFDRSGdgf31Pp.cs"};
+        String[] arr0 = { "test.cpp", "kjdhzfg.java", "ajdhgf.JaVa", "IUYGFDRSGdgf31Pp.cs", "src/ru/micron/task1/Main.java" };
         for (String s : arr0) {
             Assert.assertTrue(s.matches(Github.getRegExPattern()));
         }
-        String[] arr1 = {"kjdhzfg..java", "ajdhgf.JaV!a", "IUYGFDRSGdgf3#1Pp.cs"};
+        String[] arr1 = { "kjdhzfg..java", "ajdhgf.JaV!a", "IUYGFDRSGdgf3#1Pp.cs", "tes/t.cpP " };
         for (String s : arr1) {
             Assert.assertFalse(s.matches(Github.getRegExPattern()));
         }
