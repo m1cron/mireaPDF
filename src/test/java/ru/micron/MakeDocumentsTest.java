@@ -26,7 +26,7 @@ public class MakeDocumentsTest {
                 "https://file-examples-com.github.io/uploads/2017/10/file-example_PDF_1MB.pdf"};
         int i = 0;
         for (String url : urls) {
-            MakeDocuments.downloadFile(url, "TMP/file_" + i++ + ".pdf");
+            MakeDocuments.downloadFile(url, String.format("TMP/file_%d.pdf", i++));
         }
     }
 }
