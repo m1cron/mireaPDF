@@ -36,7 +36,7 @@ public class GithubAPI extends MyProxy {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.warn(e.getMessage());
             }
         });
     }

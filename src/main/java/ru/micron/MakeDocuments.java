@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -54,7 +55,7 @@ public class MakeDocuments {
         String driverName = "webdriver.chrome.driver";
         String opSys = System.getProperty("os.name").toLowerCase();
         if (opSys.contains("win")) {
-            System.setProperty(driverName, "./drivers/chromedriver.exe");
+            System.setProperty(driverName, "./chromedriver.exe");
             logger.info("OS set: Win");
         } else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix")) {
             System.setProperty(driverName, "/usr/bin/chromedriver");
@@ -77,7 +78,7 @@ public class MakeDocuments {
         try {
             logger.info("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
-            cfg.setDirectoryForTemplateLoading(new File(templatesDir));
+            cfg.setClassForTemplateLoading(this.getClass(), templatesDir);
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             Template template = cfg.getTemplate(templateFile);
@@ -89,7 +90,7 @@ public class MakeDocuments {
             htmlOpen.deleteOnExit();
             logger.info("Creating HTML - Done!");
         } catch (IOException | TemplateException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
     }
 
@@ -141,7 +142,7 @@ public class MakeDocuments {
         try {
             TimeUnit.SECONDS.sleep(sec);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
     }
 

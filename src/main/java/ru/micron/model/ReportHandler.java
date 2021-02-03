@@ -36,13 +36,14 @@ public class ReportHandler implements MapFilling {
             file.close();
             logger.info("Report json saved!");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
     }
 
     public Report getJson() {
         try {
             report = gson.fromJson(Files.readString(Path.of("report.json")), Report.class);
+            System.out.println(report);
             logger.info("Report received successfully!");
             return report;
         } catch (IOException e) {

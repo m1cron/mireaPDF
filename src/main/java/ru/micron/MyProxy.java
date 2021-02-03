@@ -84,7 +84,7 @@ public class MyProxy {
                 response.append(inputLine).append("\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return response.toString();
     }
