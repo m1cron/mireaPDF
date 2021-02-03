@@ -70,9 +70,9 @@ public class GUI {
         JTextArea literature_content = new JTextArea(report.getLiterature(), 10, 20);
         literature_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JCheckBox checkMakeDocx = new JCheckBox("Делать DOCX?");
+        JCheckBox checkMakeDocx = new JCheckBox("Make DOCX?");
 
-        JCheckBox useProxy = new JCheckBox("Прокси?");
+        JCheckBox useProxy = new JCheckBox("Proxy?");
         useProxy.setHorizontalTextPosition(SwingConstants.LEFT);
 
         JTextArea pingText = new JTextArea("Ping:");
