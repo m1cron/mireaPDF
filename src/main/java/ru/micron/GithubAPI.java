@@ -1,17 +1,26 @@
 package ru.micron;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import ru.micron.json.GithubJson;
+import ru.micron.model.Github;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class Github extends MyProxy {
+public class GithubAPI extends MyProxy {
+
+    private final Gson gson;
+    private final boolean useProxy;
     private final List<String> codeArr;
     private final List<Thread> threadArr;
     private static final String regExPattern = "(?i)[\\w/]+\\.(java|c|cpp|hpp|h|cs|cc|cxx|html|css|js|php|py)$";
 
-    public Github(String link, boolean useProxy, String proxyPing) {
+    public GithubAPI(String link, boolean useProxy, String proxyPing) {
         super(proxyPing, useProxy);
+        this.useProxy = useProxy;
+        gson = new Gson();
         codeArr = new ArrayList<>(500);
         threadArr = new ArrayList<>(24);
         recursSearchGit(parseUrl(link));
@@ -29,30 +38,30 @@ public class Github extends MyProxy {
         Collections.addAll(codeArr, codeBuff.split("\n"));
     }
 
-    public void downloadFromGit(GithubJson json) {
+    public void downloadFromGit(Github github) {
         Thread thread = new Thread(() -> {
-            splitAdd(json.getPath(),
-                    useProxy ? readStringFromURL(json.getDownload_url(), getProxy()) :
-                                readStringFromURL(json.getDownload_url()));
-            System.out.printf("download %s in thread %s\n", json.getPath(), Thread.currentThread().getName());
+            splitAdd(github.getPath(),
+                    useProxy ? readStringFromURL(github.getDownload_url(), getProxy()) :
+                                readStringFromURL(github.getDownload_url()));
+            System.out.printf("download %s in thread %s\n", github.getPath(), Thread.currentThread().getName());
         });
         thread.start();
         threadArr.add(thread);
     }
 
     public void recursSearchGit(String url) {
-        List<GithubJson> githubArr = new ArrayList<>();
+        List<Github> githubArr = new ArrayList<>();
         String stringJson = useProxy ? readStringFromURL(url, getProxy()) : readStringFromURL(url);
         try {
-            githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, GithubJson[].class)));
+            githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, Github[].class)));
         } catch (JsonParseException e) {
-            githubArr.add(gson.fromJson(stringJson, GithubJson.class));
+            githubArr.add(gson.fromJson(stringJson, Github.class));
         } finally {
-            for (GithubJson json : githubArr) {
-                if (json.getType().equals("dir")) {
-                    recursSearchGit(json.getUrl());
-                } else if (json.getPath().matches(regExPattern) && json.getDownload_url() != null) {
-                    downloadFromGit(json);
+            for (Github github : githubArr) {
+                if (github.getType().equals("dir")) {
+                    recursSearchGit(github.getUrl());
+                } else if (github.getPath().matches(regExPattern) && github.getDownload_url() != null) {
+                    downloadFromGit(github);
                 }
             }
         }

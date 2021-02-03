@@ -1,38 +1,92 @@
 package ru.micron;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class MakeDocuments {
 
-    private final WebDriver driver;
+    private WebDriver driver;
 
-    public MakeDocuments() {
+    @Autowired
+    private ChromeOptions chromeOptions;
+
+    @Value("${freemarker.templates.dir}")
+    private String templatesDir;
+    @Value("${freemarker.templates.file}")
+    private String templateFile;
+    @Value("${html.templates.file}")
+    private String htmlName;
+    @Value("${name.pdf.file}")
+    private String pdfName;
+    @Value("${name.word.file}")
+    private String wordName;
+
+    @PostConstruct
+    void init() {
         String driverName = "webdriver.chrome.driver";
-
         String opSys = System.getProperty("os.name").toLowerCase();
-        if (opSys.contains("win"))
+        if (opSys.contains("win")) {
             System.setProperty(driverName, "./drivers/chromedriver.exe");
-        else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix"))
+        } else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix")) {
             System.setProperty(driverName, "/usr/bin/chromedriver");
-        else if (opSys.contains("mac"))
+        } else if (opSys.contains("mac")) {
             System.setProperty(driverName, "/usr/local/bin/chromedriver");
-        driver = new ChromeDriver(new ChromeOptions().addArguments("window-size=800,600")
-                                                     .addArguments("window-position=-1920,10"));
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        }
     }
 
-    public void makePdf(String html, String pdfName) {
+    @PreDestroy
+    void destroy() {
+        if (driver != null) {
+            driver.close();
+            driver.quit();
+        }
+    }
+
+    public void makeHtml(Map<String, String> map) {
+        try {
+            System.out.print("Creating HTML!\n");
+            Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+            cfg.setDirectoryForTemplateLoading(new File(templatesDir));
+            cfg.setDefaultEncoding("UTF-8");
+            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+            Template template = cfg.getTemplate(templateFile);
+            File htmlOpen = new File(htmlName);
+            Writer html = new FileWriter(htmlOpen);
+            template.process(map, html);
+            html.flush();
+            html.close();
+            htmlOpen.deleteOnExit();
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void makePdf() {
+        driver = new ChromeDriver(chromeOptions);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://deftpdf.com/ru/html-to-pdf");
-        driver.findElement(By.xpath("//input[@type='file']")).sendKeys(new File(html).getAbsolutePath());
+        driver.findElement(By.xpath("//input[@type='file']")).sendKeys(new File(htmlName).getAbsolutePath());
         driver.findElement(By.xpath("//a[@id='HTMLFileToPDF']")).click();
         sleep(2);
         String downloadUrl = driver.findElement(By.xpath("//*[@id='apply-popup']/div[2]/div[2]/div/div[2]/div[1]/a"))
@@ -40,7 +94,7 @@ public class MakeDocuments {
         downloadFile(downloadUrl, pdfName);
     }
 
-    public void makeWord(String pdfName, String wordName) {
+    public void makeWord() {
         driver.get("https://www.pdf2go.com/ru/pdf-to-word");
         driver.findElement(By.cssSelector("input[type=file]")).sendKeys(new File(pdfName).getAbsolutePath());
         sleep(2);
@@ -50,11 +104,6 @@ public class MakeDocuments {
         String downloadUrl = driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div/div[1]/div/div[1]/div[8]/div[2]/div/div/div[2]/div[3]/a"))
                 .getAttribute("href");
         downloadFile(downloadUrl, wordName);
-    }
-
-    public void closeDriver() {
-        driver.close();
-        driver.quit();
     }
 
     public static void downloadFile(String downloadUrl, String fileName) {
@@ -77,4 +126,5 @@ public class MakeDocuments {
             e.printStackTrace();
         }
     }
+
 }

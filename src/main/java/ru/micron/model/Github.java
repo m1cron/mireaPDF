@@ -1,11 +1,11 @@
-package ru.micron.json;
+package ru.micron.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class GithubJson {
+public class Github {
 
     private final String name;
     private final String path;

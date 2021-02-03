@@ -1,11 +1,11 @@
-package ru.micron.json;
+package ru.micron.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ReportJson {
+public class Report {
     private String prac_number;
     private String target;
     private String theory;
@@ -14,7 +14,7 @@ public class ReportJson {
     private String conclusion;
     private String literature;
 
-    public ReportJson() {
+    public Report() {
         this.prac_number = "№";
         this.target = "Цель работы";
         this.theory = "Теоретическое введение";

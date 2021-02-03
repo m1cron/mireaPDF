@@ -7,16 +7,14 @@ public class MakeDocumentsTest {
     @Test
     public void makePdf() {
         MakeDocuments docs = new MakeDocuments();
-        docs.makePdf("./TMP/index.html", "./TMP/pdf.pdf");
-        docs.closeDriver();
+        docs.makePdf();
     }
 
     @Test
     public void makeWord() {
         MakeDocuments docs = new MakeDocuments();
-        docs.makePdf("./TMP/index.html", "./TMP/pdf.pdf");
-        docs.makeWord("./TMP/pdf.pdf", "./TMP/word.docx");
-        docs.closeDriver();
+        docs.makePdf();
+        docs.makeWord();
     }
 
     @Test

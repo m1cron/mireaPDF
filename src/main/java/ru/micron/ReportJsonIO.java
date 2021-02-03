@@ -2,25 +2,25 @@ package ru.micron;
 
 import com.google.gson.Gson;
 import ru.micron.interfaces.JsonIO;
-import ru.micron.json.ReportJson;
+import ru.micron.model.Report;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-public class ReportJsonIO implements JsonIO<ReportJson> {
+public class ReportJsonIO implements JsonIO<Report> {
 
     private static Gson gson;
     private static final String jsonName = "report.json";
-    private static ReportJson reportJson;
+    private static Report report;
 
     public ReportJsonIO() {
         gson = new Gson();
-        reportJson = getJson(ReportJson.class);
+        report = getJson(Report.class);
     }
 
     @Override
-    public void saveJson(ReportJson obj) {
+    public void saveJson(Report obj) {
         try {
             FileWriter file = new FileWriter(jsonName);
             gson.toJson(obj, file);
@@ -31,19 +31,19 @@ public class ReportJsonIO implements JsonIO<ReportJson> {
     }
 
     @Override
-    public ReportJson getJson(Class<ReportJson> jsonClass) {
+    public Report getJson(Class<Report> jsonClass) {
         try {
-            return reportJson = gson.fromJson(readFile(jsonName), jsonClass);
+            return report = gson.fromJson(readFile(jsonName), jsonClass);
         } catch (IOException e) {
             System.out.println("Report json doesn't exist!");
-            reportJson = new ReportJson();
-            return reportJson;
+            report = new Report();
+            return report;
         }
     }
 
     @Override
     public void fillMap(Map<String, String> map) {
-        ReportJson report;
+        Report report;
         if ((report = getReportJson()) != null) {
             map.put("prac_number", report.getPrac_number());
             map.put("target_content", report.getTarget());
@@ -54,7 +54,7 @@ public class ReportJsonIO implements JsonIO<ReportJson> {
         }
     }
 
-    public ReportJson getReportJson() {
-        return reportJson;
+    public Report getReportJson() {
+        return report;
     }
 }

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Getter
-public class GetDate implements MapFilling {
+public class ReportDate implements MapFilling {
 
     private static final List<String> months;
     private final String year;
@@ -23,7 +23,7 @@ public class GetDate implements MapFilling {
                 "августа", "сентября", "октября", "ноября", "декабря").collect(Collectors.toList());
     }
 
-    public GetDate() {
+    public ReportDate() {
         Locale locale = new Locale("ru");
         year = Integer.toString(Calendar.getInstance(locale).get(Calendar.YEAR));
         month = months.get(Calendar.getInstance(locale).get(Calendar.MONTH));

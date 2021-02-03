@@ -1,7 +1,10 @@
 package ru.micron;
 
-import ru.micron.json.ReportJson;
-import ru.micron.json.StudentJson;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.micron.config.AppConfiguration;
+import ru.micron.model.Report;
+import ru.micron.model.Student;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +17,10 @@ public class GUI {
     private final JPanel panel;
     private final StudentJsonIO studentJsonIO;
     private final ReportJsonIO reportJsonIO;
+    private final ApplicationContext context;
 
     public GUI() throws HeadlessException {
+        context = new AnnotationConfigApplicationContext(AppConfiguration.class);
         frame = new JFrame("MIREA PDF");
         frame.setIconImage(new ImageIcon("./icon.png").getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,8 +35,8 @@ public class GUI {
     }
 
     public void run() {
-        StudentJson studentJson = studentJsonIO.getStudentJson();
-        ReportJson reportJson = reportJsonIO.getReportJson();
+        Student studentJson = studentJsonIO.getStudentJson();
+        Report report = reportJsonIO.getReportJson();
 
         JTextField teacher = new JTextField(studentJson.getTchName(), 20);
         teacher.setBackground(Color.WHITE);
@@ -42,25 +47,25 @@ public class GUI {
         JTextField group = new JTextField(studentJson.getGroupNum(), 14);
         group.setBackground(Color.WHITE);
 
-        JTextField prac_number = new JTextField(reportJson.getPrac_number(), 5);
+        JTextField prac_number = new JTextField(report.getPrac_number(), 5);
         prac_number.setBackground(Color.WHITE);
 
-        JTextArea target_content = new JTextArea(reportJson.getTarget(), 10, 20);
+        JTextArea target_content = new JTextArea(report.getTarget(), 10, 20);
         target_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea teor_content = new JTextArea(reportJson.getTheory(), 10, 20);
+        JTextArea teor_content = new JTextArea(report.getTheory(), 10, 20);
         teor_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea step_by_step = new JTextArea(reportJson.getStep_by_step(), 10, 20);
+        JTextArea step_by_step = new JTextArea(report.getStep_by_step(), 10, 20);
         step_by_step.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea code = new JTextArea(reportJson.getCode(), 10, 20);
+        JTextArea code = new JTextArea(report.getCode(), 10, 20);
         code.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea conclusion_content = new JTextArea(reportJson.getConclusion(), 10, 20);
+        JTextArea conclusion_content = new JTextArea(report.getConclusion(), 10, 20);
         conclusion_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
-        JTextArea literature_content = new JTextArea(reportJson.getLiterature(), 10, 20);
+        JTextArea literature_content = new JTextArea(report.getLiterature(), 10, 20);
         literature_content.setFont(new Font("Dialog", Font.PLAIN, 14));
 
         JCheckBox checkMakeDocx = new JCheckBox("Делать DOCX?");
@@ -102,48 +107,42 @@ public class GUI {
             studentJson.setStudName(student.getText());
             studentJson.setTchName(teacher.getText());
 
-            reportJson.setPrac_number(prac_number.getText());
-            reportJson.setTarget(target_content.getText());
-            reportJson.setTheory(teor_content.getText());
-            reportJson.setStep_by_step(step_by_step.getText());
-            reportJson.setConclusion(conclusion_content.getText());
-            reportJson.setLiterature(literature_content.getText());
-            reportJson.setCode(code.getText());
+            report.setPrac_number(prac_number.getText());
+            report.setTarget(target_content.getText());
+            report.setTheory(teor_content.getText());
+            report.setStep_by_step(step_by_step.getText());
+            report.setConclusion(conclusion_content.getText());
+            report.setLiterature(literature_content.getText());
+            report.setCode(code.getText());
 
             studentJsonIO.fillMap(map);
             reportJsonIO.fillMap(map);
 
             studentJsonIO.saveJson(studentJson);
-            reportJsonIO.saveJson(reportJson);
+            reportJsonIO.saveJson(report);
 
             long startTime = System.currentTimeMillis();
-
             if (code.getText().contains("github.com/")) {
-                new ReportFormatting(new Github(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCodeArr()).fillMap(map);
+                new ReportFormatting(new GithubAPI(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCodeArr()).fillMap(map);
             } else {
                 new ReportFormatting(Arrays.asList(code.getText().split("\n"))).fillMap(map);
             }
+            System.out.println("Total execution time: " + (System.currentTimeMillis() - startTime) + "ms");
 
-            long endTime = System.currentTimeMillis();
-            System.out.println("Total execution time: " + (endTime - startTime) + "ms");
-
-            new GetDate().fillMap(map);
-
-            new MakeHtml("./templates", "index.ftl")
-                    .makeHtml(map, "./index.html");
-
-            MakeDocuments docs = new MakeDocuments();
-            docs.makePdf("./index.html", "pdf.pdf");
-            if (checkMakeDocx.isSelected())
-                docs.makeWord("pdf.pdf", "word.docx");
-            docs.closeDriver();
+            context.getBean(ReportDate.class).fillMap(map);
+            MakeDocuments docs = context.getBean(MakeDocuments.class);
+            docs.makeHtml(map);
+            docs.makePdf();
+            if (checkMakeDocx.isSelected()) {
+                docs.makeWord();
+                docs.destroy();
+            } else {
+                docs.destroy();
+            }
         });
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new GUI().run();
-    }
 }

@@ -3,18 +3,18 @@ package ru.micron;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class GithubTest {
+public class GithubAPITest {
 
     @Test
-    public void Github() {
+    public void GithubAPI() {
         String url = "https://github.com/m1cron/java_rtu/blob/master/src/ru/micron/task4";
-        new Github(url, false, "100").getCodeArr().forEach(Assert::assertNotNull);
+        new GithubAPI(url, false, "100").getCodeArr().forEach(Assert::assertNotNull);
     }
 
     @Test
     public void recursSearchGit() {
         String url = "https://github.com/m1cron/java_rtu/blob/master/src/ru/micron/task2";
-        Github gh = new Github(url, false, "100");
+        GithubAPI gh = new GithubAPI(url, false, "100");
         gh.getCodeArr().forEach(Assert::assertNotNull);
     }
 
@@ -22,18 +22,19 @@ public class GithubTest {
     public void parseUrl() {
         String url = "https://github.com/m1cron/java_rtu/blob/master/src/ru/micron";
         String destUrl = "https://api.github.com/repos/m1cron/java_rtu/contents/src/ru/micron";
-        Assert.assertEquals(Github.parseUrl(url), destUrl);
+        Assert.assertEquals(GithubAPI.parseUrl(url), destUrl);
     }
 
     @Test
     public void getRegExPattern() {
         String[] arr0 = { "test.cpp", "kjdhzfg.java", "ajdhgf.JaVa", "IUYGFDRSGdgf31Pp.cs", "src/ru/micron/task1/Main.java" };
         for (String s : arr0) {
-            Assert.assertTrue(s.matches(Github.getRegExPattern()));
+            Assert.assertTrue(s.matches(GithubAPI.getRegExPattern()));
         }
         String[] arr1 = { "kjdhzfg..java", "ajdhgf.JaV!a", "IUYGFDRSGdgf3#1Pp.cs", "tes/t.cpP " };
         for (String s : arr1) {
-            Assert.assertFalse(s.matches(Github.getRegExPattern()));
+            Assert.assertFalse(s.matches(GithubAPI.getRegExPattern()));
         }
     }
+
 }

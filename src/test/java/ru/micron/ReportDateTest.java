@@ -6,11 +6,11 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetDateTest {
+public class ReportDateTest {
 
     @Test
     public void fillMap() {
-        GetDate date = new GetDate();
+        ReportDate date = new ReportDate();
 
         Map<String, String> map = new HashMap<>(3, 1);
         date.fillMap(map);
@@ -22,19 +22,20 @@ public class GetDateTest {
 
     @Test
     public void getYear() {
-        GetDate date = new GetDate();
+        ReportDate date = new ReportDate();
         Assert.assertNotNull(date.getYear());
     }
 
     @Test
     public void getMonth() {
-        GetDate date = new GetDate();
+        ReportDate date = new ReportDate();
         Assert.assertNotNull(date.getMonth());
     }
 
     @Test
     public void getDay() {
-        GetDate date = new GetDate();
+        ReportDate date = new ReportDate();
         Assert.assertNotNull(date.getDay());
     }
+
 }
