@@ -82,7 +82,7 @@ public class GUI {
         JTextField proxyPing = new JTextField("100", 3);
         proxyPing.setBackground(Color.WHITE);
 
-        JButton createPdf = new JButton("РЎРѕР·РґР°С‚СЊ PDF");
+        JButton createPdf = new JButton("Создать PDF");
 
         panel.add(teacher);
         panel.add(student);

@@ -8,6 +8,7 @@ import ru.micron.interfaces.MapFilling;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -42,8 +43,7 @@ public class ReportHandler implements MapFilling {
 
     public Report getJson() {
         try {
-            report = gson.fromJson(Files.readString(Path.of("report.json")), Report.class);
-            System.out.println(report);
+            report = gson.fromJson(Files.readString(Path.of("report.json"), Charset.forName("windows-1251")), Report.class);
             logger.info("Report received successfully!");
             return report;
         } catch (IOException e) {

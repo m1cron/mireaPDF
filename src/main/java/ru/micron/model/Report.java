@@ -20,17 +20,17 @@ public class Report {
     private String literature;
 
     public Report() {
-        this.studName = "РЎС‚СѓРґРµРЅС‚";
-        this.tchName = "РџСЂРµРїРѕРґР°РІР°С‚РµР»СЊ";
-        this.groupNum = "Р“СЂСѓРїРїР°";
+        this.studName = "Студент";
+        this.tchName = "Преподаватель";
+        this.groupNum = "Группа";
 
-        this.prac_number = "в„–";
-        this.target = "Р¦РµР»СЊ СЂР°Р±РѕС‚С‹";
-        this.theory = "РўРµРѕСЂРµС‚РёС‡РµСЃРєРѕРµ РІРІРµРґРµРЅРёРµ";
-        this.step_by_step = "РҐРѕРґ СЂР°Р±РѕС‚С‹";
-        this.code = "РљРѕРґ СЃ GitHub РёР»Рё СЃСЃС‹Р»РєР°";
-        this.conclusion = "Р’С‹РІРѕРґ";
-        this.literature = "РСЃРїРѕР»СЊР·СѓРµРјР°СЏ Р»РёС‚РµСЂР°С‚СѓСЂР°";
+        this.prac_number = "№";
+        this.target = "Цель работы";
+        this.theory = "Теоретическое введение";
+        this.step_by_step = "Ход работы";
+        this.code = "Код с GitHub или ссылка";
+        this.conclusion = "Вывод";
+        this.literature = "Используемая литература";
     }
 
 }

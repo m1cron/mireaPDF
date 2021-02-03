@@ -19,8 +19,8 @@ public class ReportDate implements MapFilling {
     private final String day;
 
     static {
-        months = Stream.of("СЏРЅРІР°СЂСЏ", "С„РµРІСЂР°Р»СЏ", "РјР°СЂС‚Р°", "Р°РїСЂРµР»СЏ", "РјР°СЏ", "РёСЋРЅСЏ", "РёСЋР»СЏ",
-                "Р°РІРіСѓСЃС‚Р°", "СЃРµРЅС‚СЏР±СЂСЏ", "РѕРєС‚СЏР±СЂСЏ", "РЅРѕСЏР±СЂСЏ", "РґРµРєР°Р±СЂСЏ").collect(Collectors.toList());
+        months = Stream.of("января", "февраля", "марта", "апреля", "мая", "июня", "июля",
+                "августа", "сентября", "октября", "ноября", "декабря").collect(Collectors.toList());
     }
 
     public ReportDate() {

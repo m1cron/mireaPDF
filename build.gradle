@@ -8,8 +8,8 @@ group 'ru.micron'
 version '1.0'
 sourceCompatibility = '11'
 
-compileJava.options.encoding = 'UTF-8'
-compileTestJava.options.encoding = 'UTF-8'
+compileJava.options.encoding = 'windows-1251'
+compileTestJava.options.encoding = 'windows-1251'
 
 jar {
     manifest {

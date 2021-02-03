@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +22,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -79,7 +79,7 @@ public class MakeDocuments {
             logger.info("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
             cfg.setClassForTemplateLoading(this.getClass(), templatesDir);
-            cfg.setDefaultEncoding("UTF-8");
+            cfg.setEncoding(new Locale("ru"), "windows-1251");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             Template template = cfg.getTemplate(templateFile);
             File htmlOpen = new File(htmlName);

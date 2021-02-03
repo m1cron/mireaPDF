@@ -23,7 +23,7 @@ public class ReportFormatting implements MapFilling {
         String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
         String codeStart = "\t\t<pre class=\"code\">\n";
 
-        code.append(divStart).append("\t<h2 class=\"h2\">РљРѕРґ</h2>").append(codeStart);
+        code.append(divStart).append("\t<h2 class=\"h2\">Код</h2>").append(codeStart);
         short count = 4;
         for (String s : codeArr) {
             code.append(formatWidth(s)).append("\n");
