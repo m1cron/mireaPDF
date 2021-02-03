@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public interface JsonIO<T> extends MapFilling {
+
     void saveJson(T obj);
 
     T getJson(Class<T> jsonClass);
@@ -13,4 +14,5 @@ public interface JsonIO<T> extends MapFilling {
         Path fileName = Path.of(fileDir);
         return Files.readString(fileName);
     }
+
 }

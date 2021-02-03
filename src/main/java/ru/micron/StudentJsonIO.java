@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 public class StudentJsonIO implements JsonIO<StudentJson> {
+
     private static final String jsonName = "info.json";
     private static Gson gson;
     private final StudentJson studentJson;

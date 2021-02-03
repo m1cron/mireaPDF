@@ -14,6 +14,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class MyProxy {
+
     private final String proxyApi;
     private volatile Proxy proxy;
     protected final Gson gson;

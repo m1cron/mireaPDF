@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class ReportJsonIO implements JsonIO<ReportJson> {
+
     private static Gson gson;
     private static final String jsonName = "report.json";
     private static ReportJson reportJson;

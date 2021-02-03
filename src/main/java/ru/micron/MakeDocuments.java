@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class MakeDocuments {
+
     private final WebDriver driver;
 
     public MakeDocuments() {

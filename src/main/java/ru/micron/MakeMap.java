@@ -1,9 +1,13 @@
 package ru.micron;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class MakeMap {
+
     private final Map<String, String> map;
 
     public MakeMap(String code) {
@@ -15,7 +19,4 @@ public class MakeMap {
         new ReportFormatting(new Github(code, false, "100").getCodeArr()).fillMap(map);
     }
 
-    public Map<String, String> getMap() {
-        return map;
-    }
 }
