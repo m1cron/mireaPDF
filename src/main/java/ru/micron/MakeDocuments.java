@@ -83,11 +83,10 @@ public class MakeDocuments {
     }
 
     public void makePdf() {
-        if (driver == null) {
-            driver = new ChromeDriver(chromeOptions);
-        }
+        driver = new ChromeDriver(chromeOptions);
         driver.get("https://deftpdf.com/ru/html-to-pdf");
         driver.findElement(By.xpath("//input[@type='file']")).sendKeys(new File(htmlName).getAbsolutePath());
+        sleep(1);
         driver.findElement(By.xpath("//a[@id='HTMLFileToPDF']")).click();
         sleep(2);
         String downloadUrl = driver.findElement(By.xpath("//*[@id='apply-popup']/div[2]/div[2]/div/div[2]/div[1]/a"))
