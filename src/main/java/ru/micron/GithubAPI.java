@@ -2,6 +2,8 @@ package ru.micron;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.micron.model.Github;
 
 import java.util.ArrayList;
@@ -15,7 +17,13 @@ public class GithubAPI extends MyProxy {
     private final boolean useProxy;
     private final List<String> codeArr;
     private final List<Thread> threadArr;
-    private static final String regExPattern = "(?i)[\\w/]+\\.(java|c|cpp|hpp|h|cs|cc|cxx|html|css|js|php|py)$";
+    private static final String regExPattern;
+    private static final Logger logger;
+
+    static {
+        regExPattern = "(?i)[\\w/]+\\.(java|c|cpp|hpp|h|cs|cc|cxx|html|css|js|php|py)$";
+        logger = LoggerFactory.getLogger(GithubAPI.class);
+    }
 
     public GithubAPI(String link, boolean useProxy, String proxyPing) {
         super(proxyPing, useProxy);
@@ -43,7 +51,7 @@ public class GithubAPI extends MyProxy {
             splitAdd(github.getPath(),
                     useProxy ? readStringFromURL(github.getDownload_url(), getProxy()) :
                                 readStringFromURL(github.getDownload_url()));
-            System.out.printf("download %s in thread %s\n", github.getPath(), Thread.currentThread().getName());
+            logger.info(String.format("download %s in thread %s", github.getPath(), Thread.currentThread().getName()));
         });
         thread.start();
         threadArr.add(thread);

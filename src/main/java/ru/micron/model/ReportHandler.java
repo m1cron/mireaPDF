@@ -1,6 +1,8 @@
 package ru.micron.model;
 
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import ru.micron.interfaces.MapFilling;
 
@@ -16,6 +18,11 @@ public class ReportHandler implements MapFilling {
     private String reportFileName;
     private Report report;
     private final Gson gson;
+    private static final Logger logger;
+
+    static {
+        logger = LoggerFactory.getLogger(ReportHandler.class);
+    }
 
     public ReportHandler() {
         gson = new Gson();
@@ -27,6 +34,7 @@ public class ReportHandler implements MapFilling {
             FileWriter file = new FileWriter(reportFileName);
             gson.toJson(report, file);
             file.close();
+            logger.info("Report json saved!");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,9 +42,11 @@ public class ReportHandler implements MapFilling {
 
     public Report getJson() {
         try {
-            return (report = gson.fromJson(Files.readString(Path.of("report.json")), Report.class));
+            report = gson.fromJson(Files.readString(Path.of("report.json")), Report.class);
+            logger.info("Report received successfully!");
+            return report;
         } catch (IOException e) {
-            System.out.println("Report json doesn't exist!");
+            logger.info("Report json doesn't exist!");
             return new Report();
         }
     }

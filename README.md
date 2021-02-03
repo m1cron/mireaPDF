@@ -13,7 +13,7 @@ $ gradlew fatJar
 
 ```
 $ cd build/libs/
-$ java -jar MIREA-PDF-*.jar 
+$ java -jar MIREA-PDF-*.jar  [or double click]
 ```
 
 ### `Technology Stack`
@@ -23,6 +23,7 @@ Spring Boot 2
 Gradle
 Github API (GSON)
 Selenium API with Chrome Driver
+Logback (SLF4J)
 FreeMaker
 HTML + CSS
 Java Swing

@@ -1,5 +1,7 @@
 package ru.micron;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.micron.config.AppConfiguration;
@@ -15,6 +17,11 @@ import java.util.Map;
 public class GUI {
 
     private final ApplicationContext context;
+    private static final Logger logger;
+
+    static {
+        logger = LoggerFactory.getLogger(GUI.class);
+    }
 
     public GUI() {
         context = new AnnotationConfigApplicationContext(AppConfiguration.class);
@@ -118,7 +125,7 @@ public class GUI {
             } else {
                 new ReportFormatting().formatCode(Arrays.asList(code.getText().split("\n"))).fillMap(map);
             }
-            System.out.println("Total execution time: " + (System.currentTimeMillis() - startTime) + "ms");
+            logger.info(String.format("Total execution time: %d ms", System.currentTimeMillis() - startTime));
 
             context.getBean(ReportDate.class).fillMap(map);
             MakeDocuments docs = context.getBean(MakeDocuments.class);

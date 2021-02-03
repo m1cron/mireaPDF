@@ -9,6 +9,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,11 @@ import java.util.concurrent.TimeUnit;
 public class MakeDocuments {
 
     private WebDriver driver;
+    private static final Logger logger;
+
+    static {
+        logger = LoggerFactory.getLogger(MakeDocuments.class);
+    }
 
     @Autowired
     private ChromeOptions chromeOptions;
@@ -48,10 +55,13 @@ public class MakeDocuments {
         String opSys = System.getProperty("os.name").toLowerCase();
         if (opSys.contains("win")) {
             System.setProperty(driverName, "./drivers/chromedriver.exe");
+            logger.info("OS set: Win");
         } else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix")) {
             System.setProperty(driverName, "/usr/bin/chromedriver");
+            logger.info("OS set: Nix");
         } else if (opSys.contains("mac")) {
             System.setProperty(driverName, "/usr/local/bin/chromedriver");
+            logger.info("OS set: Mac");
         }
     }
 
@@ -65,7 +75,7 @@ public class MakeDocuments {
 
     public void makeHtml(Map<String, String> map) {
         try {
-            System.out.print("Creating HTML!\n");
+            logger.info("Creating HTML!");
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
             cfg.setDirectoryForTemplateLoading(new File(templatesDir));
             cfg.setDefaultEncoding("UTF-8");
@@ -77,12 +87,14 @@ public class MakeDocuments {
             html.flush();
             html.close();
             htmlOpen.deleteOnExit();
+            logger.info("Creating HTML - Done!");
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
     }
 
     public void makePdf() {
+        logger.info("Creating PDF!");
         driver = new ChromeDriver(chromeOptions);
         driver.get("https://deftpdf.com/ru/html-to-pdf");
         driver.findElement(By.xpath("//input[@type='file']")).sendKeys(new File(htmlName).getAbsolutePath());
@@ -95,6 +107,7 @@ public class MakeDocuments {
     }
 
     public void makeWord() {
+        logger.info("Creating DOCX!");
         if (driver == null) {
             driver = new ChromeDriver(chromeOptions);
         }
@@ -118,9 +131,9 @@ public class MakeDocuments {
                     new File("./" + fileName),
                     Integer.MAX_VALUE,
                     Integer.MAX_VALUE);
-            System.out.printf("Download %s OK!\n", fileName);
+            logger.info(String.format("Download %s OK!", fileName));
         } catch (IOException e) {
-            System.out.printf("Download %s FAIL!\n", fileName);
+            logger.info(String.format("Download %s FAIL!", fileName));
         }
     }
 
