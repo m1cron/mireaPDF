@@ -14,23 +14,22 @@ import java.util.Map;
 
 public class GUI {
 
-    private final JFrame frame;
-    private final JPanel panel;
     private final ApplicationContext context;
 
     public GUI() {
         context = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        frame = new JFrame("MIREA PDF");
-        frame.setIconImage(new ImageIcon("./icon.png").getImage());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        panel = new JPanel();
-        panel.setPreferredSize(new Dimension(825, 490));
-        frame.add(panel);
-        frame.pack();
-        frame.setResizable(true);
     }
 
     public void run() {
+        JFrame frame = new JFrame("MIREA PDF");
+        frame.setIconImage(new ImageIcon(getClass().getResource("/icon.png")).getImage());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setSize(725, 500);
+        JPanel panel = new JPanel();
+        frame.add(panel);
+        frame.setResizable(false);
+
         ReportHandler reportHandler = context.getBean(ReportHandler.class);
         Report report = reportHandler.getReportJson();
 

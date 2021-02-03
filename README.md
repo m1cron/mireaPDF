@@ -3,22 +3,24 @@
 ### `Installing`
 
 ```
-step 0: install the Chrome Driver and put it in /usr/bin    <--- if Unix systems
+step 0: install the Chrome Driver and put it in /usr/bin    <--- for Unix systems
 $ git clone https://github.com/m1cron/mireaPDF
 $ cd mireaPDF
-$ mvn package
+$ gradlew fatJar
 ```
 
 ### `Usage`
 
-``` $ java -jar mireaPDF*.jar ```
-
-
+```
+$ cd build/libs/
+$ java -jar MIREA-PDF-*.jar 
+```
 
 ### `Technology Stack`
 ```
-Java 14
-Apache Maven
+Java 11
+Spring Boot 2
+Gradle
 Github API (GSON)
 Selenium API with Chrome Driver
 FreeMaker
