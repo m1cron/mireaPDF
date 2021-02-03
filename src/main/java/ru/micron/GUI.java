@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.micron.config.AppConfiguration;
 import ru.micron.model.Report;
-import ru.micron.model.Student;
+import ru.micron.model.ReportHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,13 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GUI {
+
     private final JFrame frame;
     private final JPanel panel;
-    private final StudentJsonIO studentJsonIO;
-    private final ReportJsonIO reportJsonIO;
     private final ApplicationContext context;
 
-    public GUI() throws HeadlessException {
+    public GUI() {
         context = new AnnotationConfigApplicationContext(AppConfiguration.class);
         frame = new JFrame("MIREA PDF");
         frame.setIconImage(new ImageIcon("./icon.png").getImage());
@@ -29,22 +28,19 @@ public class GUI {
         frame.add(panel);
         frame.pack();
         frame.setResizable(true);
-
-        studentJsonIO = new StudentJsonIO();
-        reportJsonIO = new ReportJsonIO();
     }
 
     public void run() {
-        Student studentJson = studentJsonIO.getStudentJson();
-        Report report = reportJsonIO.getReportJson();
+        ReportHandler reportHandler = context.getBean(ReportHandler.class);
+        Report report = reportHandler.getReportJson();
 
-        JTextField teacher = new JTextField(studentJson.getTchName(), 20);
+        JTextField teacher = new JTextField(report.getTchName(), 20);
         teacher.setBackground(Color.WHITE);
 
-        JTextField student = new JTextField(studentJson.getStudName(), 20);
+        JTextField student = new JTextField(report.getStudName(), 20);
         student.setBackground(Color.WHITE);
 
-        JTextField group = new JTextField(studentJson.getGroupNum(), 14);
+        JTextField group = new JTextField(report.getGroupNum(), 14);
         group.setBackground(Color.WHITE);
 
         JTextField prac_number = new JTextField(report.getPrac_number(), 5);
@@ -103,10 +99,9 @@ public class GUI {
         createPdf.addActionListener(e0 -> {
             Map<String, String> map = new HashMap<>(16, 1);
 
-            studentJson.setGroupNum(group.getText());
-            studentJson.setStudName(student.getText());
-            studentJson.setTchName(teacher.getText());
-
+            report.setGroupNum(group.getText());
+            report.setStudName(student.getText());
+            report.setTchName(teacher.getText());
             report.setPrac_number(prac_number.getText());
             report.setTarget(target_content.getText());
             report.setTheory(teor_content.getText());
@@ -115,17 +110,14 @@ public class GUI {
             report.setLiterature(literature_content.getText());
             report.setCode(code.getText());
 
-            studentJsonIO.fillMap(map);
-            reportJsonIO.fillMap(map);
-
-            studentJsonIO.saveJson(studentJson);
-            reportJsonIO.saveJson(report);
+            reportHandler.fillMap(map);
+            reportHandler.saveJson(report);
 
             long startTime = System.currentTimeMillis();
             if (code.getText().contains("github.com/")) {
-                new ReportFormatting(new GithubAPI(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCodeArr()).fillMap(map);
+                new ReportFormatting().formatCode(new GithubAPI(code.getText(), useProxy.isSelected(), proxyPing.getText()).getCodeArr()).fillMap(map);
             } else {
-                new ReportFormatting(Arrays.asList(code.getText().split("\n"))).fillMap(map);
+                new ReportFormatting().formatCode(Arrays.asList(code.getText().split("\n"))).fillMap(map);
             }
             System.out.println("Total execution time: " + (System.currentTimeMillis() - startTime) + "ms");
 
@@ -135,10 +127,8 @@ public class GUI {
             docs.makePdf();
             if (checkMakeDocx.isSelected()) {
                 docs.makeWord();
-                docs.destroy();
-            } else {
-                docs.destroy();
             }
+            docs.destroy();
         });
 
         frame.setLocationRelativeTo(null);

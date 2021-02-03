@@ -1,43 +1,43 @@
-package ru.micron;
+package ru.micron.model;
 
 import com.google.gson.Gson;
-import ru.micron.interfaces.JsonIO;
-import ru.micron.model.Report;
+import org.springframework.beans.factory.annotation.Value;
+import ru.micron.interfaces.MapFilling;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
-public class ReportJsonIO implements JsonIO<Report> {
+public class ReportHandler implements MapFilling {
 
-    private static Gson gson;
-    private static final String jsonName = "report.json";
-    private static Report report;
+    @Value("${report.json.file}")
+    private String reportFileName;
+    private Report report;
+    private final Gson gson;
 
-    public ReportJsonIO() {
+    public ReportHandler() {
         gson = new Gson();
-        report = getJson(Report.class);
+        report = getJson();
     }
 
-    @Override
-    public void saveJson(Report obj) {
+    public void saveJson(Report report) {
         try {
-            FileWriter file = new FileWriter(jsonName);
-            gson.toJson(obj, file);
+            FileWriter file = new FileWriter(reportFileName);
+            gson.toJson(report, file);
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public Report getJson(Class<Report> jsonClass) {
+    public Report getJson() {
         try {
-            return report = gson.fromJson(readFile(jsonName), jsonClass);
+            return (report = gson.fromJson(Files.readString(Path.of("report.json")), Report.class));
         } catch (IOException e) {
             System.out.println("Report json doesn't exist!");
-            report = new Report();
-            return report;
+            return new Report();
         }
     }
 
@@ -45,6 +45,10 @@ public class ReportJsonIO implements JsonIO<Report> {
     public void fillMap(Map<String, String> map) {
         Report report;
         if ((report = getReportJson()) != null) {
+            map.put("student", report.getStudName());
+            map.put("teacher", report.getTchName());
+            map.put("group", report.getGroupNum());
+
             map.put("prac_number", report.getPrac_number());
             map.put("target_content", report.getTarget());
             map.put("teor_content", report.getTheory());
@@ -57,4 +61,5 @@ public class ReportJsonIO implements JsonIO<Report> {
     public Report getReportJson() {
         return report;
     }
+
 }

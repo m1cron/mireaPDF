@@ -83,8 +83,9 @@ public class MakeDocuments {
     }
 
     public void makePdf() {
-        driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        if (driver == null) {
+            driver = new ChromeDriver(chromeOptions);
+        }
         driver.get("https://deftpdf.com/ru/html-to-pdf");
         driver.findElement(By.xpath("//input[@type='file']")).sendKeys(new File(htmlName).getAbsolutePath());
         driver.findElement(By.xpath("//a[@id='HTMLFileToPDF']")).click();
@@ -95,14 +96,19 @@ public class MakeDocuments {
     }
 
     public void makeWord() {
+        if (driver == null) {
+            driver = new ChromeDriver(chromeOptions);
+        }
         driver.get("https://www.pdf2go.com/ru/pdf-to-word");
         driver.findElement(By.cssSelector("input[type=file]")).sendKeys(new File(pdfName).getAbsolutePath());
-        sleep(2);
-        driver.findElement(By.xpath("//*[@id=\"qg-toast\"]/div[3]/div[2]/p[2]/button")).click();
-        driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div[1]/button")).click();
+        sleep(1);
+        driver.findElement(By.xpath("//*[@id=\"qg-toast\"]/div[3]/div[2]/p[4]/button")).click();
+        driver.findElement(By.xpath("//*[@id=\"locale_btn_no\"]")).click();
+        sleep(1);
+        driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div[1]/button/strong")).click();
         sleep(10);
-        String downloadUrl = driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div/div[1]/div/div[1]/div[8]/div[2]/div/div/div[2]/div[3]/a"))
-                .getAttribute("href");
+        driver.findElement(By.xpath("//*[@id=\"qg-toast\"]/div[2]/div/div/p[3]/button")).click();
+        String downloadUrl = driver.findElement(By.xpath("//*[@id=\"page_function_container\"]/div/div[1]/div/div[1]/div[6]/div[2]/div/div/div[2]/div[3]/a")).getAttribute("href");
         downloadFile(downloadUrl, wordName);
     }
 

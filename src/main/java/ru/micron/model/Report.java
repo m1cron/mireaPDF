@@ -6,6 +6,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Report {
+
+    private String studName;
+    private String tchName;
+    private String groupNum;
+
     private String prac_number;
     private String target;
     private String theory;
@@ -15,6 +20,10 @@ public class Report {
     private String literature;
 
     public Report() {
+        this.studName = "Студент";
+        this.tchName = "Преподаватель";
+        this.groupNum = "Группа";
+
         this.prac_number = "№";
         this.target = "Цель работы";
         this.theory = "Теоретическое введение";

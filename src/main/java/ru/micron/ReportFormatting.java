@@ -7,14 +7,7 @@ import java.util.Map;
 
 public class ReportFormatting implements MapFilling {
 
-    private final List<String> codeArr;
-    private final StringBuffer code;
-
-    public ReportFormatting(List<String> codeArr) {
-        code = new StringBuffer(5000);
-        this.codeArr = codeArr;
-        formatCode();
-    }
+    private StringBuffer code;
 
     private String formatWidth(String str) {
         final short maxWidth = 70;      /*                <<------ page maxWidth content change HERE */
@@ -24,7 +17,8 @@ public class ReportFormatting implements MapFilling {
         return str;
     }
 
-    private void formatCode() {
+    public ReportFormatting formatCode(List<String> codeArr) {
+        code = new StringBuffer(5000);
         String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t\n";
         String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
         String codeStart = "\t\t<pre class=\"code\">\n";
@@ -40,14 +34,12 @@ public class ReportFormatting implements MapFilling {
             count++;
         }
         code.append(divEnd);
-    }
-
-    public String getCode() {
-        return code.toString();
+        return this;
     }
 
     @Override
     public void fillMap(Map<String, String> map) {
-        map.put("code", getCode());
+        map.put("code", code.toString());
     }
+
 }
