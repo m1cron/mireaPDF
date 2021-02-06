@@ -3,17 +3,23 @@
 ### `Installing`
 
 ```
-step 0: install the Chrome Driver and put it in /usr/bin    <--- for Unix systems
 $ git clone https://github.com/m1cron/mireaPDF
 $ cd mireaPDF
 $ gradlew fatJar
-$ cd build/lib/*.jar .
+$ mv build/lib/*.jar .
+
+if (OS.UNIX) {
+    install the Chrome Driver;
+} else if (OS.WINDOWS) {
+    download latest Chrome Driver;
+    put ChromeDriver along with the .jar;
+}
 ```
+[ChromeDriver](https://chromedriver.storage.googleapis.com/index.html)
 
 ### `Usage`
 
 ```
-$ cd build/libs/
 $ java -jar MIREA-PDF-*.jar  [or double click]
 ```
 
@@ -23,13 +29,11 @@ Java 11
 Spring Boot 2
 Gradle
 Github API (GSON)
-Selenium API with Chrome Driver
+Selenium with Chrome Driver
 Logback (SLF4J)
-FreeMaker
-HTML + CSS
+FreeMaker + HTML + CSS
 Java Swing
-jUnit 4
-Apache Commons-IO
+jUnit
 ```
 
 

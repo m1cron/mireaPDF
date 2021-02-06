@@ -5,6 +5,9 @@ report.json
 index.html
 word.docx
 TMP/
+gradlew.bat
+gradlew
+gradle
 
 ### Gradle ###
 .gradle
