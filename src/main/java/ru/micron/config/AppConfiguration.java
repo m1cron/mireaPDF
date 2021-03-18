@@ -15,31 +15,31 @@ import ru.micron.model.ReportHandler;
 @ComponentScan("ru.micron")
 public class AppConfiguration {
 
-    @Bean
-    public MakeDocuments makeDocuments() {
-        return new MakeDocuments();
-    }
+  @Bean
+  public MakeDocuments makeDocuments() {
+    return new MakeDocuments();
+  }
 
-    @Bean
-    public ReportDate getDate() {
-        return new ReportDate();
-    }
+  @Bean
+  public ReportDate getDate() {
+    return new ReportDate();
+  }
 
-    @Bean
-    public ReportFormatting reportFormatting() {
-        return new ReportFormatting();
-    }
+  @Bean
+  public ReportFormatting reportFormatting() {
+    return new ReportFormatting();
+  }
 
-    @Bean
-    public ReportHandler reportHandler() {
-        return new ReportHandler();
-    }
+  @Bean
+  public ReportHandler reportHandler() {
+    return new ReportHandler();
+  }
 
-    @Bean
-    public ChromeOptions chromeOptions() {
-        return new ChromeOptions()
-                .addArguments("window-size=800,600")
-                .addArguments("window-position=-1200,10");
-    }
+  @Bean
+  public ChromeOptions chromeOptions() {
+    return new ChromeOptions()
+        .addArguments("window-size=800,600")
+        .addArguments("window-position=-1200,10");
+  }
 
 }
