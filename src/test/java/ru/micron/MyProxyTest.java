@@ -1,6 +1,7 @@
 package ru.micron;
 
 import org.junit.Test;
+import ru.micron.web.MyProxy;
 
 import static org.junit.Assert.*;
 

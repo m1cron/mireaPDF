@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.micron.GithubAPI;
+import ru.micron.web.GithubAPI;
 import ru.micron.converting.MakeDocuments;
 import ru.micron.formatting.ReportDate;
 import ru.micron.formatting.ReportFormatting;
@@ -121,7 +121,7 @@ public class MainPanel extends JPanel {
       reportFormatting.formatCode(Arrays.asList(code.getText().split("\n")))
           .fillMap(map);
     }
-    log.info(String.format("Total execution time: %d ms", System.currentTimeMillis() - startTime));
+    log.info("Total execution time: {} ms", System.currentTimeMillis() - startTime);
 
     reportDate.fillMap(map);
     makeDocuments.makeHtml(map);

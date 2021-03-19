@@ -133,9 +133,9 @@ public class MakeDocuments {
           new File("./" + fileName),
           Integer.MAX_VALUE,
           Integer.MAX_VALUE);
-      log.info(String.format("Download %s OK!", fileName));
+      log.info("Download {} OK!", fileName);
     } catch (IOException e) {
-      log.info(String.format("Download %s FAIL!", fileName));
+      log.info("Download {} FAIL!", fileName);
     }
   }
 

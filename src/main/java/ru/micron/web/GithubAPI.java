@@ -1,4 +1,4 @@
-package ru.micron;
+package ru.micron.web;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -12,10 +12,6 @@ import ru.micron.model.Github;
 
 @Slf4j
 public class GithubAPI extends MyProxy {
-
-  @Getter
-  private static final String regExPattern =
-      "(?i)[\\w/]+\\.(java|c|cpp|hpp|h|cs|cc|cxx|html|css|js|php|py)$";
 
   private final Gson gson;
   private final boolean useProxy;
@@ -49,8 +45,7 @@ public class GithubAPI extends MyProxy {
       splitAdd(github.getPath(),
           useProxy ? readStringFromURL(github.getDownload_url(), getProxy()) :
               readStringFromURL(github.getDownload_url()));
-      log.info(String
-          .format("download %s in thread %s", github.getPath(), Thread.currentThread().getName()));
+      log.info("download {} in thread {}", github.getPath(), Thread.currentThread().getName());
     });
     thread.start();
     threadArr.add(thread);
@@ -67,7 +62,8 @@ public class GithubAPI extends MyProxy {
       for (Github github : githubArr) {
         if (github.getType().equals("dir")) {
           recursSearchGit(github.getUrl());
-        } else if (github.getPath().matches(regExPattern) && github.getDownload_url() != null) {
+        } else if (github.getPath().matches(WebConstants.MATCHES_REGEX)
+            && github.getDownload_url() != null) {
           downloadFromGit(github);
         }
       }
