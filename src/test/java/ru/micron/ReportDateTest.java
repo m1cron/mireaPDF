@@ -1,41 +1,46 @@
 package ru.micron;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static ru.micron.config.AppConfiguration.APP_LANGUAGE;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import org.junit.Assert;
+import org.junit.Test;
+import ru.micron.formatting.ReportDate;
 
 public class ReportDateTest {
 
-    @Test
-    public void fillMap() {
-        ReportDate date = new ReportDate();
+  private static final Locale locale = new Locale(APP_LANGUAGE);
 
-        Map<String, String> map = new HashMap<>(3, 1);
-        date.fillMap(map);
+  @Test
+  public void fillMap() {
+    ReportDate date = new ReportDate(locale);
 
-        Assert.assertNotNull(map.get("day"));
-        Assert.assertNotNull(map.get("month"));
-        Assert.assertNotNull(map.get("year"));
-    }
+    Map<String, String> map = new HashMap<>(3, 1);
+    date.fillMap(map);
 
-    @Test
-    public void getYear() {
-        ReportDate date = new ReportDate();
-        Assert.assertNotNull(date.getYear());
-    }
+    Assert.assertNotNull(map.get("day"));
+    Assert.assertNotNull(map.get("month"));
+    Assert.assertNotNull(map.get("year"));
+  }
 
-    @Test
-    public void getMonth() {
-        ReportDate date = new ReportDate();
-        Assert.assertNotNull(date.getMonth());
-    }
+  @Test
+  public void getYear() {
+    ReportDate date = new ReportDate(locale);
+    Assert.assertNotNull(date.getYear());
+  }
 
-    @Test
-    public void getDay() {
-        ReportDate date = new ReportDate();
-        Assert.assertNotNull(date.getDay());
-    }
+  @Test
+  public void getMonth() {
+    ReportDate date = new ReportDate(locale);
+    Assert.assertNotNull(date.getMonth());
+  }
+
+  @Test
+  public void getDay() {
+    ReportDate date = new ReportDate(locale);
+    Assert.assertNotNull(date.getDay());
+  }
 
 }

@@ -5,20 +5,18 @@
 ```
 $ git clone https://github.com/m1cron/mireaPDF
 $ cd mireaPDF
-$ gradlew fatJar
-$ mv build/lib/*.jar .
+$ gradle bootJar
+$ cp build/libs/*.jar .
 
-if (OS.UNIX) {
+if OS.UNIX
     install the Chrome Driver;
-} else if (OS.WINDOWS) {
+or OS.WINDOWS
     download latest Chrome Driver;
     put ChromeDriver along with the .jar;
-}
 ```
 [ChromeDriver](https://chromedriver.storage.googleapis.com/index.html)
 
 ### `Usage`
-
 ```
 $ java -jar MIREA-PDF-*.jar  [or double click]
 ```
