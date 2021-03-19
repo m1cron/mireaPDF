@@ -9,6 +9,7 @@ import static ru.micron.ui.UiUtils.getTextField;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -16,48 +17,46 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 import ru.micron.GithubAPI;
-import ru.micron.MakeDocuments;
-import ru.micron.ReportDate;
-import ru.micron.ReportFormatting;
-import ru.micron.config.AppConfiguration;
+import ru.micron.converting.MakeDocuments;
+import ru.micron.formatting.ReportDate;
+import ru.micron.formatting.ReportFormatting;
 import ru.micron.model.Report;
 import ru.micron.model.ReportHandler;
 
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class MainPanel extends JPanel {
 
   private final ReportHandler reportHandler;
   private final MakeDocuments makeDocuments;
   private final ReportDate reportDate;
-  private final Report report;
+  private final ReportFormatting reportFormatting;
+  private Report report;
 
-  private final JTextField teacher;
-  private final JTextField student;
-  private final JTextField group;
-  private final JTextField prac_number;
-  private final JTextField proxyPing;
+  private JTextField teacher;
+  private JTextField student;
+  private JTextField group;
+  private JTextField prac_number;
+  private JTextField proxyPing;
 
-  private final JTextArea target_content;
-  private final JTextArea teor_content;
-  private final JTextArea step_by_step;
-  private final JTextArea code;
-  private final JTextArea conclusion;
-  private final JTextArea literature;
+  private JTextArea target_content;
+  private JTextArea teor_content;
+  private JTextArea step_by_step;
+  private JTextArea code;
+  private JTextArea conclusion;
+  private JTextArea literature;
 
-  private final JCheckBox checkMakeDocx;
-  private final JCheckBox useProxy;
+  private JCheckBox checkMakeDocx;
+  private JCheckBox useProxy;
 
-
-  public MainPanel() {
-    ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
-    reportHandler = context.getBean(ReportHandler.class);
-    makeDocuments = context.getBean(MakeDocuments.class);
-    reportDate = context.getBean(ReportDate.class);
-    report = reportHandler.getReportJson();
+  @PostConstruct
+  public void run() {
+    report = reportHandler.getReport();
 
     teacher = getTextField(report.getTchName(), UiConstants.TEACHER_FIELD_SIZE);
     student = getTextField(report.getStudName(), UiConstants.STUDENT_FIELD_SIZE);
@@ -114,11 +113,12 @@ public class MainPanel extends JPanel {
 
     long startTime = System.currentTimeMillis();
     if (code.getText().contains("github.com/")) {
-      new ReportFormatting().formatCode(
+      reportFormatting.formatCode(
           new GithubAPI(code.getText(), useProxy.isSelected(), proxyPing.getText())
-              .getCodeArr()).fillMap(map);
+              .getCodeArr())
+          .fillMap(map);
     } else {
-      new ReportFormatting().formatCode(Arrays.asList(code.getText().split("\n")))
+      reportFormatting.formatCode(Arrays.asList(code.getText().split("\n")))
           .fillMap(map);
     }
     log.info(String.format("Total execution time: %d ms", System.currentTimeMillis() - startTime));

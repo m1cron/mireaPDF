@@ -1,4 +1,4 @@
-package ru.micron;
+package ru.micron.converting;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -14,49 +14,49 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.micron.config.AppConfiguration;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class MakeDocuments {
 
+  private final Locale locale;
+  private final ChromeOptions chromeOptions;
   private WebDriver driver;
 
-  @Autowired
-  private ChromeOptions chromeOptions;
-
-  @Value("${freemarker.templates.dir}")
+  @Value("${file.freemarker.dir}")
   private String templatesDir;
-  @Value("${freemarker.templates.file}")
-  private String templateFile;
-  @Value("${html.templates.file}")
-  private String htmlName;
-  @Value("${name.pdf.file}")
-  private String pdfName;
-  @Value("${name.word.file}")
-  private String wordName;
+  @Value("${file.freemarker.template}")
+  private String templateFileName;
+  @Value("${file.freemarker.html}")
+  private String htmlFileName;
+  @Value("${file.name.pdf}")
+  private String pdfFileName;
+  @Value("${file.name.word}")
+  private String wordFileName;
 
   @PostConstruct
   private void init() {
-    String driverName = "webdriver.chrome.driver";
-    String opSys = System.getProperty("os.name").toLowerCase();
-    if (opSys.contains("win")) {
-      System.setProperty(driverName, "./chromedriver.exe");
-      log.info("OS set: Win");
-    } else if (opSys.contains("nix") || opSys.contains("nux") || opSys.contains("aix")) {
-      System.setProperty(driverName, "/usr/bin/chromedriver");
-      log.info("OS set: Nix");
-    } else if (opSys.contains("mac")) {
-      System.setProperty(driverName, "/usr/local/bin/chromedriver");
-      log.info("OS set: Mac");
+    String opSys = System.getProperty(ConvertingConstants.OS_NAME).toLowerCase();
+    if (opSys.matches(ConvertingConstants.OS_WIN_REGEX)) {
+      System.setProperty(ConvertingConstants.DRIVER_NAME, ConvertingConstants.DRIVER_WIN_PATH);
+      log.info("OS set: Win {}", ConvertingConstants.DRIVER_WIN_PATH);
+    } else if (opSys.matches(ConvertingConstants.OS_LINUX_REGEX)) {
+      System.setProperty(ConvertingConstants.DRIVER_NAME, ConvertingConstants.DRIVER_LINUX_PATH);
+      log.info("OS set: Nix {}", ConvertingConstants.DRIVER_LINUX_PATH);
+    } else if (opSys.matches(ConvertingConstants.OS_MAC_REGEX)) {
+      System.setProperty(ConvertingConstants.DRIVER_NAME, ConvertingConstants.DRIVER_MAC_PATH);
+      log.info("OS set: Mac {}", ConvertingConstants.DRIVER_MAC_PATH);
     }
   }
 
@@ -73,10 +73,10 @@ public class MakeDocuments {
       log.info("Creating HTML!");
       Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
       cfg.setClassForTemplateLoading(this.getClass(), templatesDir);
-      cfg.setEncoding(new Locale("ru"), "windows-1251");
+      cfg.setEncoding(locale, AppConfiguration.APP_ENCODING);
       cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-      Template template = cfg.getTemplate(templateFile);
-      File htmlOpen = new File(htmlName);
+      Template template = cfg.getTemplate(templateFileName);
+      File htmlOpen = new File(htmlFileName);
       Writer html = new FileWriter(htmlOpen);
       template.process(map, html);
       html.flush();
@@ -91,16 +91,16 @@ public class MakeDocuments {
   public void makePdf() {
     log.info("Creating PDF!");
     driver = new ChromeDriver(chromeOptions);
-    driver.get("https://deftpdf.com/ru/html-to-pdf");
-    driver.findElement(By.xpath("//input[@type='file']"))
-        .sendKeys(new File(htmlName).getAbsolutePath());
+    driver.get(ConvertingConstants.CONVERT_TO_PDF_URL);
+    driver.findElement(By.cssSelector(ConvertingConstants.INPUT_ELEMENT))
+        .sendKeys(new File(htmlFileName).getAbsolutePath());
     sleep(1);
     driver.findElement(By.xpath("//a[@id='HTMLFileToPDF']")).click();
     sleep(2);
     String downloadUrl = driver
         .findElement(By.xpath("//*[@id='apply-popup']/div[2]/div[2]/div/div[2]/div[1]/a"))
-        .getAttribute("href");
-    downloadFile(downloadUrl, pdfName);
+        .getAttribute(ConvertingConstants.HREF);
+    downloadFile(downloadUrl, pdfFileName);
   }
 
   public void makeWord() {
@@ -108,9 +108,9 @@ public class MakeDocuments {
     if (driver == null) {
       driver = new ChromeDriver(chromeOptions);
     }
-    driver.get("https://www.pdf2go.com/ru/pdf-to-word");
-    driver.findElement(By.cssSelector("input[type=file]"))
-        .sendKeys(new File(pdfName).getAbsolutePath());
+    driver.get(ConvertingConstants.CONVERT_TO_DOCX_URL);
+    driver.findElement(By.cssSelector(ConvertingConstants.INPUT_ELEMENT))
+        .sendKeys(new File(pdfFileName).getAbsolutePath());
     sleep(1);
     driver.findElement(By.xpath("//*[@id=\"qg-toast\"]/div[3]/div[2]/p[4]/button")).click();
     driver.findElement(By.xpath("//*[@id=\"locale_btn_no\"]")).click();
@@ -119,11 +119,11 @@ public class MakeDocuments {
         .click();
     sleep(10);
     driver.findElement(By.xpath("//*[@id=\"qg-toast\"]/div[2]/div/div/p[3]/button")).click();
-    String downloadUrl = driver
-        .findElement(By.xpath(
-            "//*[@id=\"page_function_container\"]/div/div[1]/div/div[1]/div[6]/div[2]/div/div/div[2]/div[3]/a"))
-        .getAttribute("href");
-    downloadFile(downloadUrl, wordName);
+    String downloadUrl =
+        driver.findElement(By.xpath(
+            "//*[@id=\"page_function_container\"]/div/div[1]/div/div[1]/div[6]/div[1]/div/div/div[2]/div[3]/a"))
+            .getAttribute(ConvertingConstants.HREF);
+    downloadFile(downloadUrl, wordFileName);
   }
 
   public static void downloadFile(String downloadUrl, String fileName) {

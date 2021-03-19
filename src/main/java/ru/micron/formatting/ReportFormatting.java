@@ -1,25 +1,25 @@
-package ru.micron;
+package ru.micron.formatting;
 
-import ru.micron.interfaces.MapFilling;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class ReportFormatting implements MapFilling {
 
-  private static final short maxWidth = 70;     /* page maxWidth content */
-  private static final short maxHeight = 47;    /* page maxHeight content */
   private StringBuffer code;
 
   private String formatWidth(String str) {
-    if (str.length() > maxWidth) {
-      return str.substring(0, maxWidth) + "\n" + formatWidth(str.substring(maxWidth));
+    if (str.length() > ReportConstants.MAX_WIDTH) {
+      return str.substring(0, ReportConstants.MAX_WIDTH) + "\n" + formatWidth(
+          str.substring(ReportConstants.MAX_WIDTH));
     }
     return str;
   }
 
   public ReportFormatting formatCode(List<String> codeArr) {
-    code = new StringBuffer(5000);
+    code = new StringBuffer(ReportConstants.STR_BUFFER_SIZE);
     String divStart = "<div class=\"page\">\n\t\t<div class=\"content\">\n\t\n";
     String divEnd = "\n\t\t</pre>\n\t</div>\n</div>\n\n";
     String codeStart = "\t\t<pre class=\"code\">\n";
@@ -28,7 +28,7 @@ public class ReportFormatting implements MapFilling {
     short count = 4;
     for (String s : codeArr) {
       code.append(formatWidth(s)).append("\n");
-      if (count == maxHeight) {
+      if (count == ReportConstants.MAX_HEIGHT) {
         code.append(divEnd).append(divStart).append(codeStart);
         count = 0;
       }
@@ -40,7 +40,7 @@ public class ReportFormatting implements MapFilling {
 
   @Override
   public void fillMap(Map<String, String> map) {
-    map.put("code", code.toString());
+    map.put(ReportConstants.CODE, code.toString());
   }
 
 }

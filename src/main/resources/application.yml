@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: MIREA-PDF
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+
+file:
+  freemarker:
+    dir: /
+    template: index.ftl
+    html: index.html
+  name:
+    pdf: pdf.pdf
+    word: word.docx
+    report: report.json

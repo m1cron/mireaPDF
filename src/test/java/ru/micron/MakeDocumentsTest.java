@@ -4,6 +4,9 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.micron.config.AppConfiguration;
+import ru.micron.converting.MakeDocuments;
+import ru.micron.formatting.ReportConstants;
+import ru.micron.formatting.ReportDate;
 import ru.micron.model.ReportHandler;
 
 import java.util.HashMap;
@@ -18,7 +21,7 @@ public class MakeDocumentsTest {
     Map<String, String> map = new HashMap<>();
     context.getBean(ReportDate.class).fillMap(map);
     context.getBean(ReportHandler.class).fillMap(map);
-    map.put("code", "code");
+    map.put(ReportConstants.CODE, ReportConstants.CODE);
     docs.makeHtml(map);
   }
 
@@ -29,7 +32,7 @@ public class MakeDocumentsTest {
     Map<String, String> map = new HashMap<>();
     context.getBean(ReportDate.class).fillMap(map);
     context.getBean(ReportHandler.class).fillMap(map);
-    map.put("code", "code");
+    map.put(ReportConstants.CODE, ReportConstants.CODE);
     docs.makeHtml(map);
     docs.makePdf();
     docs.destroy();
@@ -42,7 +45,7 @@ public class MakeDocumentsTest {
     Map<String, String> map = new HashMap<>();
     context.getBean(ReportDate.class).fillMap(map);
     context.getBean(ReportHandler.class).fillMap(map);
-    map.put("code", "code");
+    map.put(ReportConstants.CODE, ReportConstants.CODE);
     docs.makeHtml(map);
     docs.makeWord();
     docs.destroy();

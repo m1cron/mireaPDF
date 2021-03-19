@@ -1,4 +1,4 @@
-package ru.micron.interfaces;
+package ru.micron.formatting;
 
 import java.util.Map;
 
