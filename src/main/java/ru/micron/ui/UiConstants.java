@@ -18,7 +18,6 @@ public class UiConstants {
   public static final String ICON_PNG = "/icon.png";
   public static final String DIALOG = "Dialog";
   public static final String CHECK_MAKE_DOCX = "Make DOCX?";
-  public static final String CHECK_USE_PROXY = "Proxy?";
   public static final String BTN_MAKE_PDF = "Make PDF";
   public static final Font DEFAULT_FONT = new Font(DIALOG, FRAME_FONT, FRAME_SIZE);
   public static final int ROWS_SIZE = 10;

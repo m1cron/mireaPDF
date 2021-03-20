@@ -1,28 +1,25 @@
 package ru.micron.web;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.client.RestClientException;
 import ru.micron.web.dto.GithubEntity;
 
 @Slf4j
-public class GithubAPI extends MyProxy {
+public class GithubApi {
 
-  private final Gson gson;
-  private final boolean useProxy;
   @Getter
   private final List<String> codeArr;
   private final List<Thread> threadArr;
+  private final RestHandler restHandler;
 
-  public GithubAPI(String link, boolean useProxy) {
-    super(useProxy);
-    this.useProxy = useProxy;
-    gson = new Gson();
+  public GithubApi(String link) {
+    this.restHandler = new RestHandler();
     codeArr = new ArrayList<>(500);
     threadArr = new ArrayList<>(24);
     recursSearchGit(parseUrl(link));
@@ -41,10 +38,9 @@ public class GithubAPI extends MyProxy {
   }
 
   public void downloadFromGit(GithubEntity github) {
-    Thread thread = new Thread(() -> {
-      splitAdd(github.getPath(),
-          useProxy ? readStringFromURL(github.getDownload_url(), getProxy()) :
-              readStringFromURL(github.getDownload_url()));
+    var thread = new Thread(() -> {
+      Optional.ofNullable(restHandler.getObject(github.getDownload_url(), String.class))
+          .ifPresent(str -> splitAdd(github.getPath(), str));
       log.info("download {} in thread {}", github.getPath(), Thread.currentThread().getName());
     });
     thread.start();
@@ -53,14 +49,15 @@ public class GithubAPI extends MyProxy {
 
   public void recursSearchGit(String url) {
     List<GithubEntity> githubArr = new ArrayList<>();
-    String stringJson = useProxy ? readStringFromURL(url, getProxy()) : readStringFromURL(url);
     try {
-      githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, GithubEntity[].class)));
-    } catch (JsonParseException e) {
-      githubArr.add(gson.fromJson(stringJson, GithubEntity.class));
+      Optional.ofNullable(restHandler.getObject(url, GithubEntity[].class))
+          .ifPresent(json -> githubArr.addAll(Arrays.asList(json)));
+    } catch (RestClientException e) {
+      Optional.ofNullable(restHandler.getObject(url, GithubEntity.class))
+          .ifPresent(githubArr::add);
     } finally {
       for (var github : githubArr) {
-        if (github.getType().equals("dir")) {
+        if (github.getType().contains("dir")) {
           recursSearchGit(github.getUrl());
         } else if (github.getPath().matches(WebConstants.MATCHES_REGEX)
             && github.getDownload_url() != null) {
@@ -70,15 +67,14 @@ public class GithubAPI extends MyProxy {
     }
   }
 
-  public static String parseUrl(String url) {
+  private String parseUrl(String url) {
     var subSplitUrl = url.substring(url.indexOf(".com/") + 5).split("/");
-    StringBuilder temp = new StringBuilder();
+    var temp = new StringBuilder();
     for (int i = 4; i < subSplitUrl.length; i++)
       temp.append(subSplitUrl[i]).append("/");
-    var res =
-        String.format(WebConstants.GITHUB_API_TEMPLATE_URL, subSplitUrl[0], subSplitUrl[1], temp);
+    var res = String.format(WebConstants.GITHUB_API_TEMPLATE_URL,
+        subSplitUrl[0], subSplitUrl[1], temp);
     log.info("Pars link to {}", res);
     return res;
   }
-
 }

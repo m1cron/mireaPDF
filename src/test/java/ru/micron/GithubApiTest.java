@@ -2,29 +2,22 @@ package ru.micron;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.micron.web.GithubAPI;
+import ru.micron.web.GithubApi;
 import ru.micron.web.WebConstants;
 
-public class GithubAPITest {
+public class GithubApiTest {
 
   @Test
-  public void GithubAPI() {
+  public void GithubApi() {
     String url = "https://github.com/m1cron/java_rtu/blob/master/src/ru/micron/task4";
-    new GithubAPI(url, false).getCodeArr().forEach(Assert::assertNotNull);
+    new GithubApi(url).getCodeArr().forEach(Assert::assertNotNull);
   }
 
   @Test
   public void recursSearchGit() {
     String url = "https://github.com/m1cron/java_rtu/blob/master/src/ru/micron/task2";
-    GithubAPI gh = new GithubAPI(url, false);
+    GithubApi gh = new GithubApi(url);
     gh.getCodeArr().forEach(Assert::assertNotNull);
-  }
-
-  @Test
-  public void parseUrl() {
-    String url = "https://github.com/m1cron/java_rtu/blob/master/src/ru/micron";
-    String destUrl = "https://api.github.com/repos/m1cron/java_rtu/contents/src/ru/micron";
-    Assert.assertEquals(GithubAPI.parseUrl(url), destUrl);
   }
 
   @Test

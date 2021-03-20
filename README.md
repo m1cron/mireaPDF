@@ -40,3 +40,5 @@ jUnit
 ```https://www.proxy-list.download/api/v1``` <br/>
 ```https://proxyscrape.com/api-documentation``` <br/>
 ```https://ipstack.com/product``` <br/>
+```https://best-proxies.ru/api/``` <br/>
+```https://github.com/fate0/proxylist``` <br/>

@@ -24,7 +24,7 @@ import ru.micron.formatting.ReportDate;
 import ru.micron.formatting.ReportFormatting;
 import ru.micron.model.Report;
 import ru.micron.model.ReportHandler;
-import ru.micron.web.GithubAPI;
+import ru.micron.web.GithubApi;
 
 @Slf4j
 @Component
@@ -50,7 +50,6 @@ public class MainPanel extends JPanel {
   private JTextArea literature;
 
   private JCheckBox checkMakeDocx;
-  private JCheckBox useProxy;
 
   @PostConstruct
   public void run() {
@@ -69,7 +68,6 @@ public class MainPanel extends JPanel {
     literature = getTextArea(report.getLiterature());
 
     checkMakeDocx = getCheckBox(UiConstants.CHECK_MAKE_DOCX, SwingConstants.RIGHT);
-    useProxy = getCheckBox(UiConstants.CHECK_USE_PROXY, SwingConstants.LEFT);
 
     JButton createPdf = getButton(UiConstants.BTN_MAKE_PDF);
     createPdf.addActionListener(e -> doWork());
@@ -84,7 +82,6 @@ public class MainPanel extends JPanel {
     add(new JScrollPane(code));
     add(new JScrollPane(conclusion));
     add(new JScrollPane(literature));
-    add(useProxy);
     add(createPdf);
     add(checkMakeDocx);
   }
@@ -108,7 +105,7 @@ public class MainPanel extends JPanel {
 
     long startTime = System.currentTimeMillis();
     if (code.getText().contains("github.com/")) {
-      reportFormatting.formatCode(new GithubAPI(code.getText(), useProxy.isSelected())
+      reportFormatting.formatCode(new GithubApi(code.getText())
               .getCodeArr())
           .fillMap(map);
     } else {
