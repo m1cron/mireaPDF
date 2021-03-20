@@ -2,7 +2,6 @@ package ru.micron.ui;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import lombok.AccessLevel;
@@ -21,12 +20,6 @@ public class UiUtils {
     JTextArea jTextArea = new JTextArea(text, UiConstants.ROWS_SIZE, UiConstants.COLUMNS_SIZE);
     jTextArea.setFont(UiConstants.DEFAULT_FONT);
     return jTextArea;
-  }
-
-  public static JLabel getLabel(String text) {
-    JLabel jLabel = new JLabel(text);
-    jLabel.setFont(UiConstants.DEFAULT_FONT);
-    return jLabel;
   }
 
   public static JCheckBox getCheckBox(String text, int position) {

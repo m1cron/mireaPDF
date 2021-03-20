@@ -2,7 +2,6 @@ package ru.micron.ui;
 
 import static ru.micron.ui.UiUtils.getButton;
 import static ru.micron.ui.UiUtils.getCheckBox;
-import static ru.micron.ui.UiUtils.getLabel;
 import static ru.micron.ui.UiUtils.getTextArea;
 import static ru.micron.ui.UiUtils.getTextField;
 
@@ -20,12 +19,12 @@ import javax.swing.SwingConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.micron.web.GithubAPI;
 import ru.micron.converting.MakeDocuments;
 import ru.micron.formatting.ReportDate;
 import ru.micron.formatting.ReportFormatting;
 import ru.micron.model.Report;
 import ru.micron.model.ReportHandler;
+import ru.micron.web.GithubAPI;
 
 @Slf4j
 @Component
@@ -42,7 +41,6 @@ public class MainPanel extends JPanel {
   private JTextField student;
   private JTextField group;
   private JTextField prac_number;
-  private JTextField proxyPing;
 
   private JTextArea target_content;
   private JTextArea teor_content;
@@ -62,7 +60,6 @@ public class MainPanel extends JPanel {
     student = getTextField(report.getStudName(), UiConstants.STUDENT_FIELD_SIZE);
     group = getTextField(report.getGroupNum(), UiConstants.GROUP_FIELD_SIZE);
     prac_number = getTextField(report.getPrac_number(), UiConstants.PRAC_NUM_FIELD_SIZE);
-    proxyPing = getTextField(UiConstants.PROXY_PING, UiConstants.PROXY_PING_FIELD_SIZE);
 
     target_content = getTextArea(report.getTarget());
     teor_content = getTextArea(report.getTheory());
@@ -87,8 +84,6 @@ public class MainPanel extends JPanel {
     add(new JScrollPane(code));
     add(new JScrollPane(conclusion));
     add(new JScrollPane(literature));
-    add(getLabel(UiConstants.PING_TEXT));
-    add(proxyPing);
     add(useProxy);
     add(createPdf);
     add(checkMakeDocx);
@@ -113,8 +108,7 @@ public class MainPanel extends JPanel {
 
     long startTime = System.currentTimeMillis();
     if (code.getText().contains("github.com/")) {
-      reportFormatting.formatCode(
-          new GithubAPI(code.getText(), useProxy.isSelected(), proxyPing.getText())
+      reportFormatting.formatCode(new GithubAPI(code.getText(), useProxy.isSelected())
               .getCodeArr())
           .fillMap(map);
     } else {

@@ -10,13 +10,13 @@ public class GithubAPITest {
   @Test
   public void GithubAPI() {
     String url = "https://github.com/m1cron/java_rtu/blob/master/src/ru/micron/task4";
-    new GithubAPI(url, false, "100").getCodeArr().forEach(Assert::assertNotNull);
+    new GithubAPI(url, false).getCodeArr().forEach(Assert::assertNotNull);
   }
 
   @Test
   public void recursSearchGit() {
     String url = "https://github.com/m1cron/java_rtu/blob/master/src/ru/micron/task2";
-    GithubAPI gh = new GithubAPI(url, false, "100");
+    GithubAPI gh = new GithubAPI(url, false);
     gh.getCodeArr().forEach(Assert::assertNotNull);
   }
 

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import ru.micron.model.Github;
+import ru.micron.web.dto.GithubEntity;
 
 @Slf4j
 public class GithubAPI extends MyProxy {
@@ -19,8 +19,8 @@ public class GithubAPI extends MyProxy {
   private final List<String> codeArr;
   private final List<Thread> threadArr;
 
-  public GithubAPI(String link, boolean useProxy, String proxyPing) {
-    super(proxyPing, useProxy);
+  public GithubAPI(String link, boolean useProxy) {
+    super(useProxy);
     this.useProxy = useProxy;
     gson = new Gson();
     codeArr = new ArrayList<>(500);
@@ -40,7 +40,7 @@ public class GithubAPI extends MyProxy {
     Collections.addAll(codeArr, codeBuff.split("\n"));
   }
 
-  public void downloadFromGit(Github github) {
+  public void downloadFromGit(GithubEntity github) {
     Thread thread = new Thread(() -> {
       splitAdd(github.getPath(),
           useProxy ? readStringFromURL(github.getDownload_url(), getProxy()) :
@@ -52,14 +52,14 @@ public class GithubAPI extends MyProxy {
   }
 
   public void recursSearchGit(String url) {
-    List<Github> githubArr = new ArrayList<>();
+    List<GithubEntity> githubArr = new ArrayList<>();
     String stringJson = useProxy ? readStringFromURL(url, getProxy()) : readStringFromURL(url);
     try {
-      githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, Github[].class)));
+      githubArr.addAll(Arrays.asList(gson.fromJson(stringJson, GithubEntity[].class)));
     } catch (JsonParseException e) {
-      githubArr.add(gson.fromJson(stringJson, Github.class));
+      githubArr.add(gson.fromJson(stringJson, GithubEntity.class));
     } finally {
-      for (Github github : githubArr) {
+      for (var github : githubArr) {
         if (github.getType().equals("dir")) {
           recursSearchGit(github.getUrl());
         } else if (github.getPath().matches(WebConstants.MATCHES_REGEX)
@@ -71,9 +71,14 @@ public class GithubAPI extends MyProxy {
   }
 
   public static String parseUrl(String url) {
-    return url.replace("github.com", "api.github.com/repos")
-        .replace("/tree/master/", "/contents/")
-        .replace("/blob/master/", "/contents/");
+    var subSplitUrl = url.substring(url.indexOf(".com/") + 5).split("/");
+    StringBuilder temp = new StringBuilder();
+    for (int i = 4; i < subSplitUrl.length; i++)
+      temp.append(subSplitUrl[i]).append("/");
+    var res =
+        String.format(WebConstants.GITHUB_API_TEMPLATE_URL, subSplitUrl[0], subSplitUrl[1], temp);
+    log.info("Pars link to {}", res);
+    return res;
   }
 
 }
