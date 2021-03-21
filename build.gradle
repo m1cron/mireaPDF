@@ -1,14 +1,29 @@
+buildscript {
+    ext {
+        ver = [
+                openFeign               : '2.2.3.RELEASE',
+                lombok                  : '1.18.12',
+                jacksonDataType         : '2.11.1',
+                junit5                  : '5.6.2',
+                commons_io              : '2.8.0',
+                freemarker              : '2.3.30',
+                selenium                : '3.141.59',
+                gson                    : '2.7'
+        ]
+    }
+}
+
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.4.2'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.3.3.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
 group 'ru.micron'
 version '1.0'
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
-wrapper.gradleVersion = '6.7'
+sourceCompatibility = '11'
+targetCompatibility = '11'
+wrapper.gradleVersion = '6.5'
 
 compileJava.options.encoding = 'windows-1251'
 compileTestJava.options.encoding = 'windows-1251'
@@ -22,26 +37,34 @@ jar {
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    compile "com.google.code.gson:gson:$ver.gson"
+    compile "org.seleniumhq.selenium:selenium-api:$ver.selenium"
+    compile "org.seleniumhq.selenium:selenium-chrome-driver:$ver.selenium"
+    compile "org.freemarker:freemarker:$ver.freemarker"
+    compile "commons-io:commons-io:$ver.commons_io"
+    compileOnly "org.projectlombok:lombok:$ver.lombok"
+    annotationProcessor "org.projectlombok:lombok:$ver.lombok"
+
+    testCompileOnly "org.projectlombok:lombok:$ver.lombok"
+    testAnnotationProcessor "org.projectlombok:lombok:$ver.lombok"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$ver.junit5"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+}
+
+configurations.all {
+    all*.exclude group: "commons-logging", module: "commons-logging"
+    all*.exclude group: "log4j"
+    all*.exclude group: "org.apache.logging.log4j"
+    all*.exclude group: "org.slf4j", module: "slf4j-log4j12"
+    all*.exclude group: "org.slf4j", module: "slf4j-simple"
+    all*.exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
 }
 
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.141.59'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.141.59'
-    compile group: 'org.freemarker', name: 'freemarker', version: '2.3.30'
-    compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
-    compileOnly 'org.projectlombok:lombok:1.18.18'
-    annotationProcessor 'org.projectlombok:lombok:1.18.18'
-    testCompile group: 'junit', name: 'junit', version: '4.13.1'
 }
 
 test {

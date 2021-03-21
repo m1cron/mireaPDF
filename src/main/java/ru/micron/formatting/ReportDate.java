@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 public class ReportDate implements MapFilling {
 
   private final Locale locale;
-  private String year;
-  private String month;
-  private String day;
+  private final String year;
+  private final String month;
+  private final String day;
 
-  @PostConstruct
-  private void init() {
+  public ReportDate(Locale locale) {
+    this.locale = locale;
     year = Integer.toString(Calendar.getInstance(locale).get(Calendar.YEAR));
     month = ReportConstants.MONTHS.get(Calendar.getInstance(locale).get(Calendar.MONTH));
     day = Integer.toString(Calendar.getInstance(locale).get(Calendar.DATE));

@@ -18,10 +18,7 @@ public class UiConstants {
   public static final String ICON_PNG = "/icon.png";
   public static final String DIALOG = "Dialog";
   public static final String CHECK_MAKE_DOCX = "Make DOCX?";
-  public static final String CHECK_USE_PROXY = "Proxy?";
-  public static final String PING_TEXT = "Ping:";
   public static final String BTN_MAKE_PDF = "Make PDF";
-  public static final String PROXY_PING = "100";
   public static final Font DEFAULT_FONT = new Font(DIALOG, FRAME_FONT, FRAME_SIZE);
   public static final int ROWS_SIZE = 10;
   public static final int COLUMNS_SIZE = 20;
@@ -30,6 +27,4 @@ public class UiConstants {
   public static final int STUDENT_FIELD_SIZE = 20;
   public static final int GROUP_FIELD_SIZE = 13;
   public static final int PRAC_NUM_FIELD_SIZE = 6;
-  public static final int PROXY_PING_FIELD_SIZE = 3;
-
 }
