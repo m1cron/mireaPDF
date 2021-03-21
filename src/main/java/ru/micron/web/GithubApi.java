@@ -20,8 +20,8 @@ public class GithubApi {
 
   public GithubApi(String link) {
     this.restHandler = new RestHandler();
-    codeArr = new ArrayList<>(500);
-    threadArr = new ArrayList<>(24);
+    codeArr = new ArrayList<>(WebConstants.CODE_ARRAY_SIZE);
+    threadArr = new ArrayList<>();
     recursSearchGit(parseUrl(link));
     threadArr.forEach(thread -> {
       try {
@@ -41,7 +41,7 @@ public class GithubApi {
     var thread = new Thread(() -> {
       Optional.ofNullable(restHandler.getObject(github.getDownload_url(), String.class))
           .ifPresent(str -> splitAdd(github.getPath(), str));
-      log.info("download {} in thread {}", github.getPath(), Thread.currentThread().getName());
+      log.info("download {} in {}", github.getPath(), Thread.currentThread().getName());
     });
     thread.start();
     threadArr.add(thread);

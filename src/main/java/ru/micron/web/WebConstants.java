@@ -22,4 +22,5 @@ public class WebConstants {
 
   public static final int CONNECT_TIMEOUT_MS = 2000;
   public static final int READ_TIMEOUT_MS = 3000;
+  public static final int CODE_ARRAY_SIZE = 500;
 }

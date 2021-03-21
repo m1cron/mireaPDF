@@ -7,7 +7,7 @@ import ru.micron.config.AppConfiguration;
 import ru.micron.converting.MakeDocuments;
 import ru.micron.formatting.ReportConstants;
 import ru.micron.formatting.ReportDate;
-import ru.micron.model.ReportHandler;
+import ru.micron.reporting.ReportHandler;
 
 import java.util.HashMap;
 import java.util.Map;

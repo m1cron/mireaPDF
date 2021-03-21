@@ -7,39 +7,36 @@ import java.util.Locale;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import ru.micron.formatting.ReportConstants;
 import ru.micron.formatting.ReportDate;
 
+@SpringBootTest
 public class ReportDateTest {
 
-  private static final Locale locale = new Locale(APP_LANGUAGE);
+  private final ReportDate date = new ReportDate(new Locale(APP_LANGUAGE));
 
   @Test
   public void fillMap() {
-    ReportDate date = new ReportDate(locale);
-
-    Map<String, String> map = new HashMap<>(3, 1);
+    Map<String, String> map = new HashMap<>();
     date.fillMap(map);
-
-    Assert.assertNotNull(map.get("day"));
-    Assert.assertNotNull(map.get("month"));
-    Assert.assertNotNull(map.get("year"));
+    Assert.assertNotNull(map.get(ReportConstants.DAY));
+    Assert.assertNotNull(map.get(ReportConstants.MONTH));
+    Assert.assertNotNull(map.get(ReportConstants.YEAR));
   }
 
   @Test
   public void getYear() {
-    ReportDate date = new ReportDate(locale);
     Assert.assertNotNull(date.getYear());
   }
 
   @Test
   public void getMonth() {
-    ReportDate date = new ReportDate(locale);
     Assert.assertNotNull(date.getMonth());
   }
 
   @Test
   public void getDay() {
-    ReportDate date = new ReportDate(locale);
     Assert.assertNotNull(date.getDay());
   }
 

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.micron.converting.MakeDocuments;
 import ru.micron.formatting.ReportDate;
 import ru.micron.formatting.ReportFormatting;
-import ru.micron.model.ReportHandler;
+import ru.micron.reporting.ReportHandler;
 import ru.micron.ui.MainFrame;
 import ru.micron.ui.MainPanel;
 
