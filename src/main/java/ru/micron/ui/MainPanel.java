@@ -22,8 +22,8 @@ import org.springframework.stereotype.Component;
 import ru.micron.converting.MakeDocuments;
 import ru.micron.formatting.ReportDate;
 import ru.micron.formatting.ReportFormatting;
-import ru.micron.model.Report;
-import ru.micron.model.ReportHandler;
+import ru.micron.reporting.Report;
+import ru.micron.reporting.ReportHandler;
 import ru.micron.web.GithubApi;
 
 @Slf4j
@@ -103,16 +103,13 @@ public class MainPanel extends JPanel {
     reportHandler.fillMap(map);
     reportHandler.saveJson(report);
 
-    long startTime = System.currentTimeMillis();
     if (code.getText().contains("github.com/")) {
-      reportFormatting.formatCode(new GithubApi(code.getText())
-              .getCodeArr())
+      reportFormatting.formatCode(new GithubApi(code.getText()).getCodeArr())
           .fillMap(map);
     } else {
       reportFormatting.formatCode(Arrays.asList(code.getText().split("\n")))
           .fillMap(map);
     }
-    log.info("Total execution time: {} ms", System.currentTimeMillis() - startTime);
 
     reportDate.fillMap(map);
     makeDocuments.makeHtml(map);

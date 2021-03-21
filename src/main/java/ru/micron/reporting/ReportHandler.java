@@ -1,54 +1,48 @@
-package ru.micron.model;
+package ru.micron.reporting;
 
-import com.google.gson.Gson;
-import java.io.FileWriter;
+import static ru.micron.reporting.ReportConstants.REPORT_FILE_NAME;
+
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.micron.formatting.MapFilling;
 import ru.micron.formatting.ReportConstants;
 
 @Slf4j
 @Component
+@NoArgsConstructor
 public class ReportHandler implements MapFilling {
 
-  @Value("${file.name.report}")
-  private String reportFileName;
   @Getter
   private Report report;
-  private final Gson gson;
+  private final ObjectMapper mapper = new ObjectMapper();
 
-  public ReportHandler() {
-    gson = new Gson();
-    report = getJson();
+  @PostConstruct
+  private void initRepostJson() {
+    try {
+      this.report =  mapper.readValue(Path.of(REPORT_FILE_NAME).toFile(), Report.class);
+      log.info("Report received successfully!");
+    } catch (Exception e) {
+      this.report = new Report();
+      log.warn("Report json doesn't exist!");
+    }
   }
 
   public void saveJson(Report report) {
     try {
-      FileWriter file = new FileWriter(reportFileName);
-      gson.toJson(report, file);
-      file.close();
+      ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+      writer.writeValue(Path.of(REPORT_FILE_NAME).toFile(), report);
       log.info("Report json saved!");
     } catch (IOException e) {
       log.warn(e.getMessage());
-    }
-  }
-
-  public Report getJson() {
-    try {
-      report = gson.fromJson(Files.readString(Path.of("report.json"),
-          Charset.forName("windows-1251")), Report.class);
-      log.info("Report received successfully!");
-      return report;
-    } catch (IOException e) {
-      log.info("Report json doesn't exist!");
-      return new Report();
     }
   }
 
