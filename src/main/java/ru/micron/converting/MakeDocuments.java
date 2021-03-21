@@ -24,6 +24,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
 import ru.micron.config.AppConfiguration;
 import ru.micron.reporting.ReportConstants;
+import ru.micron.web.WebConstants;
 
 @Slf4j
 @Component
@@ -120,11 +121,12 @@ public class MakeDocuments {
       FileUtils.copyURLToFile(
           new URL(downloadUrl),
           new File("./" + fileName),
-          Integer.MAX_VALUE,
-          Integer.MAX_VALUE);
+          WebConstants.CONNECT_TIMEOUT_MS,
+          WebConstants.READ_TIMEOUT_MS);
       log.info("Download {} OK!", fileName);
     } catch (IOException e) {
-      log.warn("Download {} FAIL!", fileName);
+      log.warn("Download {} FAIL! Trying again!", fileName);
+      downloadFile(downloadUrl, fileName);
     }
   }
 

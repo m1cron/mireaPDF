@@ -26,7 +26,7 @@ $ java -jar MIREA-PDF-*.jar  [or double click]
 Java 11
 Spring Boot 2
 Gradle
-Github API (GSON)
+Github API Rest Teamplate with proxy
 Selenium with Chrome Driver
 Logback (SLF4J)
 FreeMaker + HTML + CSS
