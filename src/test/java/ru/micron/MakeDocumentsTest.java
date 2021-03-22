@@ -18,7 +18,7 @@ public class MakeDocumentsTest {
   public void testMakeHtml() {
     ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
     MakeDocuments docs = context.getBean(MakeDocuments.class);
-    Map<String, String> map = new HashMap<>();
+    Map<String, Object> map = new HashMap<>();
     context.getBean(ReportDate.class).fillMap(map);
     context.getBean(ReportHandler.class).fillMap(map);
     map.put(ReportConstants.CODE, ReportConstants.CODE);
@@ -29,7 +29,7 @@ public class MakeDocumentsTest {
   public void makePdf() {
     ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
     MakeDocuments docs = context.getBean(MakeDocuments.class);
-    Map<String, String> map = new HashMap<>();
+    Map<String, Object> map = new HashMap<>();
     context.getBean(ReportDate.class).fillMap(map);
     context.getBean(ReportHandler.class).fillMap(map);
     map.put(ReportConstants.CODE, ReportConstants.CODE);
@@ -42,7 +42,7 @@ public class MakeDocumentsTest {
   public void makeWord() {
     ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
     MakeDocuments docs = context.getBean(MakeDocuments.class);
-    Map<String, String> map = new HashMap<>();
+    Map<String, Object> map = new HashMap<>();
     context.getBean(ReportDate.class).fillMap(map);
     context.getBean(ReportHandler.class).fillMap(map);
     map.put(ReportConstants.CODE, ReportConstants.CODE);

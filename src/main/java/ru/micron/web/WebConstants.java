@@ -10,7 +10,7 @@ public class WebConstants {
       "https://api.github.com/repos/%s/%s/contents/%s";
 
   public static final String MATCHES_REGEX =
-      "(?i)[\\w/]+\\.(java|xml|gradle|c|cpp|hpp|h|cs|cc|cxx|html|css|js|php|py)$";
+      "(?i)[\\w/]+\\.(java|yaml|groovy|yml|properties|xml|gradle|c|cpp|hpp|h|cs|cc|cxx|html|css|js|php|py|Dockerfile|sh)$";
 
   public static final String[] PROXY_URLS = {
       "http://pubproxy.com/api/proxy?format=txt&type=https&limit=5&https=true&last_check=30",
@@ -22,5 +22,5 @@ public class WebConstants {
 
   public static final int CONNECT_TIMEOUT_MS = 2000;
   public static final int READ_TIMEOUT_MS = 3000;
-  public static final int CODE_ARRAY_SIZE = 500;
+  public static final int CODE_BUFF_SIZE = 1000;
 }

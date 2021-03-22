@@ -5,7 +5,6 @@ import static ru.micron.ui.UiUtils.getCheckBox;
 import static ru.micron.ui.UiUtils.getTextArea;
 import static ru.micron.ui.UiUtils.getTextField;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -24,7 +23,6 @@ import ru.micron.formatting.ReportDate;
 import ru.micron.formatting.ReportFormatting;
 import ru.micron.reporting.Report;
 import ru.micron.reporting.ReportHandler;
-import ru.micron.web.GithubApi;
 
 @Slf4j
 @Component
@@ -87,8 +85,6 @@ public class MainPanel extends JPanel {
   }
 
   private void doWork() {
-    Map<String, String> map = new HashMap<>(16, 1);
-
     report.setGroupNum(group.getText());
     report.setStudName(student.getText());
     report.setTchName(teacher.getText());
@@ -99,18 +95,10 @@ public class MainPanel extends JPanel {
     report.setConclusion(conclusion.getText());
     report.setLiterature(literature.getText());
     report.setCode(code.getText());
-
-    reportHandler.fillMap(map);
     reportHandler.saveJson(report);
-
-    if (code.getText().contains("github.com/")) {
-      reportFormatting.formatCode(new GithubApi(code.getText()).getCodeArr())
-          .fillMap(map);
-    } else {
-      reportFormatting.formatCode(Arrays.asList(code.getText().split("\n")))
-          .fillMap(map);
-    }
-
+    Map<String, Object> map = new HashMap<>();
+    reportHandler.fillMap(map);
+    reportFormatting.formatDocument(map).fillMap(map);
     reportDate.fillMap(map);
     makeDocuments.makeHtml(map);
     makeDocuments.makePdf();

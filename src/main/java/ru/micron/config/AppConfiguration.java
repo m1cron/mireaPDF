@@ -4,6 +4,12 @@ import java.util.Locale;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import ru.micron.converting.MakeDocuments;
 import ru.micron.formatting.ReportDate;
 import ru.micron.formatting.ReportFormatting;
@@ -19,18 +25,18 @@ public class AppConfiguration {
   public static final String FILE_ENCODING = "file.encoding";
 
   @Bean
-  public Locale getProjectLocale() {
+  public Locale locale() {
     return new Locale(APP_LANGUAGE);
   }
 
   @Bean
   public MakeDocuments makeDocuments() {
-    return new MakeDocuments(getProjectLocale(), chromeOptions());
+    return new MakeDocuments(locale(), chromeOptions(), templateEngine());
   }
 
   @Bean
-  public ReportDate getReportDate() {
-    return new ReportDate(getProjectLocale());
+  public ReportDate reportDate() {
+    return new ReportDate(locale());
   }
 
   @Bean
@@ -52,7 +58,7 @@ public class AppConfiguration {
 
   @Bean
   public MainPanel mainPanel() {
-    return new MainPanel(reportHandler(), makeDocuments(), getReportDate(), reportFormatting());
+    return new MainPanel(reportHandler(), makeDocuments(), reportDate(), reportFormatting());
   }
 
   @Bean
@@ -60,4 +66,19 @@ public class AppConfiguration {
     return new MainFrame(mainPanel());
   }
 
+  @Bean
+  public ClassLoaderTemplateResolver classLoaderTemplateResolver() {
+    var templateResolver = new ClassLoaderTemplateResolver();
+    templateResolver.setSuffix(".html");
+    templateResolver.setTemplateMode(TemplateMode.HTML);
+    templateResolver.setCacheable(true);
+    return templateResolver;
+  }
+
+  @Bean
+  public TemplateEngine templateEngine() {
+    var templateEngine = new TemplateEngine();
+    templateEngine.setTemplateResolver(classLoaderTemplateResolver());
+    return templateEngine;
+  }
 }

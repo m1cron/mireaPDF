@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class UiConstants {
 
   public static final int FRAME_WIDTH = 725;
-  public static final int FRAME_HEIGHT = 520;
+  public static final int FRAME_HEIGHT = 530;
   public static final int FRAME_FONT = Font.PLAIN;
   public static final int FRAME_SIZE = 14;
   public static final Color FRAME_COLOR = Color.WHITE;

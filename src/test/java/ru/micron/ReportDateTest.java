@@ -18,7 +18,7 @@ public class ReportDateTest {
 
   @Test
   public void fillMap() {
-    Map<String, String> map = new HashMap<>();
+    Map<String, Object> map = new HashMap<>();
     date.fillMap(map);
     Assert.assertNotNull(map.get(ReportConstants.DAY));
     Assert.assertNotNull(map.get(ReportConstants.MONTH));

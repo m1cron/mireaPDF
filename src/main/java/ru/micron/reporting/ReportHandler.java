@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.micron.formatting.MapFilling;
 import ru.micron.formatting.ReportConstants;
+import ru.micron.web.GithubApi;
 
 @Slf4j
 @Component
@@ -47,7 +48,7 @@ public class ReportHandler implements MapFilling {
   }
 
   @Override
-  public void fillMap(Map<String, String> map) {
+  public void fillMap(Map<String, Object> map) {
     Report report = this.report;
     if (report != null) {
       map.put(ReportConstants.STUDENT, report.getStudName());
@@ -59,6 +60,10 @@ public class ReportHandler implements MapFilling {
       map.put(ReportConstants.STEP_BY_STEP, report.getStep_by_step());
       map.put(ReportConstants.CONCLUSION, report.getConclusion());
       map.put(ReportConstants.LITERATURE, report.getLiterature());
+      map.put(ReportConstants.CODE,
+          report.getCode().contains("github.com/")
+              ? new GithubApi(report.getCode()).getBuff().toString()
+              : report.getCode());
     }
   }
 

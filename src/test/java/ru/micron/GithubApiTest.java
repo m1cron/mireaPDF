@@ -10,14 +10,14 @@ public class GithubApiTest {
   @Test
   public void GithubApi() {
     String url = "https://github.com/m1cron/java_rtu/tree/master/3_semester/src/ru/micron/task1";
-    new GithubApi(url).getCodeArr().forEach(Assert::assertNotNull);
+    Assert.assertNotNull(new GithubApi(url).getBuff().toString());
   }
 
   @Test
   public void recursSearchGit() {
     String url = "https://github.com/m1cron/java_rtu/tree/master/3_semester/src/ru/micron/task1";
     GithubApi gh = new GithubApi(url);
-    gh.getCodeArr().forEach(Assert::assertNotNull);
+    Assert.assertNotNull(gh.getBuff());
   }
 
   @Test

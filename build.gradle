@@ -4,8 +4,8 @@ buildscript {
                 lombok                  : '1.18.12',
                 junit5                  : '5.6.2',
                 commons_io              : '2.8.0',
-                freemarker              : '2.3.30',
                 selenium                : '3.141.59',
+                ognl                    : '3.2.19'
         ]
     }
 }
@@ -35,11 +35,11 @@ jar {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter"
     implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+    implementation "ognl:ognl:$ver.ognl"
     compile "org.seleniumhq.selenium:selenium-api:$ver.selenium"
     compile "org.seleniumhq.selenium:selenium-chrome-driver:$ver.selenium"
-    compile "org.freemarker:freemarker:$ver.freemarker"
     compile "commons-io:commons-io:$ver.commons_io"
     compileOnly "org.projectlombok:lombok:$ver.lombok"
     annotationProcessor "org.projectlombok:lombok:$ver.lombok"
