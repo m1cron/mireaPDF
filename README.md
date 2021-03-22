@@ -27,9 +27,9 @@ Java 11
 Spring Boot 2
 Gradle
 Github API Rest Teamplate with proxy
+Thymeleaf
 Selenium with Chrome Driver
 Logback (SLF4J)
-FreeMaker + HTML + CSS
 Java Swing
 jUnit
 ```

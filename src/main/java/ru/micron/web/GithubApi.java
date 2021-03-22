@@ -2,7 +2,6 @@ package ru.micron.web;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.Getter;
@@ -14,13 +13,13 @@ import ru.micron.web.dto.GithubEntity;
 public class GithubApi {
 
   @Getter
-  private final List<String> codeArr;
+  private final StringBuilder buff;
   private final List<Thread> threadArr;
   private final RestHandler restHandler;
 
   public GithubApi(String link) {
+    this.buff = new StringBuilder(WebConstants.CODE_BUFF_SIZE);
     this.restHandler = new RestHandler();
-    codeArr = new ArrayList<>(WebConstants.CODE_ARRAY_SIZE);
     threadArr = new ArrayList<>();
     recursSearchGit(parseUrl(link));
     threadArr.forEach(thread -> {
@@ -33,8 +32,11 @@ public class GithubApi {
   }
 
   private synchronized void splitAdd(String path, String codeBuff) {
-    codeArr.add(String.format("\t\n\n<strong>%s</strong>\n\n", path));
-    Collections.addAll(codeArr, codeBuff.split("\n"));
+    buff.append(String.format("\t\n\n<strong>%s</strong>\n\n", path))
+        .append(codeBuff
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("\"", "&quot;"));
   }
 
   public void downloadFromGit(GithubEntity github) {

@@ -1,13 +1,8 @@
 package ru.micron.converting;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
@@ -22,7 +17,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
-import ru.micron.config.AppConfiguration;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import ru.micron.reporting.ReportConstants;
 import ru.micron.web.WebConstants;
 
@@ -33,6 +29,7 @@ public class MakeDocuments {
 
   private final Locale locale;
   private final ChromeOptions chromeOptions;
+  private final TemplateEngine templateEngine;
   private WebDriver driver;
 
   @PostConstruct
@@ -58,22 +55,19 @@ public class MakeDocuments {
     }
   }
 
-  public void makeHtml(Map<String, String> map) {
+  public void makeHtml(Map<String, Object> map) {
     try {
       log.info("Creating HTML.");
-      Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
-      cfg.setClassForTemplateLoading(this.getClass(), ReportConstants.TEMPLATE_DIR_NAME);
-      cfg.setEncoding(locale, AppConfiguration.APP_ENCODING);
-      cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-      Template template = cfg.getTemplate(ReportConstants.TEMPLATE_FILE_NAME);
-      File htmlOpen = new File(ReportConstants.HTML_FILE_NAME);
-      Writer html = new FileWriter(htmlOpen);
-      template.process(map, html);
+      var context = new Context(locale, map);
+      var htmlFile = new File(ReportConstants.HTML_FILE_NAME);
+      var html = new FileWriter(htmlFile);
+      var htmlStr = templateEngine.process(ReportConstants.TEMPLATE_FILE_NAME, context);
+      html.write(htmlStr);
       html.flush();
       html.close();
-      htmlOpen.deleteOnExit();
+      htmlFile.deleteOnExit();
       log.info("Creating HTML - Done!");
-    } catch (IOException | TemplateException e) {
+    } catch (IOException e) {
       log.warn(e.getMessage());
     }
   }
@@ -125,12 +119,11 @@ public class MakeDocuments {
           WebConstants.READ_TIMEOUT_MS);
       log.info("Download {} OK!", fileName);
     } catch (IOException e) {
-      log.warn("Download {} FAIL! Trying again!", fileName);
-      downloadFile(downloadUrl, fileName);
+      log.warn("Download {} FAIL!", fileName);
     }
   }
 
-  public static void sleep(int sec) {
+  private void sleep(int sec) {
     try {
       TimeUnit.SECONDS.sleep(sec);
     } catch (InterruptedException e) {

@@ -60,6 +60,7 @@ public class RestHandler {
         log.warn("{} {}", e.getStatusText(), proxyUrl);
       }
     }
+    log.info("Total loaded proxies: {}", proxyList.size());
   }
 
   private synchronized void getNewRest() {

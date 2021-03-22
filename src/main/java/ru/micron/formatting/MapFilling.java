@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface MapFilling {
 
-  void fillMap(Map<String, String> map);
+  void fillMap(Map<String, Object> map);
 
 }
