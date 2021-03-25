@@ -18,7 +18,7 @@ or OS.WINDOWS
 
 ### `Usage`
 ```
-$ java -jar MIREA-PDF-*.jar  [or double click]
+$ java -jar MIREA-PDF-*.jar
 ```
 
 ### `Technology Stack`

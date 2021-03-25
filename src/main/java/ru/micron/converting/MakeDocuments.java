@@ -4,14 +4,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import ru.micron.reporting.ReportConstants;
+import ru.micron.ui.UiConstants;
 import ru.micron.web.WebConstants;
 
 @Slf4j
@@ -30,6 +35,8 @@ public class MakeDocuments {
   private final Locale locale;
   private final ChromeOptions chromeOptions;
   private final TemplateEngine templateEngine;
+  @Getter
+  private final Map<String, Object> map = new HashMap<>();
   private WebDriver driver;
 
   @PostConstruct
@@ -45,6 +52,7 @@ public class MakeDocuments {
       System.setProperty(ConvertingConstants.DRIVER_NAME, ConvertingConstants.DRIVER_MAC_PATH);
       log.info("OS set: Mac {}", ConvertingConstants.DRIVER_MAC_PATH);
     }
+    convertImgToBase64();
   }
 
   @PreDestroy
@@ -55,7 +63,7 @@ public class MakeDocuments {
     }
   }
 
-  public void makeHtml(Map<String, Object> map) {
+  public void makeHtml() {
     try {
       log.info("Creating HTML.");
       var context = new Context(locale, map);
@@ -131,4 +139,13 @@ public class MakeDocuments {
     }
   }
 
+  private void convertImgToBase64() {
+    try {
+      var inputStream = getClass().getResourceAsStream(UiConstants.ICON_PNG);
+      var imgBase64 = Base64.getEncoder().encodeToString(IOUtils.toByteArray(inputStream));
+      map.put(ConvertingConstants.IMG, imgBase64);
+    } catch (IOException e) {
+      log.warn(e.getMessage());
+    }
+  }
 }

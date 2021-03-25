@@ -21,4 +21,5 @@ public class ConvertingConstants {
   public static final String CONVERT_TO_DOCX_URL = "https://www.pdf2go.com/ru/pdf-to-word";
   public static final String INPUT_ELEMENT = "input[type=file]";
   public static final String HREF = "href";
+  public static final String IMG = "img";
 }
