@@ -7,20 +7,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.micron.formatting.MapFilling;
-import ru.micron.formatting.ReportConstants;
 import ru.micron.web.GithubApi;
 
 @Slf4j
 @Component
 @NoArgsConstructor
-public class ReportHandler implements MapFilling {
+public class ReportHandler {
 
   @Getter
   private Report report;
@@ -37,34 +34,20 @@ public class ReportHandler implements MapFilling {
     }
   }
 
-  public void saveJson(Report report) {
+  public Report save(Report report) {
     try {
+      this.report = report;
       ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
       writer.writeValue(Path.of(REPORT_FILE_NAME).toFile(), report);
       log.info("Report json saved!");
+      this.report.setCode(
+          report.getCode().contains("github.com/")
+              ? new GithubApi(report.getCode()).getBuff().toString()
+              : report.getCode()
+      );
     } catch (IOException e) {
       log.warn(e.getMessage());
     }
+    return this.report;
   }
-
-  @Override
-  public void fillMap(Map<String, Object> map) {
-    Report report = this.report;
-    if (report != null) {
-      map.put(ReportConstants.STUDENT, report.getStudName());
-      map.put(ReportConstants.TEACHER, report.getTchName());
-      map.put(ReportConstants.GROUP, report.getGroupNum());
-      map.put(ReportConstants.PRAC_NUMBER, report.getPrac_number());
-      map.put(ReportConstants.TARGET_CONTENT, report.getTarget());
-      map.put(ReportConstants.TEOR_CONTENT, report.getTheory());
-      map.put(ReportConstants.STEP_BY_STEP, report.getStep_by_step());
-      map.put(ReportConstants.CONCLUSION, report.getConclusion());
-      map.put(ReportConstants.LITERATURE, report.getLiterature());
-      map.put(ReportConstants.CODE,
-          report.getCode().contains("github.com/")
-              ? new GithubApi(report.getCode()).getBuff().toString()
-              : report.getCode());
-    }
-  }
-
 }

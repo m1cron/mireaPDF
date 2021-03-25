@@ -5,8 +5,6 @@ import static ru.micron.ui.UiUtils.getCheckBox;
 import static ru.micron.ui.UiUtils.getTextArea;
 import static ru.micron.ui.UiUtils.getTextField;
 
-import java.util.HashMap;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -19,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.micron.converting.MakeDocuments;
+import ru.micron.converting.Mapper;
+import ru.micron.formatting.ReportConstants;
 import ru.micron.formatting.ReportDate;
 import ru.micron.formatting.ReportFormatting;
 import ru.micron.reporting.Report;
@@ -38,15 +38,13 @@ public class MainPanel extends JPanel {
   private JTextField teacher;
   private JTextField student;
   private JTextField group;
-  private JTextField prac_number;
-
-  private JTextArea target_content;
-  private JTextArea teor_content;
-  private JTextArea step_by_step;
+  private JTextField pracNumber;
+  private JTextArea targetContent;
+  private JTextArea teorContent;
+  private JTextArea stepByStep;
   private JTextArea code;
   private JTextArea conclusion;
   private JTextArea literature;
-
   private JCheckBox checkMakeDocx;
 
   @PostConstruct
@@ -56,27 +54,24 @@ public class MainPanel extends JPanel {
     teacher = getTextField(report.getTchName(), UiConstants.TEACHER_FIELD_SIZE);
     student = getTextField(report.getStudName(), UiConstants.STUDENT_FIELD_SIZE);
     group = getTextField(report.getGroupNum(), UiConstants.GROUP_FIELD_SIZE);
-    prac_number = getTextField(report.getPrac_number(), UiConstants.PRAC_NUM_FIELD_SIZE);
-
-    target_content = getTextArea(report.getTarget());
-    teor_content = getTextArea(report.getTheory());
-    step_by_step = getTextArea(report.getStep_by_step());
+    pracNumber = getTextField(report.getPracNumber(), UiConstants.PRAC_NUM_FIELD_SIZE);
+    targetContent = getTextArea(report.getTarget());
+    teorContent = getTextArea(report.getTheory());
+    stepByStep = getTextArea(report.getStepByStep());
     code = getTextArea(report.getCode());
     conclusion = getTextArea(report.getConclusion());
     literature = getTextArea(report.getLiterature());
-
     checkMakeDocx = getCheckBox(UiConstants.CHECK_MAKE_DOCX, SwingConstants.RIGHT);
-
     JButton createPdf = getButton(UiConstants.BTN_MAKE_PDF);
     createPdf.addActionListener(e -> doWork());
 
     add(teacher);
     add(student);
     add(group);
-    add(prac_number);
-    add(new JScrollPane(target_content));
-    add(new JScrollPane(teor_content));
-    add(new JScrollPane(step_by_step));
+    add(pracNumber);
+    add(new JScrollPane(targetContent));
+    add(new JScrollPane(teorContent));
+    add(new JScrollPane(stepByStep));
     add(new JScrollPane(code));
     add(new JScrollPane(conclusion));
     add(new JScrollPane(literature));
@@ -88,19 +83,18 @@ public class MainPanel extends JPanel {
     report.setGroupNum(group.getText());
     report.setStudName(student.getText());
     report.setTchName(teacher.getText());
-    report.setPrac_number(prac_number.getText());
-    report.setTarget(target_content.getText());
-    report.setTheory(teor_content.getText());
-    report.setStep_by_step(step_by_step.getText());
+    report.setPracNumber(pracNumber.getText());
+    report.setTarget(targetContent.getText());
+    report.setTheory(teorContent.getText());
+    report.setStepByStep(stepByStep.getText());
     report.setConclusion(conclusion.getText());
     report.setLiterature(literature.getText());
     report.setCode(code.getText());
-    reportHandler.saveJson(report);
-    Map<String, Object> map = new HashMap<>();
-    reportHandler.fillMap(map);
-    reportFormatting.formatDocument(map).fillMap(map);
-    reportDate.fillMap(map);
-    makeDocuments.makeHtml(map);
+    makeDocuments.getMap().putAll(Mapper.map(reportHandler.save(report)));
+    makeDocuments.getMap().putAll(Mapper.map(reportDate));
+    makeDocuments.getMap()
+        .put(ReportConstants.REPORT, reportFormatting.formatDocument(makeDocuments.getMap()));
+    makeDocuments.makeHtml();
     makeDocuments.makePdf();
     if (checkMakeDocx.isSelected()) {
       makeDocuments.makeWord();

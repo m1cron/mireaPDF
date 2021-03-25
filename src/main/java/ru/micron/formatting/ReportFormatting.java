@@ -9,17 +9,21 @@ import static ru.micron.formatting.ReportConstants.PRAC_NUMBER;
 import static ru.micron.formatting.ReportConstants.PRAC_NUMBER_TEMPLATE;
 import static ru.micron.formatting.ReportConstants.PRE_END;
 import static ru.micron.formatting.ReportConstants.PRE_START;
-import static ru.micron.formatting.ReportConstants.REPORT_CODE_PAGES_FIELDS;
+import static ru.micron.formatting.ReportConstants.REPORT_FIELDS;
 
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
+import ru.micron.reporting.Report;
 
 @Component
-public class ReportFormatting implements MapFilling {
+public class ReportFormatting {
 
+  @Getter
   private StringBuffer result;
 
   public static List<String> parseStrToArrayByWidth(String str) {
@@ -41,17 +45,17 @@ public class ReportFormatting implements MapFilling {
     return result;
   }
 
-  public ReportFormatting formatDocument(Map<String, Object> report) {
+  public Object formatDocument(Map<String, Object> report) {
     result = new StringBuffer(ReportConstants.STR_BUFFER_SIZE);
     result.append(String.format(PRAC_NUMBER_TEMPLATE, report.get(PRAC_NUMBER)));
     int count = 5;
-    for (int i = 0; i < HEAD_LINES.length; i++) {
-      result.append(String.format(HEAD_TEMPLATE, HEAD_LINES[i]));
+    for (int i = 0; i < HEAD_LINES.size(); i++) {
+      result.append(String.format(HEAD_TEMPLATE, HEAD_LINES.get(i)));
       count++;
       if (i == 3) {
         result.append(PRE_START);
       }
-      String res = (String) report.get(REPORT_CODE_PAGES_FIELDS[i]);
+      String res = (String) report.get(REPORT_FIELDS.get(i));
       for (String s : parseStrToArrayByWidth(res)) {
 
         for (byte countLinebrakes : s.getBytes(StandardCharsets.UTF_8)) {
@@ -77,12 +81,6 @@ public class ReportFormatting implements MapFilling {
       }
 
     }
-    return this;
-}
-
-  @Override
-  public void fillMap(Map<String, Object> map) {
-    map.put(ReportConstants.CODE, result.toString());
+    return result.toString();
   }
-
 }
