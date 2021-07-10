@@ -1,9 +1,10 @@
 package ru.micron;
 
+import static ru.micron.web.GithubApi.MATCHES_REGEX;
+
 import org.junit.Assert;
 import org.junit.Test;
 import ru.micron.web.GithubApi;
-import ru.micron.web.WebConstants;
 
 public class GithubApiTest {
 
@@ -25,11 +26,11 @@ public class GithubApiTest {
     String[] arr0 = {"test.cpp", "kjdhzfg.java", "ajdhgf.JaVa", "IUYGFDRSGdgf31Pp.cs",
         "src/ru/micron/task1/Main.java"};
     for (String s : arr0) {
-      Assert.assertTrue(s.matches(WebConstants.MATCHES_REGEX));
+      Assert.assertTrue(s.matches(MATCHES_REGEX));
     }
     String[] arr1 = {"kjdhzfg..java", "ajdhgf.JaV!a", "IUYGFDRSGdgf3#1Pp.cs", "tes/t.cpP "};
     for (String s : arr1) {
-      Assert.assertFalse(s.matches(WebConstants.MATCHES_REGEX));
+      Assert.assertFalse(s.matches(MATCHES_REGEX));
     }
   }
 

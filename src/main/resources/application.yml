@@ -1,6 +1,21 @@
+app:
+  proxy-urls: http://pubproxy.com/api/proxy?format=txt&type=https&limit=5&https=true&last_check=30,
+              https://api.best-proxies.ru/proxylist.txt?key=developer,
+              https://api.proxyscrape.com/?request=displayproxies&proxytype=http&timeout=80,
+              https://api.proxyscrape.com/?request=displayproxies&proxytype=https&timeout=80,
+              https://www.proxyscan.io/api/proxy?type=https,http&limit=100&ping=100
+
 spring:
   application:
     name: MIREA-PDF
+  profiles:
+    active: default
   main:
     banner-mode: off
     allow-bean-definition-overriding: true
+  mandatory-file-encoding: windows-1251
+  thymeleaf:
+    cache: true
+    mode: HTML
+    suffix: .html
+    prefix: 'classpath:'

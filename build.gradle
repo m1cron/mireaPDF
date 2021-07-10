@@ -5,7 +5,8 @@ buildscript {
                 junit5                  : '5.6.2',
                 commons_io              : '2.8.0',
                 selenium                : '3.141.59',
-                ognl                    : '3.2.19'
+                ognl                    : '3.2.19',
+                apacheCommonsLang       : '3.11'
         ]
     }
 }
@@ -18,8 +19,7 @@ plugins {
 
 group 'ru.micron'
 version '1.0'
-sourceCompatibility = '11'
-targetCompatibility = '11'
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_11
 wrapper.gradleVersion = '6.5'
 
 compileJava.options.encoding = 'windows-1251'
@@ -41,6 +41,7 @@ dependencies {
     compile "org.seleniumhq.selenium:selenium-api:$ver.selenium"
     compile "org.seleniumhq.selenium:selenium-chrome-driver:$ver.selenium"
     compile "commons-io:commons-io:$ver.commons_io"
+    implementation "org.apache.commons:commons-lang3:$ver.apacheCommonsLang"
     compileOnly "org.projectlombok:lombok:$ver.lombok"
     annotationProcessor "org.projectlombok:lombok:$ver.lombok"
 

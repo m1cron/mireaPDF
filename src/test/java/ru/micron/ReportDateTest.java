@@ -1,27 +1,18 @@
 package ru.micron;
 
-import static ru.micron.config.AppConfiguration.APP_LANGUAGE;
-
-import java.util.Locale;
-import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import ru.micron.converting.Mapper;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.micron.converting.ResultMapHolder;
 import ru.micron.formatting.ReportDate;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class ReportDateTest {
 
-  private final ReportDate date = new ReportDate(new Locale(APP_LANGUAGE));
-
-  @Test
-  public void fillMap() {
-    Map<String, String> map = Mapper.map(date);
-    Assert.assertNotNull(map.get("day"));
-    Assert.assertNotNull(map.get("month"));
-    Assert.assertNotNull(map.get("year"));
-  }
+  private ReportDate date = Mockito.mock(ReportDate.class);
+  private ResultMapHolder resultMapHolder = Mockito.mock(ResultMapHolder.class);
 
   @Test
   public void getYear() {
@@ -30,7 +21,7 @@ public class ReportDateTest {
 
   @Test
   public void getMonth() {
-    Assert.assertNotNull(date.getMonth());
+    Assert.assertNull(date.getMonth());
   }
 
   @Test

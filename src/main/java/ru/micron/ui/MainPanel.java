@@ -1,9 +1,15 @@
 package ru.micron.ui;
 
-import static ru.micron.ui.UiUtils.getButton;
-import static ru.micron.ui.UiUtils.getCheckBox;
-import static ru.micron.ui.UiUtils.getTextArea;
-import static ru.micron.ui.UiUtils.getTextField;
+import static ru.micron.ui.UIUtils.BTN_MAKE_PDF;
+import static ru.micron.ui.UIUtils.CHECK_MAKE_DOCX;
+import static ru.micron.ui.UIUtils.GROUP_FIELD_SIZE;
+import static ru.micron.ui.UIUtils.PRAC_NUM_FIELD_SIZE;
+import static ru.micron.ui.UIUtils.STUDENT_FIELD_SIZE;
+import static ru.micron.ui.UIUtils.TEACHER_FIELD_SIZE;
+import static ru.micron.ui.UIUtils.createButton;
+import static ru.micron.ui.UIUtils.createCheckBox;
+import static ru.micron.ui.UIUtils.createTextArea;
+import static ru.micron.ui.UIUtils.createTextField;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
@@ -14,25 +20,21 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.micron.converting.MakeDocuments;
-import ru.micron.converting.Mapper;
-import ru.micron.formatting.ReportConstants;
-import ru.micron.formatting.ReportDate;
+import ru.micron.converting.ResultMapHolder;
 import ru.micron.formatting.ReportFormatting;
 import ru.micron.reporting.Report;
-import ru.micron.reporting.ReportHandler;
+import ru.micron.reporting.ReportHolder;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class MainPanel extends JPanel {
 
-  private final ReportHandler reportHandler;
+  private final ReportHolder reportHolder;
   private final MakeDocuments makeDocuments;
-  private final ReportDate reportDate;
   private final ReportFormatting reportFormatting;
+  private final ResultMapHolder resultMapHolder;
   private Report report;
 
   private JTextField teacher;
@@ -48,58 +50,48 @@ public class MainPanel extends JPanel {
   private JCheckBox checkMakeDocx;
 
   @PostConstruct
-  public void run() {
-    report = reportHandler.getReport();
+  public void init() {
+    report = reportHolder.getReport();
 
-    teacher = getTextField(report.getTchName(), UiConstants.TEACHER_FIELD_SIZE);
-    student = getTextField(report.getStudName(), UiConstants.STUDENT_FIELD_SIZE);
-    group = getTextField(report.getGroupNum(), UiConstants.GROUP_FIELD_SIZE);
-    pracNumber = getTextField(report.getPracNumber(), UiConstants.PRAC_NUM_FIELD_SIZE);
-    targetContent = getTextArea(report.getTarget());
-    teorContent = getTextArea(report.getTheory());
-    stepByStep = getTextArea(report.getStepByStep());
-    code = getTextArea(report.getCode());
-    conclusion = getTextArea(report.getConclusion());
-    literature = getTextArea(report.getLiterature());
-    checkMakeDocx = getCheckBox(UiConstants.CHECK_MAKE_DOCX, SwingConstants.RIGHT);
-    JButton createPdf = getButton(UiConstants.BTN_MAKE_PDF);
+    JButton createPdf;
+    add(teacher = createTextField(report.getTchName(), TEACHER_FIELD_SIZE));
+    add(student = createTextField(report.getStudName(), STUDENT_FIELD_SIZE));
+    add(group = createTextField(report.getGroupNum(), GROUP_FIELD_SIZE));
+    add(pracNumber = createTextField(report.getPracNumber(), PRAC_NUM_FIELD_SIZE));
+    add(new JScrollPane(targetContent = createTextArea(report.getTarget())));
+    add(new JScrollPane(teorContent = createTextArea(report.getTheory())));
+    add(new JScrollPane(stepByStep = createTextArea(report.getStepByStep())));
+    add(new JScrollPane(code = createTextArea(report.getCode())));
+    add(new JScrollPane(conclusion = createTextArea(report.getConclusion())));
+    add(new JScrollPane(literature = createTextArea(report.getLiterature())));
+    add(createPdf = createButton(BTN_MAKE_PDF));
+    add(checkMakeDocx = createCheckBox(CHECK_MAKE_DOCX, SwingConstants.RIGHT));
+
     createPdf.addActionListener(e -> doWork());
-
-    add(teacher);
-    add(student);
-    add(group);
-    add(pracNumber);
-    add(new JScrollPane(targetContent));
-    add(new JScrollPane(teorContent));
-    add(new JScrollPane(stepByStep));
-    add(new JScrollPane(code));
-    add(new JScrollPane(conclusion));
-    add(new JScrollPane(literature));
-    add(createPdf);
-    add(checkMakeDocx);
   }
 
   private void doWork() {
-    report.setGroupNum(group.getText());
-    report.setStudName(student.getText());
-    report.setTchName(teacher.getText());
-    report.setPracNumber(pracNumber.getText());
-    report.setTarget(targetContent.getText());
-    report.setTheory(teorContent.getText());
-    report.setStepByStep(stepByStep.getText());
-    report.setConclusion(conclusion.getText());
-    report.setLiterature(literature.getText());
-    report.setCode(code.getText());
-    makeDocuments.getMap().putAll(Mapper.map(reportHandler.save(report)));
-    makeDocuments.getMap().putAll(Mapper.map(reportDate));
-    makeDocuments.getMap()
-        .put(ReportConstants.REPORT, reportFormatting.formatDocument(makeDocuments.getMap()));
+    report.setGroupNum(group.getText())
+        .setStudName(student.getText())
+        .setTchName(teacher.getText())
+        .setPracNumber(pracNumber.getText())
+        .setTarget(targetContent.getText())
+        .setTheory(teorContent.getText())
+        .setStepByStep(stepByStep.getText())
+        .setConclusion(conclusion.getText())
+        .setLiterature(literature.getText())
+        .setCode(code.getText());
+
+    reportHolder.save(report);
+
+    reportFormatting.formatResultMap();
+
     makeDocuments.makeHtml();
     makeDocuments.makePdf();
     if (checkMakeDocx.isSelected()) {
       makeDocuments.makeWord();
     }
     makeDocuments.destroy();
+    resultMapHolder.clear();
   }
-
 }
