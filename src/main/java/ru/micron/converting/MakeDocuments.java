@@ -7,19 +7,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -28,10 +21,6 @@ import org.thymeleaf.context.Context;
 @Component
 @RequiredArgsConstructor
 public class MakeDocuments {
-
-  private static final String DRIVER_NAME = "chromedriver";
-  private static final String WIN_DRIVER_SUFFIX = ".exe";
-  private static final String DRIVER_NAME_PROPERTY = "webdriver.chrome.driver";
 
   private static final String DOCX_FILE_NAME = "word.docx";
   private static final String PDF_FILE_NAME = "pdf.pdf";
@@ -43,32 +32,10 @@ public class MakeDocuments {
   private static final String INPUT_ELEMENT = "input[type=file]";
   private static final String HREF = "href";
 
-  private final ResultMapHolder mapHolder;
-
   private final Locale locale;
-  private final ChromeOptions chromeOptions;
+  private final ResultMapHolder mapHolder;
+  private final ChromeWebDriverHolder driverHolder;
   private final TemplateEngine templateEngine;
-
-  private WebDriver driver;
-
-  @PostConstruct
-  private void init() {
-    var driverPath = new StringBuilder(DRIVER_NAME);
-
-    if (SystemUtils.IS_OS_WINDOWS) {
-      driverPath.append(WIN_DRIVER_SUFFIX);
-    }
-
-    System.setProperty(DRIVER_NAME_PROPERTY, Path.of(driverPath.toString()).toString());
-  }
-
-  @PreDestroy
-  public void destroy() {
-    if (driver != null) {
-      driver.close();
-      driver.quit();
-    }
-  }
 
   public void makeHtml() {
     try {
@@ -88,8 +55,8 @@ public class MakeDocuments {
   }
 
   public void makePdf() {
-    log.info("Converting PDF.");
-    driver = new ChromeDriver(chromeOptions);
+    log.info("Converting PDF");
+    var driver = driverHolder.getDriver();
     driver.get(CONVERT_TO_PDF_URL);
     driver.findElement(By.cssSelector(INPUT_ELEMENT))
         .sendKeys(new File(HTML_FILE_NAME).getAbsolutePath());
@@ -103,10 +70,8 @@ public class MakeDocuments {
   }
 
   public void makeWord() {
-    log.info("Converting DOCX.");
-    if (driver == null) {
-      driver = new ChromeDriver(chromeOptions);
-    }
+    log.info("Converting DOCX");
+    var driver = driverHolder.getDriver();
     driver.get(CONVERT_TO_DOCX_URL);
     driver.findElement(By.cssSelector(INPUT_ELEMENT))
         .sendKeys(new File(PDF_FILE_NAME).getAbsolutePath());

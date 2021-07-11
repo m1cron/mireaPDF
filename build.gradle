@@ -5,7 +5,6 @@ buildscript {
                 junit5                  : '5.6.2',
                 commons_io              : '2.8.0',
                 selenium                : '3.141.59',
-                ognl                    : '3.2.19',
                 apacheCommonsLang       : '3.11'
         ]
     }
@@ -15,29 +14,22 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.3.3.RELEASE'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'application'
 }
 
-group 'ru.micron'
-version '1.0'
+group = "ru.micron"
+version = "1.0"
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_11
-wrapper.gradleVersion = '6.5'
+wrapper.gradleVersion = "6.5"
 
 compileJava.options.encoding = 'windows-1251'
 compileTestJava.options.encoding = 'windows-1251'
 
-jar {
-    manifest {
-        attributes "Main-Class": "ru.micron.Application"
-    }
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
+application.mainClassName = group + ".Application"
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
-    implementation "ognl:ognl:$ver.ognl"
     compile "org.seleniumhq.selenium:selenium-api:$ver.selenium"
     compile "org.seleniumhq.selenium:selenium-chrome-driver:$ver.selenium"
     compile "commons-io:commons-io:$ver.commons_io"

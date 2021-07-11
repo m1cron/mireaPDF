@@ -38,7 +38,6 @@ public class GithubApi {
         log.error(e.getMessage());
       }
     });
-    System.out.println(buff);
   }
 
   private void addCodeSection(String path, String codeBuff) {

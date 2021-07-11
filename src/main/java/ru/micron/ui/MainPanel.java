@@ -91,7 +91,6 @@ public class MainPanel extends JPanel {
     if (checkMakeDocx.isSelected()) {
       makeDocuments.makeWord();
     }
-    makeDocuments.destroy();
     resultMapHolder.clear();
   }
 }
